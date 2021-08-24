@@ -1,13 +1,15 @@
 import './App.css';
-import Login from './components/Login';
-import Homepage from './components/Homepage/Homepage';
+import { BrowserRouter } from 'react-router-dom';
+import Routes from './Routes';
+import { useSelector } from 'react-redux';
 
 function App() {
   return (
-    <div className="App">
-      {/* <Login /> */}
-      <Homepage />
-    </div>
+      <BrowserRouter>
+        <div className="App font-mono">
+          <Routes />
+        </div>
+      </BrowserRouter>
   );
 }
 

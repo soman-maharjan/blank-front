@@ -1,0 +1,19 @@
+export const RESTART_AUTH_RESPONSE = 'RESTART_AUTH_RESPONSE';
+export const LOADING = 'LOADING';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_ERROR = 'SIGNUP_ERROR';
+export const CODE_ERROR = 'CODE_ERROR';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_ERROR = 'LOGOUT_ERROR';
+export const LOAD_PROFILE_SUCCESS = 'LOAD_PROFILE_SUCCESS';
+export const LOAD_PROFILE_ERROR = 'LOAD_PROFILE_ERROR';
+
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const ADD_QUANTITY = 'ADD_QUANTITY';
+export const SUB_QUANTITY = 'SUB_QUANTITY';
+export const EMPTY_CART = 'EMPTY_CART';
+export const UPDATE_CART = 'UPDATE_CART';
+export const ADD_TOTAL = 'ADD_TOTAL';
