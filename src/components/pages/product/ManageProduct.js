@@ -16,8 +16,11 @@ export default class ManageProduct extends Component {
             .catch(error => console.log(error))
     }
 
-
-
+    statusHandler(id) {
+        axios.post(`api/product-status/${id}`)
+            .then(response => this.setState({ products: response.data }))
+            .catch(error => console.log(error))
+    }
 
     render() {
         return (
@@ -46,7 +49,7 @@ export default class ManageProduct extends Component {
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Status
+                                                Display Status
                                             </th>
                                             <th
                                                 scope="col"
@@ -58,10 +61,13 @@ export default class ManageProduct extends Component {
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Price
+                                                Change Visibility
                                             </th>
-                                            <th scope="col" className="relative px-6 py-3">
-                                                <span className="sr-only">Edit</span>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
+                                                Actions
                                             </th>
                                         </tr>
                                     </thead>
@@ -71,7 +77,7 @@ export default class ManageProduct extends Component {
                                                 <td className="max-w-xs px-6 py-4 min-w-sm whitespace-normal">
                                                     <div className="flex items-center">
                                                         <div className="flex-shrink-0 h-10 w-10">
-                                                            <img className="h-10 w-10 rounded-full" src={`${process.env.REACT_APP_IMAGE_URL}${product.image}`} alt="" />
+                                                            <img className="h-10 w-10 rounded-full" src={`${process.env.REACT_APP_IMAGE_URL}${product.images[0]}`} alt="" />
                                                         </div>
                                                         <div className="ml-4 whitespace-normal">
                                                             <div className="text-sm break-all font-medium text-gray-900">{product.productName}</div>
@@ -95,7 +101,7 @@ export default class ManageProduct extends Component {
                                                     <div className="text-sm text-gray-900">{product.color}</div>
                                                 </td>
                                                 <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all">
-                                                    <div className="text-sm text-gray-900">{product.price}</div>
+                                                    <input onChange={() => this.statusHandler(product._id)} type="checkbox" checked={product.is_active ? "checked" : ""} class="toggle toggle-accent"></input>
                                                 </td>
                                                 <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all text-right text-sm font-medium">
                                                     <a onClick={() => this.props.changePage({ product }, 'edit-product')} className="text-indigo-600 hover:text-indigo-900">

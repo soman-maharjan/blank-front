@@ -11,7 +11,7 @@ const formData = new FormData();
 
 export default function AddProduct() {
 
-    const [state, setState] = useState({ productName: "", description: "", category: "", boxContents: "", variation: "", color: "", sku: [], attributes: [], image: "" });
+    const [state, setState] = useState({ productName: "", description: "", category: "", boxContents: "", variation: "", color: "", sku: [], attributes: [], images: [] });
 
     // const [img, setImg] = useState([]);
     const [category, setCategory] = useState([]);
@@ -55,17 +55,35 @@ export default function AddProduct() {
         }))
     }
 
+    function buildFormData(formData, data, parentKey) {
+        if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+            Object.keys(data).forEach(key => {
+                buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+            });
+        } else {
+            const value = data == null ? '' : data;
+
+            formData.append(parentKey, value);
+        }
+    }
+
+
     function submitHandler(event) {
-        // console.log(state)
 
         event.preventDefault();
 
-        axios.post('/api/product', state)
+        buildFormData(formData, state);
+
+
+        axios.post('/api/product', formData)
             .then(response => {
                 alert("Product Added!")
                 window.location.reload()
             })
-            .catch(error => setErrors(error.response.data))
+            .catch(error =>
+                setErrors(error.response.data)
+            )
+
 
         // console.log(formData.getAll('image'))
 
@@ -76,10 +94,6 @@ export default function AddProduct() {
         //         console.log(res)
         //     })
         //     .catch(err => console.log(err.response));
-    }
-
-    function updateForm(name, element, uniqueFileName) {
-        formData.append(name, element, uniqueFileName)
     }
 
     useEffect(() => {
@@ -176,12 +190,13 @@ export default function AddProduct() {
                                 <p>Drag 'n' drop some files here, or click to select files</p>
                         }
                     </div> */}
-                        <ProductStock setState={setState} state={state} />
+                        <ProductStock setState={setState} state={state} error={errors.sku}/>
 
                     </div>
-                    <ImageUpload setState={setState} error={errors.image} />
 
-                    {/* <UploadImage setState={setState} error={errors.image} updateForm={updateForm} /> */}
+                    {/* <ImageUpload setState={setState} error={errors.image} /> */}
+                    <UploadImage setState={setState} error={errors.images} formData={formData} />
+
                     <button type="submit" className="bg-green-300 rounded px-5 py-1 mb-10" onClick={submitHandler}>Submit</button>
 
                 </form>

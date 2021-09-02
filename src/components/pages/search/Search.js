@@ -27,8 +27,6 @@ function Search(props) {
             ...state,
             [event.target.name]: event.target.value
         })
-
-        console.log(state);
     }
 
     const priceRangeHandler = () => {
@@ -51,13 +49,14 @@ function Search(props) {
             :
             <div className="bg-gray-100 h-screen">
                 <Navbar />
-                <h4 >{fliteredData.length} Results found</h4>
-                <div className="flex my-5 bg-grey-100">
-                    <div className="w-1/6">
-                        <h2 className="font-semibold">Price Range</h2>
-                        <input onChange={changeHandler} value={state.min} type="number" min="0" name="min" className="mt-2 w-20 h-8 border-0.5 border-black mr-2 input" />
-                        <input onChange={changeHandler} value={state.max} type="number" min="0" name="max" className="w-20 h-8 border-0.5 border-black input" />
-                        <button className="ml-2 bg-green-300 rounded p-1 transform translate-y-1" onClick={priceRangeHandler}><ChevronRightIcon className="h-5 w-5" /></button>
+                <div className="flex my-10 bg-grey-100">
+                    <div className="w-1/6 border-r-2 h-80">
+                        <div className="border-b-2 pb-5">
+                            <h2 className="font-semibold">Price Range</h2>
+                            <input onChange={changeHandler} value={state.min} type="number" min="0" name="min" className="mt-2 w-20 h-8 border-0.5 border-black mr-2 input" />
+                            <input onChange={changeHandler} value={state.max} type="number" min="0" name="max" className="w-20 h-8 border-0.5 border-black input" />
+                            <button className="ml-2 bg-green-300 rounded p-1 transform translate-y-1" onClick={priceRangeHandler}><ChevronRightIcon className="h-5 w-5" /></button>
+                        </div>
                         <h2 className="font-semibold mt-4">Rating</h2>
                         <div className="flex justify-center">
                             <div>
@@ -81,7 +80,7 @@ function Search(props) {
 
                     </div>
                     <div className="w-5/6 grid grid-cols-6 px-10 bg-gray-100">
-                        {fliteredData.length < 1 ? <h3>0 results found</h3> : fliteredData.map((product, index) => <ProductCard key={index} product={product} />)}
+                        {fliteredData.length < 1 ? <h3>1 results found</h3> : fliteredData.map((product, index) => <ProductCard key={index} product={product} />)}
                     </div>
                 </div>
             </div>

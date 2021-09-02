@@ -5,6 +5,7 @@ import ManageProduct from '../product/ManageProduct'
 import DashboardDetails from './DashboardDetails'
 import EditProduct from '../product/EditProduct'
 import Orders from '../orders/Orders'
+import OrderDetails from '../orders/OrderDetails'
 
 class Dashboard extends Component {
 
@@ -13,14 +14,20 @@ class Dashboard extends Component {
 
         this.state = {
             page: 'dashboard',
-            product: {}
+            product: {},
+            order: {}
         }
 
         this.changePage = this.changePage.bind(this)
+        this.orderDetailsHandler = this.orderDetailsHandler.bind(this)
     }
 
     changePage(product, page) {
-        this.setState({ product: product, page: page })
+        this.setState({ ...this.state, product: product, page: page })
+    }
+
+    orderDetailsHandler(order, page) {
+        this.setState({ ...this.state, order: order, page: page })
     }
 
     render() {
@@ -36,7 +43,9 @@ class Dashboard extends Component {
                     {this.state.page === 'add-product' ? <AddProduct /> : null}
                     {this.state.page === 'manage-product' ? <ManageProduct changePage={this.changePage} /> : null}
                     {this.state.page === 'edit-product' ? <EditProduct product={this.state.product} /> : null}
-                    {this.state.page === 'orders' ? <Orders /> : null}
+                    {this.state.page === 'orders' ? <Orders orderDetailsHandler={this.orderDetailsHandler} /> : null}
+                    {this.state.page === 'order-details' ? <OrderDetails order={this.state.order} /> : null}
+
 
                     {this.state.page === 'profile' ? <ProfileComponent /> : null}
                     {/* <div className="text-xs text-center lg:hidden">Menu can be toggled on mobile size.

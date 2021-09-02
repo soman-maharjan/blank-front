@@ -57,6 +57,8 @@ export default function ProductStock(props) {
                 </div>
             ))}
 
+            {props.error !== undefined ? <div className="text-red-500">SKU fields cannot be empty</div> : null}
+
         </>
     )
 }

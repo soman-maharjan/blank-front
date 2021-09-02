@@ -34,6 +34,10 @@ function Routes() {
 
                 <Route path="/register" component={Register} />
 
+                {/* <Route exact path="/category/:category" render={(props) => (
+                    <Search category={props.match.params.category} />
+                )} /> */}
+                
                 <Route exact path="/search/:word" render={(props) => (
                     <Search word={props.match.params.word} />
                 )} />
@@ -57,7 +61,6 @@ function Routes() {
                 <Guard path="/user-product" routeRedirect="/login" component={ManageProduct} />
                 <Guard path="/shipping" routeRedirect="/login" component={Shipping} />
                 <Guard path="/confirm-order" routeRedirect="/login" component={ConfirmOrder} />
-
 
             </Switch>
         </>

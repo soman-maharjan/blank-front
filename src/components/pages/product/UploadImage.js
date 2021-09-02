@@ -3,26 +3,23 @@ import React, { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 import { v4 as uuidv4 } from 'uuid';
 
-const formData = new FormData();
-
 
 export default function UploadImage(props) {
     const [images, setImages] = React.useState([]);
-    const maxNumber = 69;
+    const maxNumber = 10;
 
     const imgName = [];
-
 
     const onChange = (imageList) => {
         setImages(imageList);
         const img = imageList.map(i => i.file);
-
+        props.formData.delete('image[]');
         img.forEach(element => {
             const uniqueFileName = uuidv4() + '.' + element.name.split('.').pop();
 
             imgName.push(uniqueFileName);
 
-            formData.append("image", element, uniqueFileName)
+            props.formData.append("image[]", element, uniqueFileName)
         });
 
         props.setState(prevState => ({
@@ -31,20 +28,10 @@ export default function UploadImage(props) {
         }))
 
     };
-    const submit = () => {
 
-        console.log(formData.getAll('image'))
-        axios.post("api/product/image", formData)
-            .then(res => {
-                // alert("Product Added!")
-                // window.location.reload()
-                console.log(res)
-            })
-            .catch(err => console.log(err.response));
-    }
 
     return (
-        <div>
+        <>
             <ImageUploading
                 multiple
                 value={images}
@@ -59,9 +46,9 @@ export default function UploadImage(props) {
                     onImageUpdate,
                     onImageRemove,
                     isDragging,
-                    dragProps
+                    dragProps,
                 }) => (
-                    <div className="upload__image-wrapper">
+                    <div className="upload__image-wrapper border-2">
                         <a className="bg-green-300 h-2 w-5"
                             style={isDragging ? { color: "red" } : null}
                             onClick={onImageUpload}
@@ -75,20 +62,17 @@ export default function UploadImage(props) {
                             <div key={index} className="image-item">
                                 <img src={image.data_url} alt="" width="100" />
                                 <br />
-                                {/* <div className="image-item__btn-wrapper">
+                                <div className="image-item__btn-wrapper">
                                     <a className="bg-blue-300 h-3 w-10" onClick={() => onImageUpdate(index)}>Update</a>
                                     <a className="bg-red-300 h-3 w-10" onClick={() => onImageRemove(index)}>Remove</a>
-                                </div> */}
+                                </div>
                             </div>
                         ))}
                     </div>
                 )}
             </ImageUploading>
-
-            <a onClick={submit}> Click</a>
-
             {props.error !== undefined ? <div className="text-red-500">Image must be uploaded</div> : null}
-        </div>
+        </>
     );
 }
 

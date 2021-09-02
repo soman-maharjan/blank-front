@@ -53,7 +53,14 @@ export default function Shipping() {
         dispatch({ type: 'ADD_ADDRESS', address: state })
 
         axios.post('/api/order', { cart: userCart, address: state })
-            .then(response => (history.push('/confirm-order')))
+            .then(response =>
+            (history.push
+                ({
+                    pathname: '/confirm-order',
+                    state: response.data
+                }),
+                dispatch({ type: 'EMPTY_CART' })
+            ))
             .catch(error => setErrors(error.response.data))
     }
 
@@ -66,35 +73,94 @@ export default function Shipping() {
             <>
                 <Navbar />
                 <div className="py-5">
-                    <div className="max-w-xl mx-auto shadow-lg rounded-lg min-w-1/2 mx-2">
+                    <div className="max-w-xl mx-auto shadow-lg rounded-lg min-w-1/2">
                         <div className="md:flex">
                             <form className="w-full px-5 py-5">
                                 <h2 className="text-3xl font-semibold">DELIVERY ADDRESS</h2>
-                                <div className="grid md:grid-cols-2 md:gap-4 mt-5 mb-2">
-                                    <input type="text" onChange={changeHandler} value={state.first_name} name="first_name" placeholder="First Name" className={` ${errors.first_name ? "border-red-500" : null} input input input-bordered`} />
-                                    <input type="text" onChange={changeHandler} value={state.last_name} name="last_name" placeholder="Last Name" className={` ${errors.last_name ? "border-red-500" : null} input input input-bordered`} />
-                                </div>
-                                <input type="text" onChange={changeHandler} value={state.company} name="company" className="my-3 w-full input input input-bordered" placeholder="Company (optional)" />
-                                <input type="text" onChange={changeHandler} value={state.address} name="address" className={` ${errors.first_name ? "border-red-500" : null} my-3 w-full input input input-bordered`} placeholder="Address*" />
-                                <input type="text" onChange={changeHandler} value={state.apartment} name="apartment" className="my-3 w-full input input input-bordered" placeholder="Apartment, suite, etc. (optional)" />
-                                <div className="grid md:grid-cols-3 md:gap-2">
-                                    <input type="text" onChange={changeHandler} value={state.zip_code} name="zip_code" class="my-3 input input input-bordered" placeholder="Zipcode" />
-                                    <input type="text" onChange={changeHandler} value={state.city} name="city" className={` ${errors.city ? "border-red-500" : null} my-3 input input input-bordered`} placeholder="City*" />
-                                    <input type="text" onChange={changeHandler} value={state.state} name="state" className={` ${errors.state ? "border-red-500" : null} my-3 input input input-bordered`} placeholder="State*" />
-                                </div>
-                                <div className="grid md:grid-cols-2 md:gap-4">
-                                    <input type="number" onChange={changeHandler} value={state.house_number} name="house_number" class="w-full my-3 input input input-bordered" placeholder="House Number" />
-                                    <input type="text" required onChange={changeHandler} value={state.country} name="country" className={` ${errors.country ? "border-red-500" : null} my-3 input input input-bordered`} placeholder="Country*" />
-                                </div>
-                                <input type="number" onChange={changeHandler} value={state.phone_number} name="phone_number" class={` ${errors.phone_number ? "border-red-500" : null} my-3 w-full input input input-bordered`} placeholder="Phone Number*" />
-                                {/* {errors.hasOwnProperty('phone_number') ? <div className="text-red-500 font-sm">{errors.phone_number}</div> : null} */}
-                                {numberError ? <div className="text-red-500 font-sm">Enter a valid Number</div> : null}
 
-                                <div className="flex justify-between items-center mt-5">
+                                <div className="flex flex-wrap -mx-3 mt-7 my-7">
+                                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="first_name">
+                                            First Name <span className="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" onChange={changeHandler} className={` ${errors.first_name ? "border-red-500" : null} appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} value={state.first_name} name="first_name" />
+                                    </div>
+                                    <div className="w-full md:w-1/2 px-3">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="last_name">
+                                            Last Name <span className="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" onChange={changeHandler} value={state.last_name} name="last_name" className={` ${errors.last_name ? "border-red-500" : null} appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} />
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap -mx-3 mb-2 my-7">
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="company">
+                                            Company
+                                        </label>
+                                        <input type="text" onChange={changeHandler} value={state.company} name="company" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="address">
+                                            Address <span className="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" onChange={changeHandler} value={state.address} name="address" className={` ${errors.address ? "border-red-500" : null}  appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="apartment">
+                                            Apartment
+                                        </label>
+                                        <input type="text" onChange={changeHandler} value={state.apartment} name="apartment" className=" appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap -mx-3 mb-2 my-7">
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="zip_code">
+                                            Zip Code
+                                        </label>
+                                        <input type="text" onChange={changeHandler} value={state.zip_code} name="zip_code" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="city">
+                                            City <span className="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" onChange={changeHandler} value={state.city} name="city" className={` ${errors.city ? "border-red-500" : null} appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="state">
+                                            State <span className="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" onChange={changeHandler} value={state.state} name="state" className={` ${errors.state ? "border-red-500" : null} appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} />
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap -mx-3 mb-2 my-7">
+                                    <div className="w-full md:w-2/4 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="house_number">
+                                            House Number
+                                        </label>
+                                        <input type="number" onChange={changeHandler} value={state.house_number} name="house_number" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                                    </div>
+                                    <div className="w-full md:w-2/4 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="country">
+                                            Country <span className="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" required onChange={changeHandler} value={state.country} name="country" className={` ${errors.country ? "border-red-500" : null} appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} />
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap -mx-3 mb-2 my-7">
+                                    <div className="w-full px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="phone_number">
+                                            Phone Number <span className="text-red-500">*</span>
+                                        </label>
+                                        <input type="number" onChange={changeHandler} value={state.phone_number} name="phone_number" className={` ${errors.phone_number ? "border-red-500" : null} appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} />
+                                        {numberError ? <p className="text-red-500 text-xs italic">Enter a valid Number</p> : null}
+                                    </div>
+                                </div>
+                                <div className="flex justify-between items-center mt-7">
                                     <Link to='/cart' className="btn btn h-12 w-40">Return to Cart</Link>
-                                    <button onClick={submitHandler} type="submit" className="btn btn-success h-12 w-48 rounded bg-green-500 text-white">Proceed to Pay</button>
+                                    <button onClick={submitHandler} type="submit" className="btn btn-success h-12 w-48 rounded border-green-500 bg-green-500 text-white">Proceed to Pay</button>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>

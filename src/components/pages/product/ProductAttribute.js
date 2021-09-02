@@ -30,7 +30,8 @@ export default function ProductAttribute(props) {
             </div>
         </div>
     )
-    return (
+
+    return inputFields.length < 1 ? null : (
         <div className="p-4 rounded mb-16 bg-gray-200">
             {inputFields}
             {props.error !== undefined ? <div className="text-red-500">Product Attributes cannot be empty</div> : null}

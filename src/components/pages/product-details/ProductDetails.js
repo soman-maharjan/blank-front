@@ -70,7 +70,7 @@ export default function ProductDetails(props) {
                             <div className="md:flex items-center -mx-10">
                                 <div className="w-full md:w-1/2 px-10 mb-10 md:mb-0">
                                     <div className="relative">
-                                        <img src={`${process.env.REACT_APP_IMAGE_URL}${product.image}`} />
+                                        <img src={`${process.env.REACT_APP_IMAGE_URL}${product.images[0]}`} />
                                     </div>
                                 </div>
                                 <div className="w-full md:w-1/2 px-10">
@@ -92,7 +92,7 @@ export default function ProductDetails(props) {
                                     <br />
                                     <div className="inline-block align-bottom mr-5 mb-10">
                                         <span className="leading-none align-baseline mr-10">{product.variation}</span>
-                                        <select name="sku" className="" onChange={skuChangeHandler}>
+                                        <select name="sku" className="select select-bordered select-sm w-28" onChange={skuChangeHandler}>
                                             {product.sku.map((sku) =>
                                                 <option value={sku.sellerSku}>{sku.value}</option>
                                             )}
