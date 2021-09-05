@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function ProfileComponent() {
+export default function ShowUsers() {
     return (
         <div>
-            testing
+            show users
         </div>
     )
 }

@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { LockClosedIcon } from '@heroicons/react/solid'
 import { useHistory } from 'react-router'
 import { LoginAction, RegisterAction } from '../redux/actions/AuthAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 export default function Register() {
 
@@ -17,8 +16,11 @@ export default function Register() {
         email: "",
         password: "",
         password_confirmation: "",
-        error: ""
+        error: "",
+        phone_number: ""
     })
+
+    const [numberError, setNumberError] = useState(false);
 
     const changeHandler = (event) => {
         setState({
@@ -27,19 +29,31 @@ export default function Register() {
         })
     }
 
+    useEffect(() => {
+        if (state.phone_number !== "") {
+            if ((state.phone_number.startsWith(9)) && ((state.phone_number.length) === 10)) {
+                setNumberError(false);
+            } else {
+                setNumberError(true);
+            }
+        }
+    }, [state.phone_number]);
 
     const register = (event) => {
         event.preventDefault();
-
-        dispatch(RegisterAction(state, history));
+        if (state.password_confirmation !== state.password) {
+            setState({...state, error: "Password does not match" })
+        } else {
+            dispatch(RegisterAction(state, history));
+        }
     }
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
             {authResponse.hasOwnProperty('email') ? authResponse.email : null} <br />
             {authResponse.hasOwnProperty('password') ? authResponse.password : null}
-            <div className="max-w-md w-full space-y-8">
+            <div className="max-w-md w-full">
                 <div>
                     <img
                         className="mx-auto h-12 w-auto"
@@ -48,13 +62,11 @@ export default function Register() {
                     />
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Register</h2>
                 </div>
-                {state.error}
-                <form className="mt-8 space-y-6" onSubmit={register}>
-                    <input type="hidden" name="remember" defaultValue="true" />
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label htmlFor="name" >
-                                Name
+                <form className="mt-8" onSubmit={register}>
+                    <div className="text-left rounded-md shadow-sm space-y-5">
+                        <div className="">
+                            <label htmlFor="name font-bold" >
+                                Full Name <span className="text-red-500">*</span>
                             </label>
                             <input
                                 id="name"
@@ -62,15 +74,15 @@ export default function Register() {
                                 type="name"
                                 autoComplete="name"
                                 required
-                                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="e.g. Soman Maharjan"
+                                className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="e.g. John Doe"
                                 onChange={changeHandler}
                                 value={state.name}
                             />
                         </div>
-                        <div>
+                        <div className="">
                             <label htmlFor="email-address">
-                                Email address
+                                Email Address <span className="text-red-500">*</span>
                             </label>
                             <input
                                 id="email-address"
@@ -78,13 +90,19 @@ export default function Register() {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Email address"
+                                className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 onChange={changeHandler}
                                 value={state.email}
                             />
                         </div>
                         <div>
+                            <label htmlFor="email-address">
+                                Phone Number <span className="text-red-500">*</span>  <span className="text-xs">Enter Mobile No. starting with 9xxxxxxxxx</span>
+                            </label>
+                            <input type="number" min="1" onChange={changeHandler} value={state.phone_number} name="phone_number" id="input-arrow" className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" />
+                            {numberError ? <p className="text-red-500 text-xs italic">Enter a valid Number</p> : null}
+                        </div>
+                        <div className="">
                             <label htmlFor="password">
                                 Password
                             </label>
@@ -94,8 +112,7 @@ export default function Register() {
                                 type="password"
                                 autoComplete="current-password"
                                 required
-                                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Password"
+                                className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 onChange={changeHandler}
                                 value={state.password}
                             />
@@ -109,7 +126,7 @@ export default function Register() {
                                 name="password_confirmation"
                                 type="password"
                                 required
-                                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 onChange={changeHandler}
                                 value={state.password_confirmation}
                             />
@@ -119,7 +136,7 @@ export default function Register() {
                     <div>
                         <button
                             type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                                 <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />

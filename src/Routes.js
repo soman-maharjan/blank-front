@@ -3,18 +3,19 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from "./components/pages/homepage/Homepage";
 import Login from "./components/Login";
 import AddCategory from './components/pages/category/AddCategory';
-import PrivateRoute from './PrivateRoute';
+// import PrivateRoute from './PrivateRoute';
 import { Guard } from './Guards';
 import AddProduct from './components/pages/product/AddProduct';
 import ProductDetails from './components/pages/product-details/ProductDetails';
 import ShoppingCart from './components/pages/cart/ShoppingCart';
-import Dashboard from './components/pages/dashboard/Dashboard';
+import SellerDashboard from './components/pages/dashboard/SellerDashboard';
 import Test from './components/Test';
 import ManageProduct from './components/pages/product/ManageProduct';
 import Register from './components/Register';
 import Shipping from './components/pages/shipping/Shipping';
 import Search from './components/pages/search/Search';
 import ConfirmOrder from './components/pages/orders/ConfirmOrder';
+import AdminDashboard from './components/pages/dashboard/AdminDashboard';
 
 function Routes() {
     return (
@@ -54,7 +55,11 @@ function Routes() {
 
                 {/*Redirect if not authenticated */}
 
-                <Guard path="/dashboard" routeRedirect="/login" component={Dashboard} />
+
+
+                <Guard path="/seller-dashboard" routeRedirect="/login" component={SellerDashboard} />
+                <Guard path="/admin-dashboard" routeRedirect="/login" component={AdminDashboard} />
+
                 <Guard path="/add-category" routeRedirect="/login" component={AddCategory} />
                 <Guard path="/cart" routeRedirect="/login" component={ShoppingCart} />
                 <Guard path="/add-product" routeRedirect="/login" component={AddProduct} />

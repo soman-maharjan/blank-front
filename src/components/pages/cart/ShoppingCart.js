@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import * as ActionTypes from '../../../redux/ActionTypes';
+import Footer from '../homepage/Footer';
 import Navbar from '../homepage/Navbar';
 
 export default function ShoppingCart(props) {
@@ -151,6 +152,7 @@ export default function ShoppingCart(props) {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
 
     )

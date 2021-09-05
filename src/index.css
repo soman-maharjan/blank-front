@@ -104,3 +104,9 @@ code {
   overflow: initial !important;
   min-height: 100vh !important;
 } */
+
+
+.active-bg:active {
+  background-color: white !important;
+  color: black !important;
+}

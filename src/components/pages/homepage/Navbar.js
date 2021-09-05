@@ -108,10 +108,18 @@ export default function Navbar() {
                                                         >
                                                             <Menu.Item>
                                                                 {({ active }) => (
-                                                                    <Link to={'/dashboard'} className={classNames(
+                                                                    <Link to={'/seller-dashboard'} className={classNames(
                                                                         active ? 'bg-gray-100' : '',
                                                                         'block px-4 py-2 text-sm text-gray-700'
                                                                     )} >Seller Dashboard</Link>
+                                                                )}
+                                                            </Menu.Item>
+                                                            <Menu.Item>
+                                                                {({ active }) => (
+                                                                    <Link to={'/admin-dashboard'} className={classNames(
+                                                                        active ? 'bg-gray-100' : '',
+                                                                        'block px-4 py-2 text-sm text-gray-700'
+                                                                    )} >Admin Dashboard</Link>
                                                                 )}
                                                             </Menu.Item>
                                                             <Menu.Item>

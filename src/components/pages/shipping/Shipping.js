@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom'
+import Footer from '../homepage/Footer';
 import Navbar from '../homepage/Navbar'
 import NotFound from '../NotFound';
 
@@ -151,7 +152,7 @@ export default function Shipping() {
                                         <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="phone_number">
                                             Phone Number <span className="text-red-500">*</span>
                                         </label>
-                                        <input type="number" onChange={changeHandler} value={state.phone_number} name="phone_number" className={` ${errors.phone_number ? "border-red-500" : null} appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} />
+                                        <input type="number" min="1" onChange={changeHandler} value={state.phone_number} name="phone_number" id="input-arrow" className={` ${errors.phone_number ? "border-red-500" : null} appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} />
                                         {numberError ? <p className="text-red-500 text-xs italic">Enter a valid Number</p> : null}
                                     </div>
                                 </div>
