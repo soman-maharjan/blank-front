@@ -30,5 +30,5 @@ export const RegisterUserService = (credentials) => {
             }).catch((error) => {
                 return error.response.data;
             })
-        }).catch(error => console.log(error));
+        }).catch(error => console.log(error.response));
 }

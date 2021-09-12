@@ -40,12 +40,14 @@ export default function ProductDetails(props) {
 
     if (product.hasOwnProperty('_id')) {
         for (var key of Object.keys(product.attributes)) {
-            items.push(<p> {key} : {product.attributes[key]} </p>)
+            items.push(<div>
+                <p className="text-gray-500">{key}</p>
+                <p>{product.attributes[key]}</p>
+            </div >)
         }
     }
 
     function cart() {
-        // console.log(state);
         const val = { ...product, quantity: state.quantity, totalPrice: state.quantity * sku.price, sku: sku, price: sku.price }
         dispatch({ type: ActionTypes.ADD_TO_CART, product: val })
         history.push({
@@ -58,15 +60,13 @@ export default function ProductDetails(props) {
         setSku(product.sku.filter(sku => sku.sellerSku == event.target.value)[0])
     }
 
-
-
     return (
         product.hasOwnProperty('_id') ?
             <>
                 <Navbar />
                 <div className="bg-gray-100 p-10 pt-0">
                     <div className="flex items-center p-5 lg:p-10 overflow-hidden relative">
-                        <div className="w-full max-w-6xl rounded bg-white shadow-lg p-10 lg:p-20 mx-auto text-gray-800 relative md:text-left">
+                        <div className="w-full max-w-6xl rounded bg-white shadow-md p-10 lg:p-20 mx-auto text-gray-800 relative md:text-left">
                             <div className="md:flex items-center -mx-10">
                                 <div className="w-full md:w-1/2 px-10 mb-10 md:mb-0">
                                     <div className="relative">
@@ -104,23 +104,23 @@ export default function ProductDetails(props) {
                                         <input value={state.quantity} onChange={changeHandler} type="number" min="1" className="border w-14 focus:outline-none" />
                                     </div>
                                     <div className="block align-bottom">
-                                        <button onClick={cart} className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold"><i class="mdi mdi-cart -ml-2 mr-2"></i>ADD TO CART</button>
+                                        <button onClick={cart} className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900  rounded-full px-10 py-2 font-semibold"><i class="mdi mdi-cart -ml-2 mr-2"></i>ADD TO CART</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className=" w-full max-w-6xl rounded bg-white shadow-lg p-10 lg:p-20 mx-auto text-gray-800 relative md:text-left">
+                    <div className=" w-full max-w-6xl rounded bg-white shadow-md p-5 pl-10 mx-auto text-gray-800 relative md:text-left">
                         <div className="items-center">
-                            Specification
-                            <br /><br />
-                            {items}
+                            <h6 className="text-lg font-semibold leading-normal mt-0 mb-2">Product details of {product.productName}</h6>
+                            <div dangerouslySetInnerHTML={{ __html: product.description }} />
                         </div>
                         <hr className="my-4" />
                         <div className="items-center">
-                            Product Details
-                            <br /><br />
-                            <div dangerouslySetInnerHTML={{ __html: product.description }} />
+                            <h6 className="text-lg font-semibold leading-normal mt-0 mb-2">Specification of {product.productName}</h6>
+                            <div class="grid grid-cols-2 gap-4">
+                                {items}
+                            </div>
                         </div>
                     </div>
                 </div>

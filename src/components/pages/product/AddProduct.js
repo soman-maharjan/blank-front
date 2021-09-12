@@ -4,7 +4,6 @@ import ProductCategory from './ProductCategory';
 import ProductAttribute from './ProductAttribute';
 import JoditEditor from "jodit-react";
 import ProductStock from './ProductStock';
-import ImageUpload from './ImageUpload';
 import UploadImage from './UploadImage'
 
 const formData = new FormData();
@@ -107,8 +106,16 @@ export default function AddProduct() {
 
 
     return (
-        <div>
-            <h1 className="text-xl font-semibold mt-2">PRODUCT DETAILS</h1>
+        <div className="w-full px-10">
+            <div class="navbar shadow mt-3 mb-5">
+                <div class="flex-1 px-2 mx-2">
+                    <span class="text-lg font-semibold">
+                        ADD PRODUCT
+                    </span>
+                </div>
+
+
+            </div>
             <div className="flex justify-center mt-10">
                 <form className="w-full max-w-3xl" >
 
@@ -117,7 +124,7 @@ export default function AddProduct() {
                         <div class="divider"></div>
                         <div class="grid h-20 card bg-base-300 rounded-box place-items-center">content</div>
                     </div> */}
-                    <div className="p-4 rounded mb-16 bg-gray-200">
+                    <div className="p-4  mb-16 bg-gray-200">
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" >
@@ -139,7 +146,7 @@ export default function AddProduct() {
                         <ProductAttribute attribute={attribute} setState={setState} state={state} error={errors.attributes} />
                         : null}
 
-                    <div className="p-4 rounded mb-10 bg-gray-200 mb-16">
+                    <div className="p-4  mb-10 bg-gray-200 mb-16">
                         <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3" >
                             DETAIL DESCRIPTION
                         </label>
@@ -162,7 +169,7 @@ export default function AddProduct() {
                     </div>
 
                     <hr />
-                    <div className="p-4 rounded mb-10 bg-gray-200 mb-16">
+                    <div className="p-4  mb-10 bg-gray-200 mb-16">
                         <div className="flex flex-wrap -mx-3 mb-6 mt-2">
                             <div className="w-full px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3" >
@@ -190,14 +197,14 @@ export default function AddProduct() {
                                 <p>Drag 'n' drop some files here, or click to select files</p>
                         }
                     </div> */}
-                        <ProductStock setState={setState} state={state} error={errors.sku}/>
+                        <ProductStock setState={setState} state={state} error={errors.sku} color={state.color} />
 
                     </div>
 
                     {/* <ImageUpload setState={setState} error={errors.image} /> */}
                     <UploadImage setState={setState} error={errors.images} formData={formData} />
 
-                    <button type="submit" className="bg-green-300 rounded px-5 py-1 mb-10" onClick={submitHandler}>Submit</button>
+                    <button type="submit" className="btn btn-success hover:bg-green-600 bg-green-500 rounded border-none px-5 py-1 mb-10 mt-10 w-28" onClick={submitHandler}>Submit</button>
 
                 </form>
             </div>

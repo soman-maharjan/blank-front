@@ -36,7 +36,7 @@ export default function ProductStock(props) {
             <button className="bg-green-300 p-1 left-0 pl-10 pr-10 mb-3" type="button" onClick={() => addFormFields()}>Add</button>
             {/* </div> */}
             {sku.map((element, index) => (
-                <div className="form-inline" key={index}>
+                <div className={`form-inline ${(index === 0) ? "mr-7" : ""}`} key={index}>
                     <label>Value </label>
                     <input type="text" required name="value" value={element.value || ""} onChange={e => handleChange(index, e)} className="appearance-none w-20 text-gray-700 border border-gray-200 rounded py-2 px-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     <label> Price </label>

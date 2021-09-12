@@ -20,54 +20,77 @@ class Orders extends Component {
     render() {
         return (
             <div className="w-11/12">
-                <h1 className="text-2xl mb-10">Manage Orders</h1>
+                <div class="text-sm breadcrumbs mt-3">
+                    <ul>
+                        <li>
+                            <a onClick={() => this.props.changePage({}, 'dashboard')}>Dashboard</a>
+                        </li>
+                        <li>Orders</li>
+                    </ul>
+                </div>
+                {/* <h1 className="text-2xl mb-10">Manage Products</h1> */}
+                <div class="navbar shadow mt-3 mb-5">
+                    <div class="flex-1 px-2 mx-2">
+                        <span class="text-lg font-semibold">
+                            Orders
+                        </span>
+                    </div>
+
+                    <div class="flex-none">
+                        <button class="btn btn-square btn-ghost">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
                 <div className="flex flex-col mt-2">
                     <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div className="py-2 align-middle inline-block sm:px-6 lg:px-8">
+                        <div className="py-2 align-middle inline-block sm:px-6 lg:px-8 min-w-full">
                             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                <table className="divide-y divide-gray-200">
+                                <table className="divide-y divide-gray-200 min-w-full">
                                     <thead className="bg-gray-50">
                                         <tr>
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
                                             >
                                                 Order Id
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
                                             >
                                                 Order Date
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
                                             >
                                                 Pending Since
                                             </th>
 
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
                                             >
                                                 Status
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
                                             >
                                                 Payment Method
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
                                             >
                                                 Details
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
+                                    <tbody className="bg-white divide-y divide-gray-200 min-w-full">
                                         {this.state.orders.map((order, index) => (
                                             <tr key={index}>
                                                 <td className="max-w-xs px-6 py-4 min-w-sm whitespace-normal">

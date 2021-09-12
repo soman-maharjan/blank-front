@@ -77,16 +77,15 @@ export default function OrderDetails(props) {
 
     return (
         <>
-            {/* <div class="text-sm breadcrumbs overflow-hidden left-0">
+            <div class="text-sm breadcrumbs mt-3 overflow-visible w-full text-left pl-14">
                 <ul>
-                   
                     <li>
-                        <a>Documents</a>
+                        <a onClick={() => props.changePage({}, 'dashboard')}>Dashboard</a>
                     </li>
-                    <li>Add Document</li>
+                    <li>Orders</li>
                 </ul>
-            </div> */}
-            <div className="w-11/12 bg-white shadow-md mt-10  text-left p-5">
+            </div>
+            <div className="w-11/12 bg-white shadow-md mt-5 text-left p-5">
                 <div className="grid grid-cols-1 mb-5">
                     <p className="font-semibold text-xl mt-5">ORDER INFORMATION</p>
                     <p className="text-gray-500 text-md">Information about order</p>

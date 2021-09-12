@@ -73,7 +73,7 @@ export default function Shipping() {
         (
             <>
                 <Navbar />
-                <div className="py-5">
+                <div className="py-5 mb-10 mt-5">
                     <div className="max-w-xl mx-auto shadow-lg rounded-lg min-w-1/2">
                         <div className="md:flex">
                             <form className="w-full px-5 py-5">
@@ -165,6 +165,7 @@ export default function Shipping() {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </>
         )
 }

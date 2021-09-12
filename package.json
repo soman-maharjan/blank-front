@@ -1,5 +1,6 @@
 {
   "name": "blank-front",
+  "homepage" : "http://somanmaharjan.com.np",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

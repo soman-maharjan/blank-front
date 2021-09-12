@@ -1,9 +1,9 @@
 import { ChevronRightIcon, SearchIcon, StarIcon } from '@heroicons/react/solid';
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import Loader from 'react-loader-spinner';
 import Navbar from '../homepage/Navbar';
 import ProductCard from '../homepage/ProductCard';
+import Loading from '../Loading';
 
 function Search(props) {
 
@@ -37,15 +37,7 @@ function Search(props) {
 
     return (
         fliteredData === undefined ?
-            <div className="flex h-screen">
-                <div className="m-auto">
-                    <Loader
-                        type="TailSpin"
-                        color="#000000"
-                        height={130}
-                        width={130}
-                    /></div>
-            </div>
+            <Loading />
             :
             <div className="bg-gray-100 h-screen">
                 <Navbar />

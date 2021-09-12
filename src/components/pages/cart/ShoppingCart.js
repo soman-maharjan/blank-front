@@ -147,7 +147,7 @@ export default function ShoppingCart(props) {
                                 <span>Total cost</span>
                                 <span>Rs. {total}</span>
                             </div>
-                            <Link to='/shipping' className="btn btn-success h-12 w-52 border-green-500 bg-green-500 text-white" disabled={products.length < 1 ? true : false}>Checkout</Link>
+                            <Link to='/shipping' className="btn btn-success h-12 w-52 border-green-500 bg-green-500  text-white" disabled={products.length < 1 ? true : false}>Checkout</Link>
                         </div>
                     </div>
                 </div>

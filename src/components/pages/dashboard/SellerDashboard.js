@@ -44,7 +44,7 @@ class SellerDashboard extends Component {
                     {this.state.page === 'manage-product' ? <ManageProduct changePage={this.changePage} /> : null}
                     {this.state.page === 'edit-product' ? <EditProduct product={this.state.product} /> : null}
                     {this.state.page === 'orders' ? <Orders orderDetailsHandler={this.orderDetailsHandler} /> : null}
-                    {this.state.page === 'order-details' ? <OrderDetails order={this.state.order} /> : null}
+                    {this.state.page === 'order-details' ? <OrderDetails order={this.state.order} changePage={this.changePage}/> : null}
 
 
                     {this.state.page === 'profile' ? <Profile /> : null}
@@ -56,11 +56,8 @@ class SellerDashboard extends Component {
                     <label htmlFor="my-drawer-2" className="drawer-overlay" />
                     <ul className="menu p-4 overflow-y-auto w-60 h-screen bg-neutral text-white">
                         <label className="mb-3 cursor-pointer" onClick={() => this.setState({ page: 'dashboard' })}>Dashboard</label>
-                        <li className="hover:bg-white rounded hover:text-neutral active:bg-red-900">
-                            <a className="active-bg" onClick={() => this.setState({ page: 'add-product' })}>Add Product</a>
-                        </li>
                         <li className="hover:bg-white rounded hover:text-neutral">
-                            <a className="active-bg" onClick={() => this.setState({ page: 'manage-product' })}>Manage Products</a>
+                            <a className="active-bg" onClick={() => this.setState({ page: 'manage-product' })}>Products</a>
                         </li>
                         <li className="hover:bg-white rounded hover:text-neutral">
                             <a className="active-bg" onClick={() => this.setState({ page: 'orders' })}>Orders</a>
