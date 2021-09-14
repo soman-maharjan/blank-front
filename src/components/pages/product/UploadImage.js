@@ -12,21 +12,21 @@ export default function UploadImage(props) {
     const onChange = (imageList) => {
         setImages(imageList);
         const img = imageList.map(i => i.file);
-        props.formData.delete('image[]');
+        props.formData.delete(`${props.element.sellerSku}[]`);
         img.forEach(element => {
             const uniqueFileName = uuidv4() + '.' + element.name.split('.').pop();
 
             imgName.push(uniqueFileName);
 
-            props.formData.append("image[]", element, uniqueFileName)
+            props.formData.append(`${props.element.sellerSku}[]`, element, uniqueFileName)
         });
 
-        props.setState(prevState => ({
-            ...prevState,
-            images: imgName
-        }))
-    };
+        let newValues = [...props.img];
+        newValues[props.i].image = imgName;
 
+        props.setImg(newValues);
+
+    };
 
     return (
         <>

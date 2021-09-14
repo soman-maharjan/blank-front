@@ -24,9 +24,6 @@ export default class Carousel extends Component {
   }
 
   render() {
-
-    console.log(this.state.images)
-
     const settings = {
       arrows: false,
       dots: false,

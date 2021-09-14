@@ -4,13 +4,12 @@ import ProductCategory from './ProductCategory';
 import ProductAttribute from './ProductAttribute';
 import JoditEditor from "jodit-react";
 import ProductStock from './ProductStock';
-import UploadImage from './UploadImage'
 
 const formData = new FormData();
 
 export default function AddProduct() {
 
-    const [state, setState] = useState({ productName: "", description: "", category: "", boxContents: "", variation: "", color: "", sku: [], attributes: [], images: [] });
+    const [state, setState] = useState({ productName: "", description: "", category: "", boxContents: "", variation: "", color: "", sku: [], attributes: [] });
 
     // const [img, setImg] = useState([]);
     const [category, setCategory] = useState([]);
@@ -43,10 +42,6 @@ export default function AddProduct() {
     // ));
 
     function changeHandler(event) {
-
-        // console.log(formData.getAll('image'))
-        // console.log(state)
-
         setState(prevState => ({
             ...prevState,
             [event.target.name]: event.target.value,
@@ -73,14 +68,15 @@ export default function AddProduct() {
 
         buildFormData(formData, state);
 
-
         axios.post('/api/product', formData)
             .then(response => {
-                alert("Product Added!")
-                window.location.reload()
+                // alert("Product Added!")
+                // window.location.reload()
+                console.log(response.data)
             })
             .catch(error =>
-                setErrors(error.response.data)
+                console.log(error.response)
+                // setErrors(error.response.data)
             )
 
 
@@ -197,12 +193,11 @@ export default function AddProduct() {
                                 <p>Drag 'n' drop some files here, or click to select files</p>
                         }
                     </div> */}
-                        <ProductStock setState={setState} state={state} error={errors.sku} color={state.color} />
+                        <ProductStock setState={setState} state={state} error={errors.sku} color={state.color} formData={formData} />
 
                     </div>
 
                     {/* <ImageUpload setState={setState} error={errors.image} /> */}
-                    <UploadImage setState={setState} error={errors.images} formData={formData} />
 
                     <button type="submit" className="btn btn-success hover:bg-green-600 bg-green-500 rounded border-none px-5 py-1 mb-10 mt-10 w-28" onClick={submitHandler}>Submit</button>
 

@@ -37,6 +37,7 @@ export default function ProductDetails(props) {
     }
 
     const items = [];
+    var images = [];
 
     if (product.hasOwnProperty('_id')) {
         for (var key of Object.keys(product.attributes)) {
@@ -45,6 +46,8 @@ export default function ProductDetails(props) {
                 <p>{product.attributes[key]}</p>
             </div >)
         }
+
+        images = product.sku.map(sku => (sku.images)).flat(2);
     }
 
     function cart() {
@@ -70,12 +73,12 @@ export default function ProductDetails(props) {
                             <div className="md:flex items-center -mx-10">
                                 <div className="w-full md:w-1/2 px-10 mb-10 md:mb-0">
                                     <div className="relative">
-                                        <img src={`${process.env.REACT_APP_IMAGE_URL}${product.images[0]}`} />
+                                        <img src={`${process.env.REACT_APP_IMAGE_URL}${images[0]}`} />
                                     </div>
                                 </div>
                                 <div className="w-full md:w-1/2 px-10">
                                     <div className="mb-10">
-                                        <h1 className="font-bold uppercase text-2xl mb-5 break-word">{product.productName}</h1>
+                                        <h1 className="font-bold uppercase text-3xl mb-5 break-word">{product.productName}</h1>
                                         {/* <p className="text-sm">  <a href="#" className="opacity-50 text-gray-900 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900">MORE <i className="mdi mdi-arrow-right"></i></a></p> */}
                                         Brand : {product.attributes.Brand}
                                     </div>
@@ -85,7 +88,6 @@ export default function ProductDetails(props) {
                                             <span className="text-2xl leading-none align-baseline">$</span>
                                             <span className="font-bold text-4xl leading-none align-baseline">{sku.price}</span>
                                         </div>
-
                                     </div>
                                     <br />
                                     <hr />

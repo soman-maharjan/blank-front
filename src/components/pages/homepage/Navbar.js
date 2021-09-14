@@ -46,7 +46,7 @@ export default function Navbar() {
                                 <div>
                                     <div className="form-control">
                                         <div className="relative">
-                                            <input type="text" placeholder="Search" value={search} onChange={(event) => setSearch(event.target.value)} className="w-full pr-16 h-10 input input-bordered" />
+                                            <input type="text" placeholder="Search" value={search} onChange={(event) => setSearch(event.target.value)} className="pl-5 border-2 pr-16 h-10 focus:none focus:ring-indigo-500 outline-none focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300" />
                                             <Link to={search !== '' ? `/search/${search}` : '#'}>
                                                 <button className="absolute top-0 right-0 rounded-l-none btn min-h-0 h-10" >Search</button>
                                             </Link>

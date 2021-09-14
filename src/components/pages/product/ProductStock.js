@@ -1,14 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import UploadImage from './UploadImage';
+
+function getId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    for (var i = 0; i < 5; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
 
 export default function ProductStock(props) {
 
-    const [sku, setSku] = useState([{ value: "", price: "", quantity: 0, sellerSku: "" }])
+    const [sku, setSku] = useState([{ value: "", price: "", quantity: 0, sellerSku: 'SKU-' + getId(), images: [] }])
+    const [img, setImg] = useState([{ image: [] }]);
 
-    const { state, setState } = props;
+    const { state, setState, formData } = props;
 
     let handleChange = (i, e) => {
         let newFormValues = [...sku];
         newFormValues[i][e.target.name] = e.target.value;
+        newFormValues[i].images = img[i].image;
+
         setSku(newFormValues);
 
         setState(prevState => ({
@@ -18,7 +32,10 @@ export default function ProductStock(props) {
     }
 
     let addFormFields = () => {
-        setSku([...sku, { value: "", price: "", quantity: 0, sellerSku: "" }])
+        setImg([...img, { image: [] }])
+        setSku([...sku, { value: "", price: "", quantity: 0, sellerSku: 'SKU-' + getId(), images: [] }])
+
+        console.log(sku)
     }
 
     let removeFormFields = (i) => {
@@ -26,6 +43,21 @@ export default function ProductStock(props) {
         newFormValues.splice(i, 1);
         setSku(newFormValues)
     }
+
+    useEffect(() => {
+        let newFormValues = [...sku];
+
+        for (var i = 0; i < img.length; i++) {
+            newFormValues[i].images = img[i].image;
+        }
+
+        setSku(newFormValues);
+
+        setState(prevState => ({
+            ...prevState,
+            sku: sku
+        }))
+    }, [img])
 
     return (
         <>
@@ -43,8 +75,8 @@ export default function ProductStock(props) {
                     <input type="number" required name="price" min="1" value={element.price || ""} onChange={e => handleChange(index, e)} className="appearance-none w-20 text-gray-700 border border-gray-200 rounded py-2 px-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     <label> Quantity </label>
                     <input type="number" required name="quantity" min="1" value={element.quantity || ""} onChange={e => handleChange(index, e)} className="appearance-none w-20 text-gray-700 border border-gray-200 rounded py-2 px-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
-                    <label> Seller SKU </label>
-                    <input type="text" required name="sellerSku" value={element.sellerSku || ""} onChange={e => handleChange(index, e)} className="appearance-none w-24 text-gray-700 border border-gray-200 rounded py-2 px-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <label> Seller SKU - </label>
+                    <input type="text" required name="sellerSku" value={element.sellerSku} disabled onChange={e => handleChange(index, e)} className="appearance-none w-24 text-gray-700 border border-gray-200 rounded mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     {
                         index ?
                             <button type="button" className="bg-red-400 rounded ml-2 w-5" onClick={() => removeFormFields(index)}>
@@ -54,6 +86,7 @@ export default function ProductStock(props) {
                             </button>
                             : null
                     }
+                    <UploadImage setState={setState} formData={formData} setImg={setImg} i={index} img={img} element={element} />
                 </div>
             ))}
 
