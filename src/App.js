@@ -9,7 +9,7 @@ function App() {
       //     <Routes />
       //   </div>
       // </BrowserRouter>
-      "Hello world"
+      "Hi World"
   );
 }
 
