@@ -9,7 +9,7 @@ export default class Carousel extends Component {
     this.state = {
       images: []
     }
-  }
+  } 
 
   componentDidMount() {
     axios.get('/api/ad/active-ad')
