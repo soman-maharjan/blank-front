@@ -16,7 +16,7 @@ export default class Carousel extends Component {
       .then(response => this.setState({ images: response.data.filter(i => i.position == 'carousel') }))
       .catch(error => console.log(error))
   }
-  
+   
   render() {
     const settings = {
       arrows: false,
