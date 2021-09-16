@@ -2,8 +2,10 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import Slider from 'react-slick';
 import * as ActionTypes from '../../../redux/ActionTypes';
 import Navbar from '../homepage/Navbar';
+import Image from './Image';
 
 export default function ProductDetails(props) {
 
@@ -48,6 +50,9 @@ export default function ProductDetails(props) {
         }
 
         images = product.sku.map(sku => (sku.images)).flat(2);
+        // setImage(images[0]);
+
+
     }
 
     function cart() {
@@ -68,15 +73,21 @@ export default function ProductDetails(props) {
             <>
                 <Navbar />
                 <div className="bg-gray-100 p-10 pt-0">
-                    <div className="flex items-center p-5 lg:p-10 overflow-hidden relative">
-                        <div className="w-full max-w-6xl rounded bg-white shadow-md p-10 lg:p-20 mx-auto text-gray-800 relative md:text-left">
-                            <div className="md:flex items-center -mx-10">
-                                <div className="w-full md:w-1/2 px-10 mb-10 md:mb-0">
-                                    <div className="relative">
-                                        <img src={`${process.env.REACT_APP_IMAGE_URL}${images[0]}`} />
-                                    </div>
+                    <div className="overflow-hidden relative">
+                        <div class="text-sm breadcrumbs my-3 ml-24">
+                            <ul>
+                                <li>
+                                    <a>Dashboard</a>
+                                </li>
+                                <li>Products</li>
+                            </ul>
+                        </div>
+                        <div className="w-full max-w-6xl rounded bg-white shadow-md mb-10 p-10 lg:p-10 mx-auto text-gray-800 relative md:text-left">
+                            <div className="md:flex -mx-10">
+                                <div className="w-full md:w-1/2 px-12 mb-10 md:mb-0">
+                                    <Image images={images} />
                                 </div>
-                                <div className="w-full md:w-1/2 px-10">
+                                <div className="w-full md:w-1/2 pt-20 px-10">
                                     <div className="mb-10">
                                         <h1 className="font-bold uppercase text-3xl mb-5 break-word">{product.productName}</h1>
                                         {/* <p className="text-sm">  <a href="#" className="opacity-50 text-gray-900 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900">MORE <i className="mdi mdi-arrow-right"></i></a></p> */}
@@ -85,7 +96,7 @@ export default function ProductDetails(props) {
 
                                     <div>
                                         <div className="inline-block align-bottom mr-5">
-                                            <span className="text-2xl leading-none align-baseline">$</span>
+                                            <span className="text-2xl leading-none align-baseline">Rs. </span>
                                             <span className="font-bold text-4xl leading-none align-baseline">{sku.price}</span>
                                         </div>
                                     </div>
@@ -103,7 +114,7 @@ export default function ProductDetails(props) {
                                     <br />
                                     <div className="inline-block align-bottom mr-5 mb-10">
                                         <span className="leading-none align-baseline mr-10">Quantity</span>
-                                        <input value={state.quantity} onChange={changeHandler} type="number" min="1" className="border w-14 focus:outline-none" />
+                                        <input min="1" value={state.quantity} onChange={changeHandler} type="number" className="border w-14 focus:outline-none" />
                                     </div>
                                     <div className="block align-bottom">
                                         <button onClick={cart} className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900  rounded-full px-10 py-2 font-semibold"><i class="mdi mdi-cart -ml-2 mr-2"></i>ADD TO CART</button>

@@ -7,7 +7,7 @@ import Footer from './Footer'
 import Ad from './Ad'
 import Loading from '../Loading';
 
-export default function Homepage() {
+export default function Homepage() {    
     const [products, setProducts] = useState([]);
 
     const [productLoading, setProductLoading] = useState(false);
@@ -38,7 +38,6 @@ export default function Homepage() {
             : <Loading />
     )
 }
-
 
 
 

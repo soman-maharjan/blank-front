@@ -96,7 +96,7 @@ class Orders extends Component {
                                                 <td className="max-w-xs px-6 py-4 min-w-sm whitespace-normal">
                                                     <div className="flex items-center">
                                                         <div className="flex-shrink-0 h-10 w-10">
-                                                            <img className="h-10 w-10 rounded-full" src={`${process.env.REACT_APP_IMAGE_URL}${order.images[0]}`} alt="" />
+                                                            <img className="h-10 w-10 rounded-full" src={`${process.env.REACT_APP_IMAGE_URL}${order.sku.images[0]}`} alt="" />
                                                         </div>
                                                         <div className="ml-4 whitespace-normal">
                                                             <div className="text-sm break-all font-medium text-gray-900">{order.order_id}</div>

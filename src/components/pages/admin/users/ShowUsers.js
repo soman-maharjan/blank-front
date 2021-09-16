@@ -5,12 +5,19 @@ import Moment from 'react-moment';
 export default function ShowUsers() {
 
     const [users, setUsers] = useState([]);
+    const [id, setId] = useState("");
 
     useEffect(() => {
         axios.get('/api/users')
             .then(response => setUsers(response.data))
             .catch(error => console.log(error.response))
     }, [])
+
+    const submitHandler = () => {
+        axios.delete('/api/users/' + id)
+            .then(response => setUsers(response.data))
+            .catch(error => console.log(error))
+    }
 
     return (
         <div className="w-11/12">
@@ -94,7 +101,7 @@ export default function ShowUsers() {
                                                 <div className="text-sm text-gray-900">{user.email}</div>
                                             </td>
                                             <td className="max-w-xs px-3 py-4 min-w-sm whitespace-normal break-all">
-                                                <div className="text-sm text-gray-900">{user.description}</div>
+                                                <div className="text-sm text-gray-900">{user.bio}</div>
                                             </td>
                                             <td className="max-w-xs px-3 py-4 min-w-1 whitespace-normal break-all">
                                                 <div className="text-sm text-gray-900"><Moment format="YYYY/MM/DD">{user.created_at}</Moment></div>
@@ -106,6 +113,9 @@ export default function ShowUsers() {
                                                 <a className="btn btn-ghost btn-sm rounded-btn bg-indigo-500 hover:bg-indigo-600 text-white">
                                                     Edit
                                                 </a>
+                                                <a href="#my-modal" onClick={() => setId(user._id)} className="ml-2 btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
+                                                    Delete
+                                                </a>
                                             </td>
                                         </tr>
                                     ))}
@@ -115,7 +125,15 @@ export default function ShowUsers() {
                     </div>
                 </div>
             </div>
-
+            <div id="my-modal" class="modal">
+                <div class="modal-box">
+                    <p>Do you want to delete user account?</p>
+                    <div class="modal-action justify-center">
+                        <a onClick={submitHandler} href="#" className="btn btn-primary bg-green-500 hover:bg-green-700 border-none min-w-0 w-20 min-h-0 h-10">Yes</a>
+                        <a className="btn btn-primary bg-gray-500 hover:bg-gray-700 border-none min-w-0 w-20 min-h-0 h-10" href="#">No</a>
+                    </div>
+                </div>
+            </div>
 
 
         </div>

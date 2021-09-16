@@ -9,7 +9,7 @@ const formData = new FormData();
 
 export default function AddProduct() {
 
-    const [state, setState] = useState({ productName: "", description: "", category: "", boxContents: "", variation: "", color: "", sku: [], attributes: [] });
+    const [state, setState] = useState({ productName: "", description: '', category: "", boxContents: "", variation: "", color: "", sku: [], attributes: [] });
 
     // const [img, setImg] = useState([]);
     const [category, setCategory] = useState([]);
@@ -120,7 +120,7 @@ export default function AddProduct() {
                         <div class="divider"></div>
                         <div class="grid h-20 card bg-base-300 rounded-box place-items-center">content</div>
                     </div> */}
-                    <div className="p-4  mb-16 bg-gray-200">
+                    <div className="p-4 mb-16 bg-gray-200">
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" >
@@ -142,7 +142,7 @@ export default function AddProduct() {
                         <ProductAttribute attribute={attribute} setState={setState} state={state} error={errors.attributes} />
                         : null}
 
-                    <div className="p-4  mb-10 bg-gray-200 mb-16">
+                    <div className="p-4 bg-gray-200 mb-16">
                         <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3" >
                             DETAIL DESCRIPTION
                         </label>
@@ -165,7 +165,7 @@ export default function AddProduct() {
                     </div>
 
                     <hr />
-                    <div className="p-4  mb-10 bg-gray-200 mb-16">
+                    <div className="p-4 bg-gray-200 mb-16">
                         <div className="flex flex-wrap -mx-3 mb-6 mt-2">
                             <div className="w-full px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3" >

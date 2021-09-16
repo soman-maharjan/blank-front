@@ -113,7 +113,10 @@ export default function ManageAds(props) {
             {/* modal */}
             <div id="my-modal" class="modal">
                 <div class="modal-box">
-                    <p>Do you want to set it as {option} ?</p>
+                    {option !== 'delete' ?
+                        <p>Do you want to set it as {option} ?</p>
+                        :
+                        <p>Do you want to delete the image?</p>}
                     <div class="modal-action justify-center">
                         <a onClick={submitHandler} href="#" className="btn btn-primary bg-green-500 hover:bg-green-700 border-none min-w-0 w-20 min-h-0 h-10">Yes</a>
                         <a className="btn btn-primary bg-gray-500 hover:bg-gray-700 border-none min-w-0 w-20 min-h-0 h-10" href="#">No</a>

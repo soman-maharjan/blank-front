@@ -110,3 +110,15 @@ code {
   background-color: white !important;
   color: black !important;
 }
+
+.product-carousel-size {
+  height: 150px;
+}
+
+.max-width-unset img {
+  max-width: unset !important;
+}
+.image-size{
+  height:600px;
+  width: 450px;
+}

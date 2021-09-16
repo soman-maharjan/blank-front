@@ -1,11 +1,4 @@
 import React from 'react';
-import facebookIcon from '../../../icons/facebook.png';
-import instagramIcon from '../../../icons/instagram.png';
-import twitterIcon from '../../../icons/twitter.png';
-import youtubeIcon from '../../../icons/youtube.png';
-import esewa from '../../images/esewa_icon.png';
-import khalti from '../../images/khalti.png';
-
 
 export default function Footer() {
     return (

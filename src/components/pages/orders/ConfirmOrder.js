@@ -53,7 +53,7 @@ export default function ConfirmOrder(props) {
                         <div className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5 border-b-2 ">
                             <div className="flex w-2/4">
                                 <div className="w-20">
-                                    <img className="h-24 w-20" src={`${process.env.REACT_APP_IMAGE_URL}${product.images[0]}`} alt />
+                                    <img className="h-24 w-20" src={`${process.env.REACT_APP_IMAGE_URL}${product.sku.images[0]}`} alt />
                                 </div>
                                 <div className="flex flex-col justify-between ml-2 flex-grow">
                                     <span className="font-bold text-sm">{product.productName}</span>

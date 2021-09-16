@@ -1,4 +1,4 @@
-import { ChevronRightIcon, SearchIcon, StarIcon } from '@heroicons/react/solid';
+import { ChevronRightIcon, StarIcon } from '@heroicons/react/solid';
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Navbar from '../homepage/Navbar';
@@ -17,6 +17,7 @@ function Search(props) {
         axios.get(url)
             .then(response => {
                 setProducts(response.data)
+                console.log(response.data)
                 setFliteredData(response.data)
             })
             .catch(error => console.log(error))
@@ -31,7 +32,7 @@ function Search(props) {
 
     const priceRangeHandler = () => {
         if (products.length > 0) {
-            setFliteredData(products.filter(p => (parseFloat(p.price) >= state.min && parseFloat(p.price) <= state.max)))
+            setFliteredData(products.filter(p => (parseFloat(p.sku[0].price) >= state.min && parseFloat(p.sku[0].price) <= state.max)))
         }
     }
 
