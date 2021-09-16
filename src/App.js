@@ -4,11 +4,12 @@ import Routes from './Routes';
 
 function App() {
   return (
-      <BrowserRouter>
-        <div className="App font-mono">
-          <Routes />
-        </div>
-      </BrowserRouter>
+      // <BrowserRouter>
+      //   <div className="App font-mono">
+      //     <Routes />
+      //   </div>
+      // </BrowserRouter>
+      "hello hello"
   );
 }
 
