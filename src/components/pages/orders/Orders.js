@@ -11,12 +11,14 @@ class Orders extends Component {
         }
     }
 
-
     componentDidMount() {
-        axios.get('/api/get-order')
-            .then(response => this.setState({ orders: response.data }))
+        axios.get('/api/user-order')
+            .then(response => {
+                this.setState({ orders: response.data })
+            })
             .catch(error => console.log(error))
     }
+
     render() {
         return (
             <div className="w-11/12">
@@ -109,8 +111,8 @@ class Orders extends Component {
                                                 <td className="max-w-xs px-1 py-4 min-w-1 whitespace-normal break-all">
                                                     <Moment fromNow>{order.created_at}</Moment>
                                                 </td>
-                                                <td className="max-w-xs px-1 py-4 min-w-1 whitespace-normal break-all">
-                                                    status
+                                                <td className="max-w-xs px-1 py-4 min-w-1 whitespace-normal break-all capitalize">
+                                                    {order.status}
                                                 </td>
                                                 <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all">
                                                     <div className="text-sm text-gray-900">{order.color}</div>

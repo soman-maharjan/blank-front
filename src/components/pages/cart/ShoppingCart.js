@@ -83,7 +83,7 @@ export default function ShoppingCart(props) {
                     <span className="font-bold text-sm">{product.productName}</span>
                     <span className="text-red-500 text-xs">Brand : {product.attributes.Brand === undefined ? "No Brand" : product.attributes.Brand}</span>
                     <span className="text-red-500 text-xs">{product.variation} : {product.sku.value}</span>
-                    
+
                     <a onClick={() => removeItem(product.sku.sellerSku)} className="cursor-pointer font-semibold hover:text-red-500 text-gray-500 text-xs">Remove</a>
                 </div>
             </div>
@@ -133,13 +133,13 @@ export default function ShoppingCart(props) {
                         </div>
                         <div>
                             <label className="font-medium inline-block mb-3 text-sm uppercase">Shipping</label>
-                            <select className="block p-2 text-gray-600 w-full text-sm">
+                            <select className="block p-1 text-gray-600 w-full text-sm outline-none border-2 border-gray-300 rounded">
                                 <option>--- Shipping ---</option>
                             </select>
                         </div>
                         <div className="py-10">
                             <label htmlFor="promo" className="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>
-                            <input type="text" id="promo" placeholder="Enter your code" className="p-2 text-sm w-full" />
+                            <input type="text" id="promo" placeholder="Enter your code" className="p-1 text-sm w-full outline-none border-2 border-gray-300 rounded" />
                         </div>
                         <button className="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>
                         <div className="border-t mt-8">

@@ -8,7 +8,7 @@ function Image(props) {
     const [image, setImage] = useState(images[0]);
 
     const settings = {
-        infinite: true,
+        infinite: images.length > 4,
         speed: 500,
         slidesToShow: 4,
         nextArrow: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -17,7 +17,7 @@ function Image(props) {
         prevArrow: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>,
-        slidesToScroll: 3
+        slidesToScroll: 2
     };
 
     const carousel = images.map(i =>

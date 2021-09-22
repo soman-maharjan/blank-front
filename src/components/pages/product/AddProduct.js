@@ -70,13 +70,11 @@ export default function AddProduct() {
 
         axios.post('/api/product', formData)
             .then(response => {
-                // alert("Product Added!")
-                // window.location.reload()
-                console.log(response.data)
+                alert("Product Added!")
+                window.location.reload()
             })
             .catch(error =>
-                console.log(error.response)
-                // setErrors(error.response.data)
+                setErrors(error.response.data)
             )
 
 

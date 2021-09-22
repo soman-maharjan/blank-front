@@ -17,11 +17,11 @@ export default function Register() {
         name: "",
         email: "",
         password: "",
-        password_confirmation: "",
-        phone_number: ""
+        password_confirmation: ""
+        // phone_number: ""
     })
 
-    const [numberError, setNumberError] = useState(false);
+    // const [numberError, setNumberError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
@@ -30,18 +30,17 @@ export default function Register() {
             ...state,
             [event.target.name]: event.target.value
         })
-        console.log(state)
     }
 
-    useEffect(() => {
-        if (state.phone_number !== "") {
-            if ((state.phone_number.startsWith(9)) && ((state.phone_number.length) === 10)) {
-                setNumberError(false);
-            } else {
-                setNumberError(true);
-            }
-        }
-    }, [state.phone_number]);
+    // useEffect(() => {
+    //     if (state.phone_number !== "") {
+    //         if ((state.phone_number.startsWith(9)) && ((state.phone_number.length) === 10)) {
+    //             setNumberError(false);
+    //         } else {
+    //             setNumberError(true);
+    //         }
+    //     }
+    // }, [state.phone_number]);
 
     useEffect(() => {
         if (state.password !== "") {
@@ -65,7 +64,10 @@ export default function Register() {
 
     const register = (event) => {
         event.preventDefault();
-        if (!confirmPasswordError && !numberError && !passwordError) {
+        // if (!confirmPasswordError && !numberError && !passwordError) {
+        //     dispatch(RegisterAction(state, history));
+        // }
+        if (!confirmPasswordError & !passwordError) {
             dispatch(RegisterAction(state, history));
         }
     }
@@ -119,14 +121,14 @@ export default function Register() {
                                 />
                                 {authResponse.hasOwnProperty('email') ? <p className="text-red-500 text-center">Email Already Exists</p> : null}
                             </div>
-                            <div>
+                            {/* <div>
                                 <label htmlFor="email-address">
                                     Phone Number <span className="text-red-500">*</span>  <span className="text-xs">Enter Mobile No. starting with 9xxxxxxxxx</span>
                                 </label>
                                 <input type="number" min="1" onChange={changeHandler} value={state.phone_number} name="phone_number" id="input-arrow" className={` ${authResponse.hasOwnProperty('phone_number') ? "border-red-600" : null} mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`} />
                                 {numberError ? <p className="text-red-500 text-xs italic">Enter a valid Number</p> : null}
                                 {authResponse.hasOwnProperty('phone_number') ? <p className="text-red-500 text-center">Number Already Exists</p> : null}
-                            </div>
+                            </div> */}
                             <div className="">
                                 <label htmlFor="password">
                                     Password

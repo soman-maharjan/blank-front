@@ -1,7 +1,8 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 export default function OrderAddressForm(props) {
-    const { visible, disable } = props;
+    const { visible, disable, orderId } = props;
 
     const [numberError, setNumberError] = useState(false);
 
@@ -40,14 +41,18 @@ export default function OrderAddressForm(props) {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        // axios.post('')
+        axios.post('api/pickup-address', { ...state, pickup_date: pickup_date, orderId: orderId })
+            .then(response => {
+                props.orderDetailsHandler(response.data, 'order-details')
+            })
+            .catch(error => setErrors(error.response.data.errors))
     }
 
     const d = new Date();
 
-    d.setDate(d.getDate() + 2)
+    d.setDate(d.getDate() + 3)
 
-    const [date, setDate] = useState((d.toISOString().split('T')[0]));
+    const [pickup_date, setDate] = useState((d.toISOString().split('T')[0]));
 
     return visible ? (
         <>
@@ -131,11 +136,21 @@ export default function OrderAddressForm(props) {
                         {numberError ? <p className="text-red-500 text-xs italic">Enter a valid Number</p> : null}
                     </div>
                 </div>
+                <div className="flex flex-wrap -mx-3 mb-2 my-7">
+                    <div className="w-full px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" htmlFor="note">
+                            Note
+                        </label>
+                        <textarea name="note" className="border outline-none w-full h-32 appearance-none block bg-gray-200 text-gray-700  border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+                    </div>
+                </div>
                 <hr className="my-7" />
                 <div>
-                    <label htmlFor="date" className="font-semibold">Order Pickup Date : </label>
-                    <input value={date} name="date" onChange={(event) => setDate(event.target.value)} type="date" min={(d.toISOString().split('T')[0])} className="input input-bordered" />
+                    <label htmlFor="pickup_date" className="font-semibold">Order Pickup Date : </label>
+                    <input value={pickup_date} name="pickup_date" onChange={(event) => setDate(event.target.value)} type="date" min={(d.toISOString().split('T')[0])} className="input input-bordered" />
                 </div>
+
+
                 <div className="flex justify-center mt-5">
                     <button onClick={submitHandler} className="btn btn-primary w-40" disabled={disable ? "disabled" : null}>Save</button>
                 </div>

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 import axios from "axios";
+import image1 from '../../images/wide1.jpg';
+import image3 from '../../images/wide3.jpg';
+import image4 from '../../images/wide4.jpg';
 
 export default class Carousel extends Component {
   constructor(props) {
@@ -9,14 +12,14 @@ export default class Carousel extends Component {
     this.state = {
       images: []
     }
-  } 
+  }
 
   componentDidMount() {
     axios.get('/api/ad/active-ad')
       .then(response => this.setState({ images: response.data.filter(i => i.position == 'carousel') }))
       .catch(error => console.log(error))
   }
-   
+
   render() {
     const settings = {
       arrows: false,

@@ -7,8 +7,13 @@ import { Link } from 'react-router-dom';
 import Navbar from './pages/homepage/Navbar';
 import Footer from './pages/homepage/Footer';
 import Loading from './pages/Loading';
+import FacebookLogin from 'react-facebook-login';
 
 export default function Login() {
+
+    const responseFacebook = (response) => {
+        console.log(response);
+    }
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -31,6 +36,10 @@ export default function Login() {
     const login = (event) => {
         event.preventDefault();
         dispatch(LoginAction(state, history));
+    }
+
+    const clicked = () => {
+        console.log("clicked")
     }
 
     const authResponse = useSelector(state => state.userAuth.authResponse)
@@ -118,8 +127,14 @@ export default function Login() {
                                 </span>
                                 Sign in
                             </button>
-                        </form>
 
+                            <FacebookLogin
+                                appId="251897246847379"
+                                fields="email,name,picture"
+                                callback={responseFacebook}
+                                cssClass="loginBtn loginBtn--facebook"
+                            />
+                        </form>
                         <p className="mt-3">New Member?<Link to='/register'> <span className="link"> Register Here</span></Link></p>
                     </div>
                 </div>

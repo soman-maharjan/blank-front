@@ -44,8 +44,8 @@ class SellerDashboard extends Component {
                     {this.state.page === 'manage-product' ? <ManageProduct changePage={this.changePage} /> : null}
                     {this.state.page === 'edit-product' ? <EditProduct product={this.state.product} /> : null}
                     {this.state.page === 'orders' ? <Orders orderDetailsHandler={this.orderDetailsHandler} /> : null}
-                    {this.state.page === 'order-details' ? <OrderDetails order={this.state.order} changePage={this.changePage}/> : null}
-
+                    {this.state.page === 'order-details' ? <OrderDetails order={this.state.order} changePage={this.changePage} orderDetailsHandler={this.orderDetailsHandler} /> : null}
+                    
 
                     {this.state.page === 'profile' ? <Profile /> : null}
                     {/* <div className="text-xs text-center lg:hidden">Menu can be toggled on mobile size.

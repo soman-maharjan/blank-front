@@ -3,6 +3,8 @@ import ShowUsers from '../admin/users/ShowUsers';
 import DashboardDetails from './DashboardDetails';
 import ManageAds from '../admin/ad/ManageAds';
 import AddImage from '../admin/ad/AddImage';
+import Category from '../admin/category/Category';
+import AddCategory from '../admin/category/AddCategory';
 
 class AdminDashboard extends Component {
 
@@ -32,7 +34,8 @@ class AdminDashboard extends Component {
                     {this.state.page === 'show-users' ? <ShowUsers /> : null}
                     {this.state.page === 'manage-ads' ? <ManageAds changePage={this.changePage} /> : null}
                     {this.state.page === 'add-image' ? <AddImage changePage={this.changePage} /> : null}
-
+                    {this.state.page === 'category' ? <Category changePage={this.changePage} /> : null}
+                    {this.state.page === 'add-category' ? <AddCategory changePage={this.changePage} /> : null}
 
                 </div>
                 <div className="drawer-side shadow-md">
@@ -41,6 +44,9 @@ class AdminDashboard extends Component {
                         <label className="mb-3 cursor-pointer" onClick={() => this.setState({ page: 'dashboard' })}>Dashboard</label>
                         <li className="hover:bg-white rounded hover:text-neutral">
                             <a className="active-bg" onClick={() => this.setState({ page: 'show-users' })}>Users</a>
+                        </li>
+                        <li className="hover:bg-white rounded hover:text-neutral">
+                            <a className="active-bg" onClick={() => this.setState({ page: 'category' })}>Category</a>
                         </li>
                         <li className="hover:bg-white rounded hover:text-neutral">
                             <a className="active-bg" onClick={() => this.setState({ page: 'manage-ads' })}>Ads</a>
