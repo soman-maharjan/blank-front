@@ -10,9 +10,10 @@ export default function Search(props) {
     useEffect(() => {
         axios.get(`/api/category/product/` + props.category)
             .then(response => {
-                // setProducts(response.data)
-                // setFilteredData(response.data)
-                console.log(response)
+                // console.log(response)
+
+                setProducts(response.data)
+                setFilteredData(response.data)
             })
             .catch(error => console.log(error.response))
     }, [props.category])

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from "./components/pages/homepage/Homepage";
-import Login from "./components/Login";
+import Login from "./components/pages/auth/Login";
 // import PrivateRoute from './PrivateRoute';
 import { Guard } from './Guards';
 import AddProduct from './components/pages/product/AddProduct';
@@ -10,12 +10,15 @@ import ShoppingCart from './components/pages/cart/ShoppingCart';
 import SellerDashboard from './components/pages/dashboard/SellerDashboard';
 import Test from './components/Test';
 import ManageProduct from './components/pages/product/ManageProduct';
-import Register from './components/Register';
+import Register from './components/pages/auth/Register';
 import Shipping from './components/pages/shipping/Shipping';
 import Search from './components/pages/search/Search';
 import ConfirmOrder from './components/pages/orders/ConfirmOrder';
 import AdminDashboard from './components/pages/dashboard/AdminDashboard';
 import Category from './components/pages/category/Category';
+import Payment from './components/pages/payment/Payment';
+import ForgotPassword from './components/pages/auth/ForgotPassword';
+import ResetPassword from './components/pages/auth/ResetPassword';
 
 function Routes() {
     return (
@@ -35,6 +38,8 @@ function Routes() {
                 {/* <Route path="/dashboard" component={Dashboard} /> */}
 
                 <Route path="/register" component={Register} />
+                <Route path="/forgot-password" component={ForgotPassword} />
+                <Route path="/reset-password/:token/:email" component={ResetPassword} />
 
                 {/* <Route exact path="/category/:category" render={(props) => (
                     <Search category={props.match.params.category} />
@@ -68,10 +73,9 @@ function Routes() {
                 {/* <Guard path="/add-category" routeRedirect="/login" component={AddCategory} /> */}
 
                 <Guard path="/cart" routeRedirect="/login" component={ShoppingCart} />
-                <Guard path="/add-product" routeRedirect="/login" component={AddProduct} />
-                <Guard path="/user-product" routeRedirect="/login" component={ManageProduct} />
                 <Guard path="/shipping" routeRedirect="/login" component={Shipping} />
                 <Guard path="/confirm-order" routeRedirect="/login" component={ConfirmOrder} />
+                <Guard path="/payment" routeRedirect="/login" component={Payment} />
 
             </Switch>
         </>

@@ -41,7 +41,8 @@ export const RegisterAction = (credentials, history) => {
         Promise.resolve(RegisterUserService(credentials)).then((res) => {
             if (res.hasOwnProperty('success') && res.success === true) {
                 dispatch({ type: ActionTypes.SIGNUP_SUCCESS, res });
-                history.push('/login');
+                console.log(credentials);
+                dispatch(LoginAction({ 'email': credentials.email, 'password': credentials.password }, history));
             } else {
                 dispatch({ type: ActionTypes.SIGNUP_ERROR, res });
             }

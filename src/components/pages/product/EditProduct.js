@@ -7,11 +7,11 @@ import ProductStock from './ProductStock';
 import ImageUpload from './ImageUpload';
 
 export default function EditProduct(props) {
-    const [state, setState] = useState(props.product.product);
+    const [state, setState] = useState(props.product);
 
     const [category, setCategory] = useState([]);
     const [attribute, setAttribute] = useState([]);
-    const [description, setDescription] = useState(props.product.product.description)
+    const [description, setDescription] = useState(props.product.description)
 
     const categoryOption = category.map((category, index) => <option value={category} key={index}>{category}</option>)
 
@@ -44,9 +44,30 @@ export default function EditProduct(props) {
             .catch(error => console.log(error));
     }, []);
 
+    var attr = [];
+
+    for (var key in state.attributes) {
+        attr.push(
+            <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="w-full px-3 mb-6 md:mb-0">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                        {key}
+                    </label>
+                    <input name={key} value={state.attributes[key]} onChange={changeHandler} className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" />
+                </div>
+            </div>
+        )
+    }
+
     return (
-        <div>
-            <h1 className="text-xl font-semibold mt-2">PRODUCT DETAILS</h1>
+        <div className="w-full px-10">
+            <div class="navbar shadow mt-3 mb-5">
+                <div class="flex-1 px-2 mx-2">
+                    <span class="text-lg font-semibold">
+                        EDIT PRODUCT
+                    </span>
+                </div>
+            </div>
             <div className="flex justify-center mt-10">
                 <form className="w-full max-w-3xl" >
                     <div className="p-4 rounded mb-16 bg-gray-200">
@@ -61,11 +82,7 @@ export default function EditProduct(props) {
                         </div>
                         <ProductCategory changeHandler={changeHandler} category={state.category} categoryOption={categoryOption} setAttribute={setAttribute} error={errors.category} />
                     </div>
-                    {attribute !== "" ?
-                        <ProductAttribute attribute={attribute} setState={setState} state={state} error={errors.attributes} />
-                        : null}
-
-                    <div className="p-4 rounded mb-10 bg-gray-200 mb-16">
+                    <div className="p-4 rounded bg-gray-200 mb-16">
                         <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3" >
                             DETAIL DESCRIPTION
                         </label>
@@ -87,8 +104,10 @@ export default function EditProduct(props) {
                         </div>
                     </div>
 
+                    {attr}
+
                     <hr />
-                    <div className="p-4 rounded mb-10 bg-gray-200 mb-16">
+                    <div className="p-4 rounded bg-gray-200 mb-16">
                         <div className="flex flex-wrap -mx-3 mb-6 mt-2">
                             <div className="w-full px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3" >
@@ -108,9 +127,10 @@ export default function EditProduct(props) {
 
                             </div>
                         </div>
-                        <ProductStock setState={setState} state={state} />
+                        {/* <ProductStock setState={setState} state={state} /> */}
+                        {/* <ProductStock setState={setState} state={state} error={errors.sku} color={state.color} formData={formData} /> */}
                     </div>
-                    <ImageUpload setState={setState} error={errors.image} />
+                    {/* <ImageUpload setState={setState} error={errors.image} /> */}
                     <button type="submit" className="bg-green-300 rounded px-5 py-1 mb-10" onClick={submitHandler}>Submit</button>
                 </form>
             </div>

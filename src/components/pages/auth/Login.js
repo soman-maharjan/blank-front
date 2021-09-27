@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { useHistory } from 'react-router';
-import { LoginAction } from '../redux/actions/AuthAction';
+import { LoginAction } from '../../../redux/actions/AuthAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Navbar from './pages/homepage/Navbar';
-import Footer from './pages/homepage/Footer';
-import Loading from './pages/Loading';
+import Navbar from '../homepage/Navbar';
+import Footer from '../homepage/Footer';
+import Loading from '../Loading';
 import FacebookLogin from 'react-facebook-login';
 
 export default function Login() {
@@ -36,10 +36,6 @@ export default function Login() {
     const login = (event) => {
         event.preventDefault();
         dispatch(LoginAction(state, history));
-    }
-
-    const clicked = () => {
-        console.log("clicked")
     }
 
     const authResponse = useSelector(state => state.userAuth.authResponse)
@@ -112,9 +108,12 @@ export default function Login() {
                         </div> */}
 
                                 <div className="text-sm text-right w-full">
-                                    <a href="#" className="text-right font-medium text-indigo-600 hover:text-indigo-500">
+                                    {/* <a href="#" className="text-right font-medium text-indigo-600 hover:text-indigo-500">
+
+                                    </a> */}
+                                    <Link to="/forgot-password" className="text-right font-medium text-indigo-600 hover:text-indigo-500">
                                         Forgot your password?
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
 

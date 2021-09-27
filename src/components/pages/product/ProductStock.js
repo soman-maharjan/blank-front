@@ -19,6 +19,7 @@ export default function ProductStock(props) {
     const { state, setState, formData } = props;
 
     let handleChange = (i, e) => {
+        console.log(sku)
         let newFormValues = [...sku];
         newFormValues[i][e.target.name] = e.target.value;
         newFormValues[i].images = img[i].image;
@@ -34,8 +35,6 @@ export default function ProductStock(props) {
     let addFormFields = () => {
         setImg([...img, { image: [] }])
         setSku([...sku, { value: "", price: "", quantity: 0, sellerSku: 'SKU-' + getId(), images: [] }])
-
-        console.log(sku)
     }
 
     let removeFormFields = (i) => {
@@ -48,7 +47,9 @@ export default function ProductStock(props) {
         let newFormValues = [...sku];
 
         for (var i = 0; i < img.length; i++) {
-            newFormValues[i].images = img[i].image;
+            if (newFormValues[i] !== undefined) {
+                newFormValues[i].images = img[i].image
+            }
         }
 
         setSku(newFormValues);

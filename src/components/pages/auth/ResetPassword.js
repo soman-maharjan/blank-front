@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import { LockClosedIcon } from '@heroicons/react/solid'
-import { useHistory } from 'react-router'
-import { LoginAction, RegisterAction } from '../redux/actions/AuthAction';
-import { useDispatch, useSelector } from 'react-redux';
-import Footer from './pages/homepage/Footer'
-import Navbar from './pages/homepage/Navbar'
+import { LockClosedIcon } from '@heroicons/react/solid';
+import { Alert } from '@mui/material';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import Footer from '../homepage/Footer';
+import Navbar from '../homepage/Navbar';
+import Loading from '../Loading';
 
-export default function Register() {
+export default function ResetPassword(props) {
 
-    const authResponse = useSelector(state => state.userAuth.authResponse)
+    const token = props.match.params.token;
+    const email = props.match.params.email;
 
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
 
     const [state, setState] = useState({
-        name: "",
-        email: "",
+        email: email,
         password: "",
-        password_confirmation: ""
-        // phone_number: ""
+        password_confirmation: "",
+        token: token
     })
 
-    // const [numberError, setNumberError] = useState(false);
+    const [response, setResponse] = useState({});
+
     const [passwordError, setPasswordError] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
@@ -31,16 +31,6 @@ export default function Register() {
             [event.target.name]: event.target.value
         })
     }
-
-    // useEffect(() => {
-    //     if (state.phone_number !== "") {
-    //         if ((state.phone_number.startsWith(9)) && ((state.phone_number.length) === 10)) {
-    //             setNumberError(false);
-    //         } else {
-    //             setNumberError(true);
-    //         }
-    //     }
-    // }, [state.phone_number]);
 
     useEffect(() => {
         if (state.password !== "") {
@@ -62,21 +52,36 @@ export default function Register() {
         }
     }, [state.password_confirmation]);
 
-    const register = (event) => {
+    const reset = (event) => {
+        setLoading(true);
         event.preventDefault();
-        // if (!confirmPasswordError && !numberError && !passwordError) {
-        //     dispatch(RegisterAction(state, history));
-        // }
-        if (!confirmPasswordError & !passwordError) {
-            dispatch(RegisterAction(state, history));
+        if (!confirmPasswordError && !passwordError) {
+            axios.get('/sanctum/csrf-cookie')
+                .then(response => {
+                    axios.post('api/reset-password', state)
+                        .then(response => {
+                            setLoading(false);
+                            setResponse(response.data)
+                        })
+                        .catch(error => {
+                            setLoading(false);
+                            setResponse(error.response.data)
+                        })
+                })
+                .catch(error => {
+                    console.log(error.response)
+                    setLoading(false);
+                })
         }
     }
 
-
-    return (
+    return loading ? <Loading /> :(
         <>
             <Navbar />
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 mb-10">
+            {response.hasOwnProperty('error') ? <Alert severity="error" className="justify-center">{response.error}</Alert> : null}
+            {response.hasOwnProperty('success') ? <Alert severity="success" className="justify-center">{response.success}</Alert> : null}
+
+            <div className="min-h-screen flex pt-10 justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 mb-10">
                 <br />
                 <div className="max-w-md w-full">
                     <div>
@@ -85,53 +90,27 @@ export default function Register() {
                             src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                             alt="Workflow"
                         />
-                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Register</h2>
+                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Reset Password</h2>
                     </div>
-                    <form className="mt-8" onSubmit={register}>
+                    <form className="mt-8" onSubmit={reset}>
                         <div className="text-left rounded-md shadow-sm space-y-5">
                             <div className="">
-                                <label htmlFor="name font-bold" >
-                                    Full Name <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    id="name"
-                                    name="name"
-                                    type="name"
-                                    autoComplete="name"
-                                    required
-                                    className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                    placeholder="e.g. John Doe"
-                                    onChange={changeHandler}
-                                    value={state.name}
-                                />
-                            </div>
-                            <div className="">
                                 <label htmlFor="email-address">
-                                    Email Address <span className="text-red-500">*</span>
+                                    Email Address
                                 </label>
                                 <input
                                     id="email-address"
                                     name="email"
                                     type="email"
                                     autoComplete="email"
-                                    required
-                                    className={` ${authResponse.hasOwnProperty('email') ? "border-red-600" : null} mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm `}
-                                    onChange={changeHandler}
-                                    value={state.email}
+                                    disabled
+                                    defaultValue={email}
+                                    className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 />
-                                {authResponse.hasOwnProperty('email') ? <p className="text-red-500 text-center">Email Already Exists</p> : null}
                             </div>
-                            {/* <div>
-                                <label htmlFor="email-address">
-                                    Phone Number <span className="text-red-500">*</span>  <span className="text-xs">Enter Mobile No. starting with 9xxxxxxxxx</span>
-                                </label>
-                                <input type="number" min="1" onChange={changeHandler} value={state.phone_number} name="phone_number" id="input-arrow" className={` ${authResponse.hasOwnProperty('phone_number') ? "border-red-600" : null} mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`} />
-                                {numberError ? <p className="text-red-500 text-xs italic">Enter a valid Number</p> : null}
-                                {authResponse.hasOwnProperty('phone_number') ? <p className="text-red-500 text-center">Number Already Exists</p> : null}
-                            </div> */}
                             <div className="">
                                 <label htmlFor="password">
-                                    Password
+                                    New Password
                                 </label>
                                 <input
                                     id="password"
@@ -179,7 +158,7 @@ export default function Register() {
                                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                                     <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
                                 </span>
-                                Register
+                                Reset Password
                             </button>
                         </div>
                     </form>

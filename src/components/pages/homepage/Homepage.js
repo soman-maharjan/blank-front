@@ -21,7 +21,6 @@ export default function Homepage() {
             .catch(error => console.log(error))
     }, [])
 
-
     return (
         productLoading ?
             < div className="overflow-hidden bg-gray-100" >

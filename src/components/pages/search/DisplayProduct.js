@@ -11,9 +11,9 @@ import { ChevronRightIcon, ChevronDownIcon, StarIcon } from '@heroicons/react/so
 
 function DisplayProduct(props) {
 
-    const {products, setProducts, filteredData, setFilteredData} = props;
+    const { products, setProducts, filteredData, setFilteredData } = props;
 
-    const [filters, setFilters] = useState({ min: "", max: "", rating: "", category: "" });    
+    const [filters, setFilters] = useState({ min: "", max: "", rating: "", category: "" });
 
     const changeHandler = (event) => {
         setFilters({

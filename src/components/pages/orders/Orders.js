@@ -8,15 +8,23 @@ class Orders extends Component {
 
         this.state = {
             orders: [],
+            filteredData: [],
+            search: "",
         }
     }
 
     componentDidMount() {
         axios.get('/api/user-order')
             .then(response => {
-                this.setState({ orders: response.data })
+                this.setState({ ...this.state, filteredData: response.data, orders: response.data })
+                console.log(this.state.orders)
             })
             .catch(error => console.log(error))
+    }
+
+    searchHandler = (event) => {
+        console.log(event.target.value)
+        this.setState({ ...this.state, search: event.target.data, filteredData: this.state.orders.filter(d => d._id.includes(event.target.value)) })
     }
 
     render() {
@@ -39,6 +47,7 @@ class Orders extends Component {
                     </div>
 
                     <div class="flex-none">
+                        <input type="text" className="w-40 min-h-0 h-7 bg-white border-2" value={this.state.search} onChange={(event) => this.searchHandler(event)} />
                         <button class="btn btn-square btn-ghost">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -93,7 +102,15 @@ class Orders extends Component {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200 min-w-full">
-                                        {this.state.orders.map((order, index) => (
+                                        {this.state.orders.length < 1 ?
+                                            <tr>
+                                                <td colspan="6" className="px-6 py-4 min-w-sm whitespace-normal">
+                                                    No data available in table
+                                                </td>
+                                            </tr>
+                                            :
+                                            null}
+                                        {this.state.filteredData.map((order, index) => (
                                             <tr key={index}>
                                                 <td className="max-w-xs px-6 py-4 min-w-sm whitespace-normal">
                                                     <div className="flex items-center">

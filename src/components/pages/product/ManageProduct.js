@@ -7,7 +7,8 @@ export default class ManageProduct extends Component {
         super(props)
 
         this.state = {
-            products: []
+            products: [],
+            id: ""
         }
     }
 
@@ -20,6 +21,12 @@ export default class ManageProduct extends Component {
     statusHandler(id) {
         axios.post(`api/product-status/${id}`)
             .then(response => this.setState({ products: response.data }))
+            .catch(error => console.log(error))
+    }
+
+    submitHandler = () => {
+        axios.delete('/api/product/' + this.state.id)
+            .then(response => this.setState({ ...this.state, products: response.data }))
             .catch(error => console.log(error))
     }
 
@@ -90,12 +97,6 @@ export default class ManageProduct extends Component {
                                                 scope="col"
                                                 className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Color
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
-                                            >
                                                 Change Visibility
                                             </th>
                                             <th
@@ -107,6 +108,14 @@ export default class ManageProduct extends Component {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200 min-w-full">
+                                        {this.state.products.length < 1 ?
+                                            <tr>
+                                                <td colspan="5" className="px-6 py-4 min-w-sm whitespace-normal">
+                                                    No data available in table
+                                                </td>
+                                            </tr>
+                                            :
+                                            null}
                                         {this.state.products.map((product, index) => (
                                             <tr key={index}>
                                                 <td className="max-w-xs px-6 py-4 min-w-sm whitespace-normal">
@@ -133,14 +142,17 @@ export default class ManageProduct extends Component {
 
                                                 </td>
                                                 <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all">
-                                                    <div className="text-sm text-gray-900">{product.color}</div>
-                                                </td>
-                                                <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all">
                                                     <input onChange={() => this.statusHandler(product._id)} type="checkbox" checked={product.is_active ? "checked" : ""} class="toggle toggle-accent"></input>
                                                 </td>
-                                                <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all text-right text-sm font-medium">
-                                                    <a onClick={() => this.props.changePage({ product }, 'edit-product')} className="btn btn-ghost btn-sm rounded-btn bg-indigo-500 hover:bg-indigo-600 text-white">
+                                                <td className="flex max-w-xs  py-4 min-w-1 whitespace-normal break-all text-right text-sm font-medium">
+                                                    <a onClick={() => this.props.changePage(product, 'edit-product')} className="btn btn-ghost btn-sm rounded-btn bg-indigo-500 hover:bg-indigo-600 text-white">
                                                         Edit
+                                                    </a>
+                                                    <a onClick={() => this.props.changePage(product, 'view-product')} className="ml-2 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
+                                                        View
+                                                    </a>
+                                                    <a href="#my-modal" onClick={() => this.setState({ ...this.state, id: product._id })} className="ml-2 btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
+                                                        Delete
                                                     </a>
                                                 </td>
                                             </tr>
@@ -151,9 +163,15 @@ export default class ManageProduct extends Component {
                         </div>
                     </div>
                 </div>
-
-
-
+                <div id="my-modal" class="modal">
+                    <div class="modal-box">
+                        <p>Do you want to delete this product?</p>
+                        <div class="modal-action justify-center">
+                            <a onClick={this.submitHandler} href="#" className="btn btn-primary bg-green-500 hover:bg-green-700 border-none min-w-0 w-20 min-h-0 h-10">Yes</a>
+                            <a className="btn btn-primary bg-gray-500 hover:bg-gray-700 border-none min-w-0 w-20 min-h-0 h-10" href="#">No</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

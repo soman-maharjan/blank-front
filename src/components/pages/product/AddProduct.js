@@ -76,17 +76,6 @@ export default function AddProduct() {
             .catch(error =>
                 setErrors(error.response.data)
             )
-
-
-        // console.log(formData.getAll('image'))
-
-        // axios.post("api/product/image", formData)
-        //     .then(res => {
-        //         // alert("Product Added!")
-        //         // window.location.reload()
-        //         console.log(res)
-        //     })
-        //     .catch(err => console.log(err.response));
     }
 
     useEffect(() => {
@@ -191,7 +180,7 @@ export default function AddProduct() {
                                 <p>Drag 'n' drop some files here, or click to select files</p>
                         }
                     </div> */}
-                        <ProductStock setState={setState} state={state} error={errors.sku} color={state.color} formData={formData} />
+                        <ProductStock setState={setState} state={state} error={errors.sku} formData={formData} />
 
                     </div>
 

@@ -57,7 +57,7 @@ export default function Shipping() {
             .then(response =>
             (history.push
                 ({
-                    pathname: '/confirm-order',
+                    pathname: '/payment',
                     state: response.data
                 }),
                 dispatch({ type: 'EMPTY_CART' })
@@ -73,7 +73,7 @@ export default function Shipping() {
         (
             <>
                 <Navbar />
-                <div className="py-5 mb-10 mt-5">
+                <div className="py-5 mb-10">
                     <div className="max-w-xl mx-auto shadow-lg rounded-lg min-w-1/2">
                         <div className="md:flex">
                             <form className="w-full px-5 py-5">
