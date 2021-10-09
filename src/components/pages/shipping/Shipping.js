@@ -1,4 +1,5 @@
 import axios from 'axios';
+import KhaltiCheckout from 'khalti-checkout-web';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom'
@@ -7,35 +8,79 @@ import Navbar from '../homepage/Navbar'
 import NotFound from '../NotFound';
 
 export default function Shipping() {
-    const products = useSelector(state => state.userCart.products);
+    const userCart = useSelector(state => state.userCart);
+    const address = useSelector(state => state.shipping.address);
+
+    const products = userCart.products;
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const userCart = useSelector(state => state.userCart);
 
     const [numberError, setNumberError] = useState(false);
 
-    const [state, setState] = useState({
-        first_name: "",
-        last_name: "",
-        company: "",
-        address: "",
-        apartment: "",
-        zip_code: "",
-        city: "",
-        state: "",
-        house_number: "",
-        country: "",
-        phone_number: "",
-    });
+    const [state, setState] = useState(address);
 
     const [errors, setErrors] = useState({});
+
+    const productName = products.map(p => p.productName)
+    const productIdentity = products.map(p => p._id)
+    const productUrl = products.map(i => process.env.REACT_APP_URL + 'product/' + i._id)
+
+    let config = {
+        // replace this key with yours
+        "publicKey": process.env.REACT_APP_KHALTI_PUBLIC_KEY,
+        "productIdentity": productIdentity.toString(),
+        "productName": productName.toString(),
+        "productUrl": productUrl.toString(),
+        "eventHandler": {
+            onSuccess(payload) {
+                // hit merchant api for initiating verfication
+                axios.post('api/handle-payment', { ...payload, type: "KHALTI", cart: userCart, address: state })
+                    .then(response =>
+                        history.push
+                            ({
+                                pathname: '/confirm-order',
+                                state: response.data
+                            })
+                    )
+                    .catch(error => (
+                        alert("Something went Wrong , Try Again !!")
+                    ))
+            },
+            // onError handler is optional
+            onError(error) {
+                // handle errors
+                console.log(error);
+            },
+            onClose() {
+                console.log('widget is closing');
+            }
+        },
+        "paymentPreference": ["KHALTI", "EBANKING", "MOBILE_BANKING", "CONNECT_IPS", "SCT"],
+    };
 
     const changeHandler = (event) => {
         setState({
             ...state,
             [event.target.name]: event.target.value
         })
+    }
+
+    const checkout = new KhaltiCheckout(config);
+
+    function payment(event) {
+        event.preventDefault();
+        dispatch({ type: 'RESET_ADDRESS' });
+        dispatch({ type: 'ADD_ADDRESS', address: state })
+
+        axios.post('/api/validate-address', { address: state })
+            .then(response => (
+                console.log(response),
+                checkout.show({ amount: (userCart.total) })
+            ))
+            .catch(error => setErrors(error.response.data))
+
+
     }
 
     useEffect(() => {
@@ -48,22 +93,21 @@ export default function Shipping() {
         }
     }, [state.phone_number]);
 
-    const submitHandler = (event) => {
-        event.preventDefault();
-        dispatch({ type: 'RESET_ADDRESS' });
-        dispatch({ type: 'ADD_ADDRESS', address: state })
+    // const submitHandler = (event) => {
+    //     event.preventDefault();
+    //     dispatch({ type: 'RESET_ADDRESS' });
+    //     dispatch({ type: 'ADD_ADDRESS', address: state })
 
-        axios.post('/api/order', { cart: userCart, address: state })
-            .then(response =>
-            (history.push
-                ({
-                    pathname: '/payment',
-                    state: response.data
-                }),
-                dispatch({ type: 'EMPTY_CART' })
-            ))
-            .catch(error => setErrors(error.response.data))
-    }
+    //     axios.post('/api/order', { cart: userCart, address: state })
+    //         .then(response =>
+    //         (history.push
+    //             ({
+    //                 pathname: '/payment',
+    //                 state: response.data
+    //             })
+    //         ))
+    //         .catch(error => setErrors(error.response.data))
+    // }
 
     return products.length < 1 ?
         (
@@ -158,7 +202,7 @@ export default function Shipping() {
                                 </div>
                                 <div className="flex justify-between items-center mt-7">
                                     <Link to='/cart' className="btn btn h-12 w-40">Return to Cart</Link>
-                                    <button onClick={submitHandler} type="submit" className="btn btn-success h-12 w-48 rounded border-green-500 bg-green-500 text-white">Proceed to Pay</button>
+                                    <button onClick={payment} type="submit" className="btn btn-success h-12 w-48 rounded border-green-500 bg-green-500 text-white">Proceed to Pay</button>
                                 </div>
                             </form>
 

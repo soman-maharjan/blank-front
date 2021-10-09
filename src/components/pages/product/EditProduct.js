@@ -50,7 +50,7 @@ export default function EditProduct(props) {
         attr.push(
             <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3">
                         {key}
                     </label>
                     <input name={key} value={state.attributes[key]} onChange={changeHandler} className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" />
@@ -104,7 +104,9 @@ export default function EditProduct(props) {
                         </div>
                     </div>
 
-                    {attr}
+                    <div className="p-4 rounded bg-gray-200 mb-16">
+                        {attr}
+                    </div>
 
                     <hr />
                     <div className="p-4 rounded bg-gray-200 mb-16">

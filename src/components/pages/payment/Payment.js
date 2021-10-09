@@ -1,18 +1,23 @@
 import React from 'react'
 import KhaltiCheckout from "khalti-checkout-web";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Navbar from '../../pages/homepage/Navbar'
 import Footer from '../../pages/homepage/Footer'
+import { useHistory } from 'react-router';
 
-export default function Payment() {
+export default function Payment(props) {
+
+    const state = props.location.state;
+
+    const history = useHistory();
 
     const cart = useSelector(state => state.userCart)
     const products = cart.products;
 
     const productName = products.map(p => p.productName)
     const productIdentity = products.map(p => p._id)
-    const productUrl = products.map(i => process.env.REACT_APP_URL + i._id)
+    const productUrl = products.map(i => process.env.REACT_APP_URL + 'product/' + i._id)
 
     let config = {
         // replace this key with yours
@@ -24,9 +29,18 @@ export default function Payment() {
             onSuccess(payload) {
                 // hit merchant api for initiating verfication
                 console.log(payload)
-                axios.post('api/handle-payment', { ...payload, type: "KHALTI", cart: cart })
-                    .then(response => console.log(response))
-                    .catch(error => console.log(error.response))
+                axios.post('api/handle-payment', { ...payload, type: "KHALTI", cart: cart, orderId: state.orderId })
+                    .then(response =>
+                        history.push
+                            ({
+                                pathname: '/confirm-order',
+                                state: state,
+                                paymentResponse: response.data
+                            })
+                    )
+                    .catch(error => (
+                        alert("Something went Wrong , Try Again !!")
+                    ))
             },
             // onError handler is optional
             onError(error) {
@@ -43,7 +57,7 @@ export default function Payment() {
     const checkout = new KhaltiCheckout(config);
 
     function payment() {
-        checkout.show({ amount: cart.total });
+        checkout.show({ amount: (cart.total) });
     }
 
     return (

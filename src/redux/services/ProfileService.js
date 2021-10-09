@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-const LoadProfile = () => {
-    axios.get('api/user')
-        .then(response => response)
-        .catch(error => error)
+export function LoadProfileService() {
+    return axios.get('api/user')
+        .then(response => {
+            return response.data;
+        }).catch(error => {
+            return error.response
+        });
 }

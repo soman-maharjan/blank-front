@@ -1,5 +1,6 @@
 import * as ActionTypes from '../ActionTypes';
 import { LoginUserService, LogOutUserService, RegisterUserService } from '../services/AuthService';
+import { LoadProfileAction } from '../actions/ProfileAction'
 
 export const LoginAction = (credentials, history) => {
     return (dispatch) => {
@@ -10,6 +11,7 @@ export const LoginAction = (credentials, history) => {
         Promise.resolve(LoginUserService(credentials)).then(res => {
             if (res.hasOwnProperty('success') && res.success === true) {
                 dispatch({ type: ActionTypes.LOGIN_SUCCESS });
+                dispatch(LoadProfileAction());
                 history.push('/home');
             } else {
                 dispatch({ type: ActionTypes.LOGIN_ERROR, res });
@@ -41,7 +43,6 @@ export const RegisterAction = (credentials, history) => {
         Promise.resolve(RegisterUserService(credentials)).then((res) => {
             if (res.hasOwnProperty('success') && res.success === true) {
                 dispatch({ type: ActionTypes.SIGNUP_SUCCESS, res });
-                console.log(credentials);
                 dispatch(LoginAction({ 'email': credentials.email, 'password': credentials.password }, history));
             } else {
                 dispatch({ type: ActionTypes.SIGNUP_ERROR, res });

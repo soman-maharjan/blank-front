@@ -90,14 +90,12 @@ export default function AddProduct() {
 
     return (
         <div className="w-full px-10">
-            <div class="navbar shadow mt-3 mb-5">
+            <div class="navbar shadow mt-3 mb-5 bg-white">
                 <div class="flex-1 px-2 mx-2">
                     <span class="text-lg font-semibold">
                         ADD PRODUCT
                     </span>
                 </div>
-
-
             </div>
             <div className="flex justify-center mt-10">
                 <form className="w-full max-w-3xl" >

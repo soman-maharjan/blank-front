@@ -4,10 +4,15 @@ import gif from '../../images/01.gif';
 import NotFound from '../NotFound';
 import Footer from '../homepage/Footer';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 export default function ConfirmOrder(props) {
     const date = new Date().toLocaleDateString();
     const state = props.location.state;
+    const dispatch = useDispatch();
+
+    dispatch({ type: 'EMPTY_CART' })
+
     return state !== undefined ? (
         <>
             <Navbar />
@@ -28,8 +33,8 @@ export default function ConfirmOrder(props) {
                     </div>
                     <div className="w-1/3 border-l-2 pl-5">
                         <h1 className="text-purple-500 font-semibold text-lg">Billing Information</h1>
-                        <p className="mt-5 text-left">Payment Method: </p>
-
+                        <p className="mt-5 text-left">Payment Method: {state.type}</p>
+                        <p className="mt-5 text-left">Payment Method: {state.name}</p>
                     </div>
                     <div className="w-1/3 border-l-2 pl-5">
                         <h1 className="text-purple-500 font-semibold text-lg">Order Info</h1>

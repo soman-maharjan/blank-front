@@ -91,12 +91,6 @@ class Orders extends Component {
                                                 scope="col"
                                                 className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Payment Method
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
-                                            >
                                                 Details
                                             </th>
                                         </tr>
@@ -130,9 +124,6 @@ class Orders extends Component {
                                                 </td>
                                                 <td className="max-w-xs px-1 py-4 min-w-1 whitespace-normal break-all capitalize">
                                                     {order.status}
-                                                </td>
-                                                <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all">
-                                                    <div className="text-sm text-gray-900">{order.color}</div>
                                                 </td>
                                                 <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all">
                                                     <div className="text-sm text-gray-900"><button className="btn btn-success bg-green-500 border-green-500 min-h-0 h-7" onClick={() => this.props.orderDetailsHandler(order, 'order-details')}>View</button></div>

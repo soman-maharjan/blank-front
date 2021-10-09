@@ -4,12 +4,11 @@ import Home from "./components/pages/homepage/Homepage";
 import Login from "./components/pages/auth/Login";
 // import PrivateRoute from './PrivateRoute';
 import { Guard } from './Guards';
-import AddProduct from './components/pages/product/AddProduct';
+
 import ProductDetails from './components/pages/product-details/ProductDetails';
 import ShoppingCart from './components/pages/cart/ShoppingCart';
 import SellerDashboard from './components/pages/dashboard/SellerDashboard';
 import Test from './components/Test';
-import ManageProduct from './components/pages/product/ManageProduct';
 import Register from './components/pages/auth/Register';
 import Shipping from './components/pages/shipping/Shipping';
 import Search from './components/pages/search/Search';
@@ -19,6 +18,10 @@ import Category from './components/pages/category/Category';
 import Payment from './components/pages/payment/Payment';
 import ForgotPassword from './components/pages/auth/ForgotPassword';
 import ResetPassword from './components/pages/auth/ResetPassword';
+import AccountDashboard from './components/pages/account/AccountDashboard';
+
+import NotFound from './components/pages/NotFound';
+import Feed from './components/pages/feed/Feed';
 
 function Routes() {
     return (
@@ -30,20 +33,9 @@ function Routes() {
                 <Route path="/home" component={Home} />
                 <Route path="/login" component={Login} />
 
-
-                {/* <Route path="/add-category" component={AddCategory} /> */}
-                {/* <Route path="/add-product" component={AddProduct} /> */}
-                {/* <Route path="/user-product" component={ManageProduct} /> */}
-                {/* <Route path="/cart" component={ShoppingCart} /> */}
-                {/* <Route path="/dashboard" component={Dashboard} /> */}
-
                 <Route path="/register" component={Register} />
                 <Route path="/forgot-password" component={ForgotPassword} />
                 <Route path="/reset-password/:token/:email" component={ResetPassword} />
-
-                {/* <Route exact path="/category/:category" render={(props) => (
-                    <Search category={props.match.params.category} />
-                )} /> */}
 
                 <Route exact path="/search/:word" render={(props) => (
                     <Search word={props.match.params.word} />
@@ -57,6 +49,7 @@ function Routes() {
                 <Route path="/test" component={Test} />
 
 
+                <Route path="/feed" component={Feed} />
 
                 <Route exact path="/product/:id" render={(props) => (
                     <ProductDetails id={props.match.params.id} />
@@ -69,6 +62,7 @@ function Routes() {
 
                 <Guard path="/seller-dashboard" routeRedirect="/login" component={SellerDashboard} />
                 <Guard path="/admin-dashboard" routeRedirect="/login" component={AdminDashboard} />
+                <Guard path="/account-dashboard" routeRedirect="/login" component={AccountDashboard} />
 
                 {/* <Guard path="/add-category" routeRedirect="/login" component={AddCategory} /> */}
 
@@ -77,6 +71,7 @@ function Routes() {
                 <Guard path="/confirm-order" routeRedirect="/login" component={ConfirmOrder} />
                 <Guard path="/payment" routeRedirect="/login" component={Payment} />
 
+                <Route component={NotFound} />
             </Switch>
         </>
     );

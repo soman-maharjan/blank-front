@@ -1,15 +1,21 @@
+import { StarIcon } from '@heroicons/react/solid';
+import { HeartIcon } from '@heroicons/react/outline';
+import { HeartIcon as Icon } from '@heroicons/react/solid';
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import Slider from 'react-slick';
 import * as ActionTypes from '../../../redux/ActionTypes';
 import Navbar from '../homepage/Navbar';
 import Image from './Image';
+import { useSelector } from 'react-redux';
+import { LoadProfileAction } from '../../../redux/actions/ProfileAction';
 
 export default function ProductDetails(props) {
 
     const url = "api/product/" + props.id;
+
+    const profile = useSelector(state => state.userDetails.userProfile);
 
     const [product, setProduct] = useState({});
 
@@ -17,7 +23,10 @@ export default function ProductDetails(props) {
 
     const [sku, setSku] = useState({});
 
+    const [user, setUser] = useState();
+
     let history = useHistory();
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -26,6 +35,9 @@ export default function ProductDetails(props) {
                 setProduct(response.data)
                 setState({ ...state, product: response.data })
                 setSku(response.data.sku[0])
+                axios.get('/api/users/username/' + response.data.user_id)
+                    .then(response => setUser(response.data))
+                    .catch(error => console.log(error.response))
             })
             .catch(error => console.log(error))
     }, [])
@@ -36,6 +48,24 @@ export default function ProductDetails(props) {
             quantity: event.target.value
         }
         )
+    }
+
+    const follow = () => {
+        axios.post('api/follow', { id: product.user_id })
+            .then(response => {
+                console.log(response)
+                dispatch(LoadProfileAction());
+            })
+            .catch(error => console.log(error.response))
+    }
+
+    const unfollow = () => {
+        axios.post('api/unfollow', { id: product.user_id })
+            .then(response => {
+                console.log(response)
+                dispatch(LoadProfileAction());
+            })
+            .catch(error => console.log(error.response))
     }
 
     const items = [];
@@ -51,8 +81,6 @@ export default function ProductDetails(props) {
 
         images = product.sku.map(sku => (sku.images)).flat(2);
         // setImage(images[0]);
-
-
     }
 
     function cart() {
@@ -74,26 +102,24 @@ export default function ProductDetails(props) {
                 <Navbar />
                 <div className="bg-gray-100 p-10 pt-0">
                     <div className="overflow-hidden relative">
-                        <div class="text-sm breadcrumbs my-3 ml-24">
+                        <div class="text-sm breadcrumbs my-3 ">
                             <ul>
-                                <li>
-                                    <a>Dashboard</a>
-                                </li>
-                                <li>Products</li>
+                                <li>Home</li>
+                                <li>{product.category}</li>
+                                <li>{product.productName}</li>
                             </ul>
                         </div>
-                        <div className="w-full max-w-6xl rounded bg-white shadow-md mb-10 p-10 lg:p-10 mx-auto text-gray-800 relative md:text-left">
+                        <div className="w-full rounded bg-white shadow-md mb-10 p-10 lg:p-10 mx-auto text-gray-800 relative md:text-left">
                             <div className="md:flex -mx-10">
-                                <div className="w-full md:w-1/2 px-12 mb-10 md:mb-0">
+                                <div className="w-full md:w-2/4 px-12 mb-10 md:mb-0">
                                     <Image images={images} />
                                 </div>
-                                <div className="w-full md:w-1/2 pt-20 px-10">
+                                <div className="w-full md:w-1/4 pt-20 px-10">
                                     <div className="mb-10">
                                         <h1 className="font-bold uppercase text-3xl mb-5 break-word">{product.productName}</h1>
                                         {/* <p className="text-sm">  <a href="#" className="opacity-50 text-gray-900 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900">MORE <i className="mdi mdi-arrow-right"></i></a></p> */}
                                         Brand : {product.attributes.Brand}
                                     </div>
-
                                     <div>
                                         <div className="inline-block align-bottom mr-5">
                                             <span className="text-2xl leading-none align-baseline">Rs. </span>
@@ -120,10 +146,22 @@ export default function ProductDetails(props) {
                                         <button onClick={cart} className="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900  rounded-full px-10 py-2 font-semibold"><i class="mdi mdi-cart -ml-2 mr-2"></i>ADD TO CART</button>
                                     </div>
                                 </div>
+                                <div className="w-full md:w-1/4 px-4 mb-10 md:mb-0 relative p-5">
+                                    <div className="border border-gray-300 mt-80 w-full">
+                                        <h1 className="pl-3 pt-2 font-bold text-lg">Seller Information</h1>
+                                        <p className="pl-3 pt-2 text-sm">{user} (5021 <StarIcon className="h-5 w-5 inline" fill="#FF9529" />)</p>
+                                        <p className="pl-3 pt-2 text-sm">96% Positive Feedback</p>
+                                        <hr className="mt-2 mb-1" />
+                                        {profile.following.includes(product.user_id) ?
+                                            <p className="pl-3 text-sm cursor-pointer" onClick={unfollow}>Following <Icon className="h-5 w-5 inline text-indigo-800" /> </p> :
+                                            <p className="pl-3 text-sm cursor-pointer" onClick={follow}>Follow this seller <HeartIcon className="h-5 w-5 inline text-indigo-800" /> </p>
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className=" w-full max-w-6xl rounded bg-white shadow-md p-5 pl-10 mx-auto text-gray-800 relative md:text-left">
+                    <div className="w-full rounded bg-white shadow-md p-5 pl-10 mx-auto text-gray-800 relative md:text-left">
                         <div className="items-center">
                             <h6 className="text-lg font-semibold leading-normal mt-0 mb-2">Product details of {product.productName}</h6>
                             <div dangerouslySetInnerHTML={{ __html: product.description }} />

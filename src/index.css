@@ -120,7 +120,7 @@ code {
 }
 
 .image-size {
-  height: 600px;
+  height: 550px;
   width: 450px;
 }
 
@@ -185,4 +185,20 @@ code {
   border: none;
   padding: 5px 10px;
   border-radius: 2px;
+}
+
+.max-width {
+  max-width: 13rem;
+}
+
+.min-width {
+  min-width: 13rem;
+}
+
+.payment-table {
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 20px 10px;
 }

@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 
-export default function AddCategory() {
+export default function AddCategory(props) {
 
     const [category, setCategory] = useState([]);
     const [attribute, setAttribute] = useState("");
@@ -63,7 +63,7 @@ export default function AddCategory() {
             <div class="text-sm breadcrumbs mt-3">
                 <ul>
                     <li>
-                        <a onClick={() => this.props.changePage({}, 'dashboard')}>Dashboard</a>
+                        <a onClick={() => props.changePage({ page: 'dashboard' })}>Dashboard</a>
                     </li>
                     <li>Category</li>
                 </ul>

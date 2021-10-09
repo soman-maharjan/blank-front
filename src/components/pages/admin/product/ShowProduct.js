@@ -1,12 +1,12 @@
 import { StarIcon, XIcon } from '@heroicons/react/solid';
 import React, { useState } from 'react'
-import Loading from '../Loading';
+import Loading from '../../Loading';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 
-export default function Product(props) {
+export default function ShowProduct(props) {
 
     const [open, setOpen] = useState(false);
     const [sku, setSku] = useState();
@@ -17,8 +17,6 @@ export default function Product(props) {
     const handleClose = () => setOpen(false);
 
     const product = props.product;
-
-    const [loading, setLoading] = useState(false);
 
     var icon = [];
     var attributes = [];
@@ -36,7 +34,7 @@ export default function Product(props) {
         icon.push(<StarIcon className="h-5 w-5" fill="#FF9529" />)
     }
 
-    return loading ? <Loading /> : (
+    return (
         <>
             <div class="text-sm breadcrumbs mt-3 overflow-visible w-full text-left pl-14">
                 <ul>

@@ -7,7 +7,7 @@ import Footer from './Footer'
 import Ad from './Ad'
 import Loading from '../Loading';
 
-export default function Homepage() {    
+export default function Homepage() {
     const [products, setProducts] = useState([]);
 
     const [productLoading, setProductLoading] = useState(false);
@@ -19,6 +19,10 @@ export default function Homepage() {
                 setProductLoading(true);
             })
             .catch(error => console.log(error))
+
+        axios.get('/api/user')
+            .then(response => console.log(response.data))
+            .catch(error => console.log(error.response))
     }, [])
 
     return (

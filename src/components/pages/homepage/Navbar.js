@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LogoutAction } from '../../../redux/actions/AuthAction'
 import { Link } from 'react-router-dom'
 import CategoryDropdown from '../category/CategoryDropdown'
-import { Badge } from '@mui/material'
-
+import { GlobeIcon, ShoppingCartIcon, BellIcon } from '@heroicons/react/outline'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -47,9 +46,9 @@ export default function Navbar() {
                                     <div className="form-control">
                                         <form>
                                             <div className="relative">
-                                                <input type="text" placeholder="Search" value={search} onChange={(event) => setSearch(event.target.value)} className="pl-5 border-2 pr-16 h-10 focus:none focus:ring-indigo-500 outline-none focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300" />
+                                                <input type="text" placeholder="Search" value={search} onChange={(event) => setSearch(event.target.value)} className="pl-5 border-2 pr-16 h-10 focus:none focus:ring-indigo-500 outline-none focus:border-indigo-500 flex-1 block w-full  sm:text-sm border-gray-300" />
                                                 <Link to={search !== '' ? `/search/${search}` : '#'}>
-                                                    <button type="submit" className="absolute top-0 right-0 rounded-l-none btn min-h-0 h-10 bg-indigo-600 hover:bg-indigo-700 border-none" >Search</button>
+                                                    <button type="submit" className="absolute rounded-none top-0 right-0 rounded-l-none btn min-h-0 h-10 bg-indigo-600 hover:bg-indigo-700 border-none" >Search</button>
                                                 </Link>
                                             </div>
                                         </form>
@@ -59,18 +58,19 @@ export default function Navbar() {
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                 <ul className="menu h-10 bg-base-100 rounded horizontal">
                                     <li>
-                                        <Link to='/cart'>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                            </svg>
+                                        <Link to='/feed'>
+                                            <GlobeIcon className="h-6 w-6" />
                                         </Link>
                                     </li>
                                     <li>
-                                        <a>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" onClick={notification} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                            </svg>
-                                        </a>
+                                        <Link to='/cart'>
+                                            <ShoppingCartIcon className="h-6 w-6" />
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to='/'>
+                                            <BellIcon className="h-6 w-6" onClick={notification} />
+                                        </Link>
                                     </li>
                                 </ul>
                                 {userAuth.isAuthenticated ?
@@ -104,6 +104,14 @@ export default function Navbar() {
                                                         >
                                                             <Menu.Item>
                                                                 {({ active }) => (
+                                                                    <Link to={'/account-dashboard'} className={classNames(
+                                                                        active ? 'bg-gray-100' : '',
+                                                                        'block px-4 py-2 text-sm text-gray-700'
+                                                                    )} >My Account</Link>
+                                                                )}
+                                                            </Menu.Item>
+                                                            <Menu.Item>
+                                                                {({ active }) => (
                                                                     <Link to={'/seller-dashboard'} className={classNames(
                                                                         active ? 'bg-gray-100' : '',
                                                                         'block px-4 py-2 text-sm text-gray-700'
@@ -124,7 +132,7 @@ export default function Navbar() {
                                                                         onClick={logout}
                                                                         className={classNames(
                                                                             active ? 'bg-gray-100' : '',
-                                                                            'block px-4 py-2 text-sm text-gray-700'
+                                                                            'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
                                                                         )}
                                                                     >
                                                                         Log out

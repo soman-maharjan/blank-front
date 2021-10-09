@@ -22,7 +22,7 @@ export default function AddImage(props) {
 
         axios.post('/api/ad', formData)
             .then(response =>
-                props.changePage('manage-ads')
+                props.changePage({ page: 'manage-ads' })
             )
             .catch(error => console.log(error.response))
     }
@@ -32,10 +32,10 @@ export default function AddImage(props) {
             <div className="text-sm breadcrumbs mt-3">
                 <ul>
                     <li>
-                        <a onClick={() => props.changePage('dashboard')}>Dashboard</a>
+                        <a onClick={() => props.changePage({ page: 'dashboard' })}>Dashboard</a>
                     </li>
                     <li>
-                        <a onClick={() => props.changePage('manage-ads')}>Manage Ads</a>
+                        <a onClick={() => props.changePage({ page: 'manage-ads' })}>Manage Ads</a>
                     </li>
                     <li>Upload Image</li>
                 </ul>
