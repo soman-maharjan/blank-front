@@ -20,8 +20,8 @@ function Image(props) {
         slidesToScroll: 2
     };
 
-    const carousel = images.map(i =>
-        <div className="outline-none focus:outline-none h-15 p-1">
+    const carousel = images.map((i, index) =>
+        <div className="outline-none focus:outline-none h-15 p-1" key={index}>
             <img src={`${process.env.REACT_APP_IMAGE_URL}${i}`} onMouseEnter={() => setImage(i)} alt="Carousel" className="object-fit product-carousel-size outline-none focus:outline-none" />
         </div>
     )

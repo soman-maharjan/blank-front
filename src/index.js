@@ -8,11 +8,26 @@ import { Provider } from 'react-redux';
 import store from './redux/CreateStore';
 import persistor from './redux/PersistStore'
 import { PersistGate } from 'redux-persist/integration/react'
+import Pusher from 'pusher-js';
 
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'http://localhost:8000/'
 
 require('dotenv').config()
+
+
+// Pusher.logToConsole = true;
+
+// var pusher = new Pusher('8d6a5d587c3aaffa2ffb', {
+
+//   authEndpoint: 'http://localhost:8000/broadcasting/auth',
+//   cluster: 'ap2',
+// });
+
+// var channel = pusher.subscribe('private.615d9bf32321000031004075');
+// channel.bind("NewProduct", function (data) {
+//   console.log(data);
+// });
 
 ReactDOM.render(
   <React.StrictMode>

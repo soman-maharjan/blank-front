@@ -34,8 +34,8 @@ export default class Carousel extends Component {
       useCss: "height: 350px;"
     };
 
-    const img = this.state.images.map(i =>
-      <div className="outline-none focus:outline-none">
+    const img = this.state.images.map((i, index) =>
+      <div className="outline-none focus:outline-none" key={index}>
         <img src={`${process.env.REACT_APP_IMAGE_URL}${i.filename}`} alt="Carousel" className="carousel-size outline-none focus:outline-none" />
       </div>
     )

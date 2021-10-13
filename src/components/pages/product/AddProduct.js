@@ -74,6 +74,7 @@ export default function AddProduct() {
                 window.location.reload()
             })
             .catch(error =>
+                // console.log(error.response)
                 setErrors(error.response.data)
             )
     }

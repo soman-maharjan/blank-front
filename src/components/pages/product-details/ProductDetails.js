@@ -152,10 +152,15 @@ export default function ProductDetails(props) {
                                         <p className="pl-3 pt-2 text-sm">{user} (5021 <StarIcon className="h-5 w-5 inline" fill="#FF9529" />)</p>
                                         <p className="pl-3 pt-2 text-sm">96% Positive Feedback</p>
                                         <hr className="mt-2 mb-1" />
-                                        {profile.following.includes(product.user_id) ?
-                                            <p className="pl-3 text-sm cursor-pointer" onClick={unfollow}>Following <Icon className="h-5 w-5 inline text-indigo-800" /> </p> :
-                                            <p className="pl-3 text-sm cursor-pointer" onClick={follow}>Follow this seller <HeartIcon className="h-5 w-5 inline text-indigo-800" /> </p>
-                                        }
+                                        {
+                                            profile._id !== product.user_id ?
+
+                                                (profile.following.includes(product.user_id) ?
+                                                    <p className="pl-3 text-sm cursor-pointer" onClick={unfollow}>Following <Icon className="h-5 w-5 inline text-indigo-800" /> </p> :
+                                                    <p className="pl-3 text-sm cursor-pointer" onClick={follow}>Follow this seller <HeartIcon className="h-5 w-5 inline text-indigo-800" /> </p>
+                                                ) :
+                                                null}
+
                                     </div>
                                 </div>
                             </div>
