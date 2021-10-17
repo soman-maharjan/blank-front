@@ -10,7 +10,9 @@ export default function Search(props) {
 
     const [products, setProducts] = useState();
 
-    const [filters, setFilters] = useState({ min: "", max: "", rating: "0" });
+    const [filters, setFilters] = useState({ min: "", max: "", rating: "0", sort: "Relevance" });
+
+    const [nextPage, setNextPage] = useState("");
 
     useEffect(() => {
         submitHandler();
@@ -22,7 +24,8 @@ export default function Search(props) {
             ...filters
         })
             .then(response => {
-                setProducts(response.data)
+                setProducts(response.data.data)
+                setNextPage(response.data.next_page_url)
             })
             .catch(error => console.log(error.response))
     }
@@ -33,7 +36,7 @@ export default function Search(props) {
             :
             <div className="bg-gray-100 h-full">
                 <Navbar />
-                <DisplayProduct submitHandler={submitHandler} products={products} setProducts={setProducts} filters={filters} setFilters={setFilters} />
+                <DisplayProduct submitHandler={submitHandler} products={products} setProducts={setProducts} filters={filters} setFilters={setFilters} nextPage={nextPage} setNextPage={setNextPage} value={props.word}/>
                 <Footer />
             </div >
     )

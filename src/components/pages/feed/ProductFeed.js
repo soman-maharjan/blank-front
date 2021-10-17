@@ -5,14 +5,17 @@ export default class ProductFeed extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            name : "Soman"
+            products: props.products
         }
     }
 
+ 
+
     render() {
+        console.log(this.state.products)
         return (
             <div className="h-screen">
-                {this.state.name}
+                {this.state.products != undefined ? this.state.products.map(p => <h1>{p._id}</h1>) : "No Products"}
             </div>
         )
     }

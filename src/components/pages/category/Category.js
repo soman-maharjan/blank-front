@@ -9,11 +9,13 @@ export default function Category(props) {
 
     const [products, setProducts] = useState();
 
-    const [filters, setFilters] = useState({ min: "", max: "", rating: "0" });
+    const [filters, setFilters] = useState({ min: "", max: "", rating: "0", sort: "Relevance" });
+
+    const [nextPage, setNextPage] = useState("");
 
     useEffect(() => {
         submitHandler();
-    }, [props.word])
+    }, [props.category])
 
     const submitHandler = () => {
         axios.post('api/category/product', {
@@ -21,7 +23,8 @@ export default function Category(props) {
             ...filters
         })
             .then(response => {
-                setProducts(response.data)
+                setProducts(response.data.data)
+                setNextPage(response.data.next_page_url)
             })
             .catch(error => console.log(error.response))
     }
@@ -32,7 +35,7 @@ export default function Category(props) {
             :
             <div className="bg-gray-100 h-full">
                 <Navbar />
-                <DisplayProduct submitHandler={submitHandler} products={products} setProducts={setProducts} filters={filters} setFilters={setFilters} />
+                <DisplayProduct submitHandler={submitHandler} products={products} setProducts={setProducts} value={props.category} filters={filters} setFilters={setFilters} nextPage={nextPage} setNextPage={setNextPage} />
                 <Footer />
             </div >
     )

@@ -46,7 +46,7 @@ function Routes() {
                 )} />
 
 
-                {/* <Route path="/test" component={Test} /> */}
+                <Route path="/test" component={Test} />
 
                 {/* <Route exact path="/test/:word" render={(props) => (
                     <Test word={props.match.params.word} />
