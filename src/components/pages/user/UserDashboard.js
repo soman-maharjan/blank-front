@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import DashboardDetails from '../dashboard/DashboardDetails';
-import ManageAccount from './ManageAccount';
+import ManageAccount from './profile/ManageAccount';
+import ShowOrder from './orders/ShowOrder';
 
-import { PresentationChartBarIcon, UserGroupIcon } from '@heroicons/react/outline';
+import { PresentationChartBarIcon, UserGroupIcon, ClipboardListIcon } from '@heroicons/react/outline';
 
-class AccountDashboard extends Component {
+class UserDashboard extends Component {
 
     constructor(props) {
         super(props)
@@ -27,7 +28,8 @@ class AccountDashboard extends Component {
 
         const components = {
             'dashboard': <DashboardDetails />,
-            'manage-account': <ManageAccount />
+            'manage-account': <ManageAccount />,
+            'show-order': <ShowOrder />
         }
 
         const Component = components[this.state.page]
@@ -47,6 +49,9 @@ class AccountDashboard extends Component {
                         <li className="hover:bg-white rounded hover:text-neutral">
                             <a className="active-bg" onClick={() => this.setState({ page: 'manage-account' })}><UserGroupIcon className="h-5 w-5 mr-3" />Manage Account</a>
                         </li>
+                        <li className="hover:bg-white rounded hover:text-neutral">
+                            <a className="active-bg" onClick={() => this.setState({ page: 'show-order' })}><ClipboardListIcon className="h-5 w-5 mr-3" />Your Orders</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -54,4 +59,4 @@ class AccountDashboard extends Component {
     }
 }
 
-export default AccountDashboard
+export default UserDashboard

@@ -49,7 +49,7 @@ export default function DisplayProduct(props) {
 
     return (
         <div className="flex mt-3 bg-grey-100">
-            <div className="w-64 px-2 border-r-2">
+            <div className="px-2 border-r-2 w-1/6">
                 <button className="min-h-0 h-10 btn bg-indigo-600 hover:bg-indigo-700 border-none text-white rounded mb-4 px-10" onClick={resetFilter}>Reset</button>
                 <div className="border-b-2 pb-5 block">
                     <h2 className="font-semibold">Price Range</h2>
@@ -82,22 +82,23 @@ export default function DisplayProduct(props) {
 
             </div>
 
-            {/* {products.length < 1 ? <h3>0 results found</h3> : products.map((product, index) => <ProductCard key={index} product={product} />)} */}
-            <InfiniteScroll
-                dataLength={products.length}
-                next={fetchData}
-                hasMore={props.nextPage == null ? false : true}
-                loader={<h4>Loading...</h4>}
-                endMessage={
-                    <h1>
-                        <b>Yay! You have seen it all</b>
-                    </h1>
-                }
-            >
-                <div className="grid grid-cols-6 px-3 bg-gray-100 pb-10">
-                    {products.map((product, index) => <ProductCard key={index} product={product} />)}
-                </div>
-            </InfiniteScroll>
+            <div className="w-5/6">
+                <InfiniteScroll
+                    dataLength={products.length}
+                    next={fetchData}
+                    hasMore={props.nextPage == null ? false : true}
+                    loader={<h4>Loading...</h4>}
+                    endMessage={
+                        <h1>
+                            <b>Yay! You have seen it all</b>
+                        </h1>
+                    }
+                >
+                    <div className="grid grid-cols-6 px-10 bg-gray-100 pb-10">
+                        {products.map((product, index) => <ProductCard key={index} product={product} />)}
+                    </div>
+                </InfiniteScroll>
+            </div>
         </div>
 
     )

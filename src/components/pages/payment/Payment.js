@@ -28,7 +28,6 @@ export default function Payment(props) {
         "eventHandler": {
             onSuccess(payload) {
                 // hit merchant api for initiating verfication
-                console.log(payload)
                 axios.post('api/handle-payment', { ...payload, type: "KHALTI", cart: cart, orderId: state.orderId })
                     .then(response =>
                         history.push

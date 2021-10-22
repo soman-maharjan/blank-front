@@ -5,7 +5,7 @@ import Fuse from 'fuse.js'
 
 var fuse;
 
-class Orders extends Component {
+class ShowOrder extends Component {
     constructor(props) {
         super(props)
 
@@ -42,11 +42,12 @@ class Orders extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/seller-order')
+        axios.get('/api/user-order')
             .then(response => {
+                console.log(response)
                 this.setState({ ...this.state, filteredData: response.data, orders: response.data }, (this.initializeFuse))
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error.response))
 
     }
 
@@ -171,4 +172,4 @@ class Orders extends Component {
     }
 }
 
-export default Orders
+export default ShowOrder

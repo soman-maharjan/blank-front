@@ -18,7 +18,7 @@ import Category from './components/pages/category/Category';
 import Payment from './components/pages/payment/Payment';
 import ForgotPassword from './components/pages/auth/ForgotPassword';
 import ResetPassword from './components/pages/auth/ResetPassword';
-import AccountDashboard from './components/pages/account/AccountDashboard';
+import UserDashboard from './components/pages/user/UserDashboard';
 
 import NotFound from './components/pages/NotFound';
 import Feed from './components/pages/feed/Feed';
@@ -65,7 +65,7 @@ function Routes() {
 
                 <Guard path="/seller-dashboard" routeRedirect="/login" component={SellerDashboard} />
                 <Guard path="/admin-dashboard" routeRedirect="/login" component={AdminDashboard} />
-                <Guard path="/account-dashboard" routeRedirect="/login" component={AccountDashboard} />
+                <Guard path="/account-dashboard" routeRedirect="/login" component={UserDashboard} />
 
                 {/* <Guard path="/add-category" routeRedirect="/login" component={AddCategory} /> */}
 

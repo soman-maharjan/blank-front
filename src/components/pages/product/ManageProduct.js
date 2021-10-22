@@ -1,7 +1,43 @@
-import { Skeleton } from '@mui/material';
 import axios from 'axios'
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from '../modal/Modal';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { TablePagination } from '@mui/material';
+
+const columns = [
+    { id: 'productName', label: 'Product Name', minWidth: 170, align: 'center' },
+    {
+        id: 'category',
+        label: 'Category',
+        minWidth: 170,
+        align: 'center',
+    },
+    {
+        id: 'is_active',
+        label: 'Status',
+        minWidth: 170,
+        align: 'center',
+    },
+    {
+        id: 'visibility',
+        label: 'Change Visibility',
+        minWidth: 130,
+        align: 'center',
+    },
+    {
+        id: 'options',
+        label: 'Options',
+        minWidth: 210,
+        align: 'center',
+    },
+];
 
 export default function ManageProduct(props) {
 
@@ -10,6 +46,18 @@ export default function ManageProduct(props) {
     const [open, setOpen] = useState(false)
 
     const [loading, setLoading] = useState(false);
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     useEffect(() => {
         setLoading(true)
@@ -76,103 +124,82 @@ export default function ManageProduct(props) {
                     </div>
                 </div>
             </div>
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ minHeight: '75vh' }}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((column) => (
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{ minWidth: column.minWidth }}
+                                    >
+                                        {column.label}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {products
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                            {columns.map((column) => {
+                                                var value = row[column.id];
 
-            <div className="flex flex-col mt-2">
-                <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="py-2 align-middle inline-block sm:px-6 lg:px-8 min-w-full">
-                        <div className="shadow overflow-hidden border-b border-gray-300 ">
-                            <table className="divide-y divide-gray-200 min-w-full">
-                                <thead className="bg-gray-100">
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
-                                        >
-                                            Product Name
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
-                                        >
-                                            Category
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
-                                        >
-                                            Display Status
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
-                                        >
-                                            Change Visibility
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase tracking-wider"
-                                        >
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200 min-w-full">
-                                    {products.length < 1 ?
-                                        <tr>
-                                            <td colspan="5" className="px-6 py-4 min-w-sm whitespace-normal">
-                                                No data available in table
-                                            </td>
-                                        </tr>
-                                        :
-                                        null}
+                                                if (column.id == 'is_active') {
+                                                    var value = (row['is_active'] ?
+                                                        <span className="p-2 px-6 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                            Active
+                                                        </span> :
+                                                        <span className="p-2 px-4 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                            Not Active
+                                                        </span>)
+                                                }
 
-                                    {products.map((product, index) => (
-                                        <tr key={index}>
-                                            <td className="max-w-xs px-6 py-4 min-w-sm whitespace-normal">
-                                                <div className="flex items-center">
-                                                    <div className="flex-shrink-0 h-10 w-10">
-                                                        <img className="h-10 w-10 rounded-full" src={`${process.env.REACT_APP_IMAGE_URL}${product.sku[0].images[0]}`} alt="" />
-                                                    </div>
-                                                    <div className="ml-4 whitespace-normal">
-                                                        <div className="text-sm break-all font-medium text-gray-900">{product.productName}</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="max-w-xs px-6 py-4 min-w-sm whitespace-normal break-all">
-                                                <div className="text-sm text-gray-900">{product.category}</div>
-                                            </td>
-                                            <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all">
-                                                {product.is_active ?
-                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                        Active
-                                                    </span> :
-                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                                        Not Active
-                                                    </span>}
+                                                if (column.id == 'options') {
+                                                    var value =
+                                                        <>
+                                                            {/* <a onClick={() => props.changePage(row, 'edit-product')} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-indigo-500 hover:bg-indigo-600 text-white">
+                                                                Edit
+                                                            </a> */}
+                                                            <a onClick={() => props.changePage(row, 'view-product')} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
+                                                                View
+                                                            </a>
+                                                            <a onClick={() => { setId(row._id); setOpen(true); }} className="normal-case min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
+                                                                Delete
+                                                            </a>
+                                                        </>
+                                                }
 
-                                            </td>
-                                            <td className="max-w-xs px-6 py-4 min-w-1 whitespace-normal break-all">
-                                                <input onChange={() => statusHandler(product._id)} type="checkbox" checked={product.is_active ? "checked" : ""} class="toggle toggle-accent"></input>
-                                            </td>
-                                            <td className="flex max-w-xs  py-4 min-w-1 whitespace-normal break-all text-right text-sm font-medium">
-                                                <a onClick={() => props.changePage(product, 'edit-product')} className="normal-case btn btn-ghost btn-sm rounded-btn bg-indigo-500 hover:bg-indigo-600 text-white">
-                                                    Edit
-                                                </a>
-                                                <a onClick={() => props.changePage(product, 'view-product')} className="normal-case ml-2 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
-                                                    View
-                                                </a>
-                                                <a onClick={() => { setId(product._id); setOpen(true) }} className="normal-case ml-2 btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
-                                                    Delete
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                                if (column.id == 'visibility') {
+                                                    var value = <input onChange={() => statusHandler(row._id)} type="checkbox" checked={row['is_active'] ? "checked" : ""} class="toggle toggle-accent" />
+                                                }
+
+                                                return (
+                                                    <TableCell key={column.id} align={column.align} className="payment-table">
+                                                        {value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={products.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            </Paper>
             <Modal {...val} />
         </div>
     )

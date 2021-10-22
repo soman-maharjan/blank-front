@@ -11,8 +11,6 @@ export default function ProductCard(props) {
         history.push('/product/' + value);
     }
 
-    var rating = [];
-
     // for (var i = 0; i < product.rating; i++) {
     //     rating.push(<StarIcon className="h-5 w-5" fill="#FF9529" />)
     // }

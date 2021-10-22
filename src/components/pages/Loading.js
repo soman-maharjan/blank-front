@@ -8,8 +8,8 @@ export default function Loading() {
                 <Loader
                     type="TailSpin"
                     color="#000000"
-                    height={130}
-                    width={130}
+                    height={50}
+                    width={500}
                 /></div>
         </div>
     )

@@ -35,6 +35,8 @@ export default function Shipping() {
         "eventHandler": {
             onSuccess(payload) {
                 // hit merchant api for initiating verfication
+
+                console.log(payload);
                 axios.post('api/handle-payment', { ...payload, type: "KHALTI", cart: userCart, address: state })
                     .then(response =>
                         history.push
@@ -43,14 +45,15 @@ export default function Shipping() {
                                 state: response.data
                             })
                     )
-                    .catch(error => (
+                    .catch(error => {
+                        console.log(error.response);
                         alert("Something went Wrong , Try Again !!")
-                    ))
+                    })
             },
             // onError handler is optional
             onError(error) {
                 // handle errors
-                console.log(error);
+                console.log(error.response);
             },
             onClose() {
                 console.log('widget is closing');

@@ -150,7 +150,7 @@ export default function Product(props) {
                 className="h-screen w-screen flex justify-center items-center bg-gray-500 bg-opacity-75 transition-opacity"
             >
                 <>
-                    <XIcon className="absolute top-5 right-5 z-50 w-10 text-white" onClick={handleClose} />
+                    <XIcon className="absolute top-5 right-5 z-50 w-8 text-white" onClick={handleClose} />
 
                     <Box className="focus:outline-none justify-center flex flex-wrap p-5 gap-4">
                         {sku !== undefined ? sku[0].images.map(i => <img src={`${process.env.REACT_APP_IMAGE_URL}${i}`} className="w-60" />) : null}

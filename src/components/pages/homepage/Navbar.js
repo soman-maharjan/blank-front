@@ -1,11 +1,12 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useState } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Disclosure, Menu, Popover, Transition } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LogoutAction } from '../../../redux/actions/AuthAction'
 import { Link } from 'react-router-dom'
 import CategoryDropdown from '../category/CategoryDropdown'
 import { GlobeIcon, ShoppingCartIcon, BellIcon } from '@heroicons/react/outline'
+import DefaultImage from '../../images/default.jpg';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -56,102 +57,118 @@ export default function Navbar() {
                                 </div>
                             </div>
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                <ul className="menu h-10 bg-base-100 rounded horizontal">
-                                    <li>
-                                        <Link to='/feed'>
-                                            <GlobeIcon className="h-6 w-6" />
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to='/cart'>
-                                            <ShoppingCartIcon className="h-6 w-6" />
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to='/'>
-                                            <BellIcon className="h-6 w-6" onClick={notification} />
-                                        </Link>
-                                    </li>
-                                </ul>
-                                {userAuth.isAuthenticated ?
-                                    <>
-                                        <Menu as="div" className="ml-3 relative">
-                                            {({ open }) => (
-                                                <>
-                                                    <div>
-                                                        <Menu.Button className="bg-gray-800 flex text-sm rounded-full ">
-                                                            <span className="sr-only">Open user menu</span>
-                                                            <img
-                                                                className="h-8 w-8 rounded-full"
-                                                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                                alt=""
-                                                            />
-                                                        </Menu.Button>
-                                                    </div>
-                                                    <Transition
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-100"
-                                                        enterFrom="transform opacity-0 scale-95"
-                                                        enterTo="transform opacity-100 scale-100"
-                                                        leave="transition ease-in duration-75"
-                                                        leaveFrom="transform opacity-100 scale-100"
-                                                        leaveTo="transform opacity-0 scale-95"
-                                                    >
-                                                        <Menu.Items
-                                                            static
-                                                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
-                                                        >
-                                                            <Menu.Item>
-                                                                {({ active }) => (
-                                                                    <Link to={'/account-dashboard'} className={classNames(
-                                                                        active ? 'bg-gray-100' : '',
-                                                                        'block px-4 py-2 text-sm text-gray-700'
-                                                                    )} >My Account</Link>
-                                                                )}
-                                                            </Menu.Item>
-                                                            <Menu.Item>
-                                                                {({ active }) => (
-                                                                    <Link to={'/seller-dashboard'} className={classNames(
-                                                                        active ? 'bg-gray-100' : '',
-                                                                        'block px-4 py-2 text-sm text-gray-700'
-                                                                    )} >Seller Dashboard</Link>
-                                                                )}
-                                                            </Menu.Item>
-                                                            <Menu.Item>
-                                                                {({ active }) => (
-                                                                    <Link to={'/admin-dashboard'} className={classNames(
-                                                                        active ? 'bg-gray-100' : '',
-                                                                        'block px-4 py-2 text-sm text-gray-700'
-                                                                    )} >Admin Dashboard</Link>
-                                                                )}
-                                                            </Menu.Item>
-                                                            <Menu.Item>
-                                                                {({ active }) => (
-                                                                    <a
-                                                                        onClick={logout}
-                                                                        className={classNames(
-                                                                            active ? 'bg-gray-100' : '',
-                                                                            'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
-                                                                        )}
-                                                                    >
-                                                                        Log out
-                                                                    </a>
-                                                                )}
-                                                            </Menu.Item>
-                                                        </Menu.Items>
-                                                    </Transition>
-                                                </>
-                                            )}
-                                        </Menu>
-                                    </>
-                                    :
-                                    <Link to='/login'>
-                                        <button className="text-black" >Login</button>
+                                <div className="flex gap-9 mt-1">
+                                    <Link to='/feed'>
+                                        <GlobeIcon className="h-6 w-6" />
                                     </Link>
-                                }
-
-
+                                    <Link to='/cart'>
+                                        <ShoppingCartIcon className="h-6 w-6" />
+                                    </Link>
+                                    <Popover className="relative">
+                                        <>
+                                            <Popover.Button>
+                                                <BellIcon className="h-6 w-6" onClick={notification} />
+                                            </Popover.Button>
+                                            <Transition
+                                                as={Fragment}
+                                                enter="transition ease-out duration-200"
+                                                enterFrom="opacity-0 translate-y-1"
+                                                enterTo="opacity-100 translate-y-0"
+                                                leave="transition ease-in duration-150"
+                                                leaveFrom="opacity-100 translate-y-0"
+                                                leaveTo="opacity-0 translate-y-1"
+                                            >
+                                                <Popover.Panel className="right-0 absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-3/4 left-1/2 sm:px-0">
+                                                    <div className="bg-white overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                                                        <div className="relative grid gap-2 bg-white px-7 py-4">
+                                                            <a href="#">Analytics</a>
+                                                            <a href="#">Engagement</a>
+                                                            <a href="#">Security</a>
+                                                            <a href="#">Integrations</a>
+                                                        </div>
+                                                    </div>
+                                                </Popover.Panel>
+                                            </Transition>
+                                        </>
+                                    </Popover>
+                                    {userAuth.isAuthenticated ?
+                                        <>
+                                            <Menu as="div" className="relative -mt-1">
+                                                {({ open }) => (
+                                                    <>
+                                                        <div>
+                                                            <Menu.Button className=" flex text-sm rounded-full ">
+                                                                <span className="sr-only">Open user menu</span>
+                                                                <img
+                                                                    className="h-8 w-8 rounded-full"
+                                                                    src={DefaultImage}
+                                                                    alt=""
+                                                                />
+                                                            </Menu.Button>
+                                                        </div>
+                                                        <Transition
+                                                            show={open}
+                                                            as={Fragment}
+                                                            enter="transition ease-out duration-100"
+                                                            enterFrom="transform opacity-0 scale-95"
+                                                            enterTo="transform opacity-100 scale-100"
+                                                            leave="transition ease-in duration-75"
+                                                            leaveFrom="transform opacity-100 scale-100"
+                                                            leaveTo="transform opacity-0 scale-95"
+                                                        >
+                                                            <Menu.Items
+                                                                static
+                                                                className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+                                                            >
+                                                                <Menu.Item>
+                                                                    {({ active }) => (
+                                                                        <Link to={'/account-dashboard'} className={classNames(
+                                                                            active ? 'bg-gray-100' : '',
+                                                                            'block px-4 py-2 text-sm text-gray-700'
+                                                                        )} >My Account</Link>
+                                                                    )}
+                                                                </Menu.Item>
+                                                                <Menu.Item>
+                                                                    {({ active }) => (
+                                                                        <Link to={'/seller-dashboard'} className={classNames(
+                                                                            active ? 'bg-gray-100' : '',
+                                                                            'block px-4 py-2 text-sm text-gray-700'
+                                                                        )} >Seller Dashboard</Link>
+                                                                    )}
+                                                                </Menu.Item>
+                                                                <Menu.Item>
+                                                                    {({ active }) => (
+                                                                        <Link to={'/admin-dashboard'} className={classNames(
+                                                                            active ? 'bg-gray-100' : '',
+                                                                            'block px-4 py-2 text-sm text-gray-700'
+                                                                        )} >Admin Dashboard</Link>
+                                                                    )}
+                                                                </Menu.Item>
+                                                                <Menu.Item>
+                                                                    {({ active }) => (
+                                                                        <a
+                                                                            onClick={logout}
+                                                                            className={classNames(
+                                                                                active ? 'bg-gray-100' : '',
+                                                                                'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
+                                                                            )}
+                                                                        >
+                                                                            Log out
+                                                                        </a>
+                                                                    )}
+                                                                </Menu.Item>
+                                                            </Menu.Items>
+                                                        </Transition>
+                                                    </>
+                                                )}
+                                            </Menu>
+                                        </>
+                                        :
+                                        <Link to='/login'>
+                                            <button className="text-black" >Login</button>
+                                        </Link>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
