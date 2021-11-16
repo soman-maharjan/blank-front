@@ -8,7 +8,7 @@ export default function ImageCard(props) {
 
     return (
         <div className="w-52 m-2 relative">
-            <img className="h-full" src={`http://127.0.0.1:8000/storage/images/${i.filename}`} />
+            <img className="h-full" src={`${process.env.REACT_APP_URL}storage/images/${i.filename}`} />
             <Menu as="div" className="absolute right-0 top-1 z-10  text-left">
                 <div>
                     <Menu.Button >

@@ -37,7 +37,7 @@ const columns = [
 
 var fuse;
 
-class Order extends Component {
+class ShowOrder extends Component {
     constructor(props) {
         super(props)
 
@@ -74,8 +74,9 @@ class Order extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/seller-order')
+        axios.get('/api/user-order')
             .then(response => {
+                console.log(response)
                 this.setState({ ...this.state, filteredData: response.data, orders: response.data }, (this.initializeFuse))
             })
             .catch(error => console.log(error.response))
@@ -219,4 +220,4 @@ class Order extends Component {
     }
 }
 
-export default Order
+export default ShowOrder

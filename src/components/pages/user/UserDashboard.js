@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import DashboardDetails from '../dashboard/DashboardDetails';
 import ManageAccount from './profile/ManageAccount';
-import ShowOrder from './orders/ShowOrder';
+import DisplayOrders from './orders/DisplayOrders';
 
-import { PresentationChartBarIcon, UserGroupIcon, ClipboardListIcon } from '@heroicons/react/outline';
+import { PresentationChartBarIcon, UserGroupIcon, ClipboardListIcon, ShoppingBagIcon, PencilAltIcon } from '@heroicons/react/outline';
+import { UserIcon } from '@heroicons/react/solid';
+import Order from './orders/Order';
+import ManageReview from './reviews/ManageReview'
 
 class UserDashboard extends Component {
 
@@ -14,14 +17,15 @@ class UserDashboard extends Component {
             page: 'dashboard',
             user: {},
             payment: {},
-            product: {}
+            product: {},
+            order: {}
         }
 
         this.changePage = this.changePage.bind(this);
     }
 
-    changePage({ page, user, payment, product }) {
-        this.setState({ page: page, user: user, payment: payment, product: product })
+    changePage({ page, user, payment, product, order }) {
+        this.setState({ page: page, user: user, payment: payment, product: product, order: order })
     }
 
     render() {
@@ -29,7 +33,9 @@ class UserDashboard extends Component {
         const components = {
             'dashboard': <DashboardDetails />,
             'manage-account': <ManageAccount />,
-            'show-order': <ShowOrder />
+            'display-order': <DisplayOrders changePage={this.changePage} />,
+            'view-order': <Order order={this.state.order} />,
+            'reviews': <ManageReview />
         }
 
         const Component = components[this.state.page]
@@ -47,10 +53,13 @@ class UserDashboard extends Component {
                             <a className="active-bg bg-none" onClick={() => this.setState({ page: 'dashboard' })}><PresentationChartBarIcon className="h-5 w-5 mr-3" />  Dashboard</a>
                         </li>
                         <li className="hover:bg-white rounded hover:text-neutral">
-                            <a className="active-bg" onClick={() => this.setState({ page: 'manage-account' })}><UserGroupIcon className="h-5 w-5 mr-3" />Manage Account</a>
+                            <a className="active-bg" onClick={() => this.setState({ page: 'manage-account' })}><UserIcon className="h-5 w-5 mr-3" />Profile</a>
                         </li>
                         <li className="hover:bg-white rounded hover:text-neutral">
-                            <a className="active-bg" onClick={() => this.setState({ page: 'show-order' })}><ClipboardListIcon className="h-5 w-5 mr-3" />Your Orders</a>
+                            <a className="active-bg" onClick={() => this.setState({ page: 'display-order' })}><ClipboardListIcon className="h-5 w-5 mr-3" />Your Orders</a>
+                        </li>
+                        <li className="hover:bg-white rounded hover:text-neutral">
+                            <a className="active-bg" onClick={() => this.setState({ page: 'reviews' })}><PencilAltIcon className="h-5 w-5 mr-3" />Reviews</a>
                         </li>
                     </ul>
                 </div>

@@ -9,10 +9,10 @@ import store from './redux/CreateStore';
 import persistor from './redux/PersistStore'
 import { PersistGate } from 'redux-persist/integration/react'
 
-axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:8000/'
-
 require('dotenv').config()
+
+axios.defaults.withCredentials = true
+axios.defaults.baseURL = process.env.REACT_APP_URL
 
 ReactDOM.render(
   <React.StrictMode>

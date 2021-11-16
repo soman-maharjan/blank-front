@@ -54,13 +54,15 @@ class CategoryDropdown extends PureComponent {
                                 <Popover.Panel className="absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-1/4 shadow left-1/2 sm:px-0 lg:max-w-3xl">
                                     <div className="flex flex-col flex-wrap h-52 bg-white mt-1">
                                         {this.state.categories.map(cat =>
+                                        (cat.parent == null ?
                                             <div className="list-with-heading mb-5 mt-2">
                                                 <Link to={`/category/${cat.title}`}><h3 className="font-semibold">{cat.title}</h3></Link>
                                                 <ul>
                                                     {this.state.categories.map(c => (c.parent === cat.title ? <Link to={`/category/${c.title}`}><li>{c.title}</li></Link> : null))}
 
                                                 </ul>
-                                            </div>
+                                            </div> :
+                                            null)
                                         )
                                         }
                                     </div >
@@ -76,5 +78,3 @@ class CategoryDropdown extends PureComponent {
 }
 
 export default CategoryDropdown;
-
-
