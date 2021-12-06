@@ -38,7 +38,7 @@ export default function OrderDetails(props) {
             <div class="text-sm breadcrumbs mt-3 overflow-visible w-full text-left pl-14">
                 <ul>
                     <li>
-                        <a onClick={() => props.changePage({}, 'dashboard')}>Dashboard</a>
+                        <a onClick={() => props.changePage({ page: 'dashboard' })}>Dashboard</a>
                     </li>
                     <li>Orders</li>
                 </ul>

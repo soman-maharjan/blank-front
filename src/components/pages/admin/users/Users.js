@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import Moment from 'react-moment';
-import Modal from '../../modal/Modal';
+import DeleteModal from '../../modal/DeleteModal';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -162,7 +161,7 @@ export default function ShowUsers(props) {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
-            <Modal {...val} />
+            <DeleteModal {...val} />
         </div>
     )
 }

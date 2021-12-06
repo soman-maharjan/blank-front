@@ -106,7 +106,7 @@ class Order extends Component {
                 <div class="text-sm breadcrumbs mt-3">
                     <ul>
                         <li>
-                            <a onClick={() => this.props.changePage({}, 'dashboard')}>Dashboard</a>
+                            <a onClick={() => this.props.changePage({page: 'dashboard'})}>Dashboard</a>
                         </li>
                         <li>Orders</li>
                     </ul>
@@ -187,7 +187,7 @@ class Order extends Component {
                                                     if (column.id == 'options') {
                                                         var value =
                                                             <>
-                                                                <a onClick={() => this.props.changePage({ page: 'view-order', order: row })} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
+                                                                <a onClick={() => this.props.changePage({ page: 'order-details', order: row })} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
                                                                     View
                                                                 </a>
                                                             </>

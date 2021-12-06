@@ -4,20 +4,17 @@ import Moment from 'react-moment';
 import Fuse from 'fuse.js';
 
 import ImageUploading from 'react-images-uploading';
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { TablePagination } from '@mui/material';
+import { Rating } from '@mui/material';
 
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import { v4 as uuidv4 } from 'uuid';
+import DataTable from '../../table/DataTable';
+import MyDialog from './MyDialog';
+import DeleteModal from '../../modal/DeleteModal';
 
-const columns = [
+
+const column1 = [
     { id: '_id', label: 'Review Id', minWidth: 230, align: 'center' },
     { id: 'created_at', label: 'Review Date', minWidth: 170, align: 'center' },
     {
@@ -65,6 +62,8 @@ const column2 = [
 
 var fuse;
 
+var formData = new FormData();
+
 export default class ManageOrder extends Component {
     constructor(props) {
         super(props)
@@ -79,7 +78,12 @@ export default class ManageOrder extends Component {
             open: false,
             id: "",
             images: "",
-            review: ""
+            review: "",
+            errors: "",
+            rating: "0",
+            delId: "",
+            delOpen: false,
+            productId: ""
         }
 
         this.changeHandler = this.changeHandler.bind(this);
@@ -100,51 +104,64 @@ export default class ManageOrder extends Component {
     }
 
     initializeFuse = () => {
-        if (this.state.reviews != []) {
+        if (this.state.unreviewed != []) {
             const options = {
                 includeScore: true,
-                keys: Object.keys(this.flattenObj(this.state.reviews[0]))
+                keys: Object.keys(this.flattenObj(this.state.unreviewed[0]))
             }
 
-            fuse = new Fuse(this.state.reviews, options)
+            fuse = new Fuse(this.state.unreviewed, options)
         }
     }
 
     submitReview = () => {
+        const imgName = [];
         this.setState({ ...this.state, open: false });
-        console.log(this.state)
+        if (this.state.images != "") {
+            this.state.images.map(i => {
+                const uniqueFileName = uuidv4() + '.' + i.file.name.split('.').pop();
+
+                imgName.push(uniqueFileName);
+
+                formData.append(`images[]`, i.file, uniqueFileName)
+            })
+        }
+
+        formData.append('review', this.state.review);
+        formData.append('subOrderId', this.state.id);
+        formData.append('rating', this.state.rating);
+        formData.append('product_id', this.state.productId);
+
+        axios.post('api/review', formData)
+            .then(response => this.getData() )
+            .catch(error =>
+                console.log(error)
+                // this.setState({ ...this.state, errors: error.response.data.errors })
+            )
     }
 
     componentDidMount() {
-        // Promise.all([axios.get('/api/review'), axios.get('api/unreviewed')])
-        //     .then(function (results) {
-        //         console.log(results)
-        //         // this.setState({ ...this.state, filteredData: results[0].data, reviews: results[0].data, unreviewed: results[1].data }, (this.initializeFuse))
-        //     })
-        //     .catch(error => console.log(error.response));
+        this.getData()
+        // axios.get('/api/unreviewed')
+        //     .then(response => this.setState({ ...this.state, filteredData: response.data, reviews: response.data, unreviewed: response.data }, (this.initializeFuse)))
+        //     .catch(error => console.log(error.response))
+    }
 
-        axios.get('/api/unreviewed')
-            .then(response => this.setState({ ...this.state, filteredData: response.data, reviews: response.data, unreviewed: response.data }, (this.initializeFuse)))
-            .catch(error => console.log(error.response))
+    getData() {
+        Promise.all([axios.get('/api/review'), axios.get('api/unreviewed')])
+            .then((results) =>
+                this.setState({ ...this.state, filteredData: results[1].data, reviews: results[0].data, unreviewed: results[1].data }, (this.initializeFuse))
+            )
+            .catch(error => console.log(error.response));
     }
 
     searchHandler = (event) => {
         if (event.target.value != "") {
             this.setState({ ...this.state, search: event.target.value, filteredData: fuse.search(event.target.value).map(o => o.item) })
         } else {
-            this.setState({ ...this.state, search: event.target.value, filteredData: this.state.reviews })
+            this.setState({ ...this.state, search: event.target.value, filteredData: this.state.unreviewed })
         }
     }
-
-    handleChangePage = (event, newPage) => {
-        this.setState({ ...this.state, page: newPage });
-    };
-
-
-
-    handleChangeRowsPerPage = (event) => {
-        this.setState({ ...this.state, rowsPerPage: +event.target.value, page: 0 });
-    };
 
     changeHandler = (event) => {
         this.setState({
@@ -153,7 +170,68 @@ export default class ManageOrder extends Component {
         })
     }
 
+    submitDelete = () => {
+        axios.delete('/api/review/' + this.state.delId)
+            .then(response => this.getData())
+            .catch(error => console.log(error))
+    }
+
+    setDelOpen = (val) => {
+        this.setState({ ...this.state, delOpen: val });
+    }
+
     render() {
+
+        const val = {
+            open: this.state.delOpen,
+            setOpen: this.setDelOpen,
+            submit: this.submitDelete,
+            message: "Are you sure you want to delete this product? All of the data will be permanently removed. This action cannot be undone.",
+            title: "Delete product",
+            success: "Delete"
+        }
+
+        const value = (column, row) => {
+            switch (column.id) {
+                case "created_at":
+                    return (<Moment format="YYYY/MM/DD">{row['created_at']}</Moment>)
+                case 'status':
+                    return (<span className="capitalize">{row[column.id]}</span>)
+                case 'options':
+                    return (
+                        <>
+                            <a onClick={() => this.setState({ ...this.state, id: row['_id'], productId: row['product_id'], open: true })} className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-green-400 hover:bg-green-500 text-white">
+                                Leave a Review
+                            </a>
+                        </>
+                    )
+                default:
+                    return (row[column.id])
+            }
+        }
+
+        const reviewedValue = (column, row) => {
+            switch (column.id) {
+                case "created_at":
+                    return (<Moment format="YYYY/MM/DD">{row['created_at']}</Moment>)
+                case 'rating':
+                    return (<Rating value={row[column.id]} readOnly />)
+                case 'options':
+                    return (
+                        <>
+                            <a onClick={() => this.setState({ ...this.state, delId: row['_id'], delOpen: true })} className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
+                                Delete
+                            </a>
+                            <a onClick={() => this.props.changePage({ page: 'review', review: row })} className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
+                                View
+                            </a>
+                        </>
+                    )
+                default:
+                    return (row[column.id])
+            }
+        }
+
         return (
             <div className="w-11/12">
                 <div class="text-sm breadcrumbs mt-3">
@@ -180,148 +258,15 @@ export default class ManageOrder extends Component {
                         </button>
                     </div>
                 </div>
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <TableContainer sx={{ minHeight: '50vh' }}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {column2.map((column) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{ minWidth: column.minWidth }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.reviews.length < 1 ?
-                                    <TableRow hover className="text-center justify-center items-center" >
-                                        <TableCell colSpan="5" className="payment-table text-center justify-center">
-                                            <div className="text-center">No data available in table</div>
-                                        </TableCell>
-                                    </TableRow>
-                                    :
-                                    null
-                                }
-                                {this.state.filteredData
-                                    .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                                    .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                {column2.map((column) => {
-                                                    var value = row[column.id];
-                                                    if (column.id == 'created_at') {
-                                                        var value = <Moment format="YYYY/MM/DD">{row['created_at']}</Moment>
-                                                    }
-                                                    if (column.id == 'status') {
-                                                        var value = <span className="capitalize">{row[column.id]}</span>
-                                                    }
-                                                    if (column.id == 'options') {
-                                                        var value =
-                                                            // row['status'] == 'delivered' ?
-                                                            <>
-                                                                <a onClick={() => this.setState({ ...this.state, id: row['_id'], open: true })} className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-green-400 hover:bg-green-500 text-white">
-                                                                    Leave a Review
-                                                                </a>
-                                                            </>
-                                                        // : null
-                                                    }
-                                                    return (
-                                                        <TableCell key={column.id} align={column.align} className="payment-table">
-                                                            {value}
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={this.state.filteredData.length}
-                        rowsPerPage={this.state.rowsPerPage}
-                        page={this.state.page}
-                        onPageChange={this.handleChangePage}
-                        onRowsPerPageChange={this.handleChangeRowsPerPage}
-                    />
-                </Paper>
+                <DataTable columns={column2} filteredData={this.state.filteredData} data={this.state.unreviewed} value={value} />
                 <br />
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <TableContainer sx={{ minHeight: '50vh' }}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map((column) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{ minWidth: column.minWidth }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.reviews.length < 1 ?
-                                    <TableRow hover className="text-center justify-center items-center" >
-                                        <TableCell colSpan="5" className="payment-table text-center justify-center">
-                                            <div className="text-center">No data available in table</div>
-                                        </TableCell>
-                                    </TableRow>
-                                    :
-                                    null
-                                }
-                                {this.state.filteredData
-                                    .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                                    .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                {columns.map((column) => {
-                                                    var value = row[column.id];
-                                                    if (column.id == 'options') {
-                                                        var value =
-                                                            <>
-                                                                <a onClick={() => this.props.changePage({ page: 'view-order', order: row })} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-400 hover:bg-blue-500 text-white">
-                                                                    View
-                                                                </a>
-                                                            </>
-                                                    }
-                                                    return (
-                                                        <TableCell key={column.id} align={column.align} className="payment-table">
-                                                            {value}
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={this.state.filteredData.length}
-                        rowsPerPage={this.state.rowsPerPage}
-                        page={this.state.page}
-                        onPageChange={this.handleChangePage}
-                        onRowsPerPageChange={this.handleChangeRowsPerPage}
-                    />
-                </Paper>
-
+                <DataTable columns={column1} filteredData={this.state.reviews} data={this.state.reviews} value={reviewedValue} />
 
                 <Transition appear show={this.state.open} as={Fragment}>
                     <Dialog
                         as="div"
                         className="fixed inset-0 z-10 overflow-y-auto"
-                        onClose={() => this.setState({ ...this.state, open: false })}
+                        onClose={() => this.setState({ ...this.state, open: false, images: [], review: "", rating: "0" })}
                     >
                         <div className="min-h-screen px-4 text-center">
                             <Transition.Child
@@ -335,8 +280,6 @@ export default class ManageOrder extends Component {
                             >
                                 <Dialog.Overlay className="fixed inset-0" />
                             </Transition.Child>
-
-                            {/* This element is to trick the browser into centering the modal contents. */}
                             <span
                                 className="inline-block h-screen align-middle"
                                 aria-hidden="true"
@@ -362,8 +305,14 @@ export default class ManageOrder extends Component {
                                     <div className="mt-4">
                                         <textarea className="textarea textarea-bordered" cols="100" rows="10" name="review" onChange={this.changeHandler} value={this.state.review}></textarea>
                                     </div>
+                                    <div className="mt-5">
+                                        My Rating
+                                        <br />
+                                        <Rating name="no-value" value={this.state.rating} onChange={(event) => this.setState({ ...this.state, rating: event.target.value })} />
+                                    </div>
 
-                                    <div className="mt-4">
+                                    <div className="">
+                                        <h3 className="mb-2 mt-3">Upload Image</h3>
                                         <ImageUploading
                                             multiple
                                             value={this.state.images}
@@ -374,7 +323,6 @@ export default class ManageOrder extends Component {
                                             {({
                                                 imageList,
                                                 onImageUpload,
-                                                onImageRemoveAll,
                                                 onImageUpdate,
                                                 onImageRemove,
                                                 isDragging,
@@ -391,15 +339,11 @@ export default class ManageOrder extends Component {
                                                         Click or Drop here
                                                     </button>
                                                     &nbsp;
-                                                    <button onClick={onImageRemoveAll}>Remove all images</button>
+                                                    <button onClick={() => this.setState({ ...this.state, images: [] })}>Remove all images</button>
                                                     <div className="flex gap-2 mt-2">
                                                         {imageList.map((image, index) => (
                                                             <div key={index} className="image-item">
                                                                 <img src={image['data_url']} alt="" width="100" />
-                                                                <div className="image-item__btn-wrapper mt-1 text-sm">
-                                                                    <button onClick={() => onImageUpdate(index)} className="p-1 bg-green-300 rounded mr-1">Update</button>
-                                                                    <button onClick={() => onImageRemove(index)} className="p-1 bg-red-300 rounded">Remove</button>
-                                                                </div>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -423,6 +367,7 @@ export default class ManageOrder extends Component {
                     </Dialog>
                 </Transition>
 
+                <DeleteModal {...val} />
             </div >
         )
     }

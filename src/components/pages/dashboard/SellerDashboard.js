@@ -23,8 +23,8 @@ class SellerDashboard extends Component {
         this.orderDetailsHandler = this.orderDetailsHandler.bind(this)
     }
 
-    changePage(product, page) {
-        this.setState({ ...this.state, product: product, page: page })
+    changePage({ product, page, order }) {
+        this.setState({ ...this.state, product: product, page: page, order: order })
     }
 
     orderDetailsHandler(order, page) {
@@ -38,7 +38,7 @@ class SellerDashboard extends Component {
             'add-product': <AddProduct />,
             'manage-product': <ManageProduct changePage={this.changePage} />,
             'edit-product': <EditProduct product={this.state.product} />,
-            'orders': <Orders orderDetailsHandler={this.orderDetailsHandler} />,
+            'orders': <Orders orderDetailsHandler={this.orderDetailsHandler} changePage={this.changePage} />,
             'order-details': <OrderDetails order={this.state.order} changePage={this.changePage} orderDetailsHandler={this.orderDetailsHandler} />,
             'view-product': <Product product={this.state.product} />
         };
@@ -74,10 +74,10 @@ class SellerDashboard extends Component {
                     <ul className="menu p-4 overflow-y-auto w-60 h-screen bg-neutral text-white">
                         <label className="mb-3 cursor-pointer" onClick={() => this.setState({ page: 'dashboard' })}>Dashboard</label>
                         <li className="hover:bg-white rounded hover:text-neutral">
-                            <a className="active-bg" onClick={() => this.setState({ page: 'manage-product' })}><ShoppingBagIcon className="h-5 w-5 mr-3"/> Products</a>
+                            <a className="active-bg" onClick={() => this.setState({ page: 'manage-product' })}><ShoppingBagIcon className="h-5 w-5 mr-3" /> Products</a>
                         </li>
                         <li className="hover:bg-white rounded hover:text-neutral">
-                            <a className="active-bg" onClick={() => this.setState({ page: 'orders' })}><ClipboardListIcon className="h-5 w-5 mr-3"/> Orders</a>
+                            <a className="active-bg" onClick={() => this.setState({ page: 'orders' })}><ClipboardListIcon className="h-5 w-5 mr-3" /> Orders</a>
                         </li>
                     </ul>
                 </div>

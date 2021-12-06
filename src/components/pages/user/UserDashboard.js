@@ -7,6 +7,7 @@ import { PresentationChartBarIcon, UserGroupIcon, ClipboardListIcon, ShoppingBag
 import { UserIcon } from '@heroicons/react/solid';
 import Order from './orders/Order';
 import ManageReview from './reviews/ManageReview'
+import Review from './reviews/Review';
 
 class UserDashboard extends Component {
 
@@ -18,14 +19,15 @@ class UserDashboard extends Component {
             user: {},
             payment: {},
             product: {},
-            order: {}
+            order: {},
+            review: {}
         }
 
         this.changePage = this.changePage.bind(this);
     }
 
-    changePage({ page, user, payment, product, order }) {
-        this.setState({ page: page, user: user, payment: payment, product: product, order: order })
+    changePage({ page, user, payment, product, order, review }) {
+        this.setState({ page: page, user: user, payment: payment, product: product, order: order, review: review })
     }
 
     render() {
@@ -35,7 +37,8 @@ class UserDashboard extends Component {
             'manage-account': <ManageAccount />,
             'display-order': <DisplayOrders changePage={this.changePage} />,
             'view-order': <Order order={this.state.order} />,
-            'reviews': <ManageReview />
+            'reviews': <ManageReview changePage={this.changePage} />,
+            'review': <Review changePage={this.changePage} review={this.state.review} />
         }
 
         const Component = components[this.state.page]

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react';
-import Modal from '../modal/Modal';
+import DeleteModal from '../modal/DeleteModal';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -93,7 +93,7 @@ export default function ManageProduct(props) {
             <div class="text-sm breadcrumbs mt-3">
                 <ul>
                     <li>
-                        <a onClick={() => props.changePage({}, 'dashboard')}>Dashboard</a>
+                        <a onClick={() => props.changePage({ page: 'dashboard' })}>Dashboard</a>
                     </li>
                     <li>Products</li>
                 </ul>
@@ -115,7 +115,7 @@ export default function ManageProduct(props) {
                 </div>
                 <div class="flex-none hidden px-2 mx-2 lg:flex">
                     <div class="flex items-stretch">
-                        <a className="btn btn-ghost btn-sm rounded-btn bg-green-300" onClick={() => props.changePage({}, 'add-product')}>
+                        <a className="btn btn-ghost btn-sm rounded-btn bg-green-300" onClick={() => props.changePage({ page: 'add-product' })}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
@@ -165,7 +165,7 @@ export default function ManageProduct(props) {
                                                             {/* <a onClick={() => props.changePage(row, 'edit-product')} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-indigo-500 hover:bg-indigo-600 text-white">
                                                                 Edit
                                                             </a> */}
-                                                            <a onClick={() => props.changePage(row, 'view-product')} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
+                                                            <a onClick={() => props.changePage({ page: 'view-product', product: row })} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
                                                                 View
                                                             </a>
                                                             <a onClick={() => { setId(row._id); setOpen(true); }} className="normal-case min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
@@ -200,7 +200,7 @@ export default function ManageProduct(props) {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
-            <Modal {...val} />
+            <DeleteModal {...val} />
         </div>
     )
 }

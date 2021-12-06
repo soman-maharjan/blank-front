@@ -1,16 +1,9 @@
 import axios from 'axios'
 import React, { Component } from 'react'
-import Moment from 'react-moment';
 import Fuse from 'fuse.js'
+import Moment from 'react-moment';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { TablePagination } from '@mui/material';
+import DataTable from '../../table/DataTable';
 
 const columns = [
     { id: '_id', label: 'Order Id', minWidth: 230, align: 'center' },
@@ -45,11 +38,9 @@ class ShowOrder extends Component {
             orders: [],
             filteredData: [],
             search: "",
-            page: 0,
-            rowsPerPage: 10
         }
     }
-    
+
     flattenObj(obj, parent, res = {}) {
         for (let key in obj) {
             let propName = parent ? parent + '.' + key : key;
@@ -102,6 +93,40 @@ class ShowOrder extends Component {
     };
 
     render() {
+
+        const value = (column, row) => {
+            switch (column.id) {
+                case "_id":
+                    return (
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0 h-10 w-10">
+                                <img className="h-10 w-10 rounded-full" src={`${process.env.REACT_APP_IMAGE_URL}${row['sku'].images[0]}`} alt="" />
+                            </div>
+                            <div className="ml-4 whitespace-normal">
+                                <div className="text-sm break-all font-medium text-gray-900">{row['order_id']}</div>
+                            </div>
+                        </div>
+
+                    )
+                case "created_at":
+                    return (<Moment format="YYYY/MM/DD">{row['created_at']}</Moment>)
+                case 'pending':
+                    return ((row['status'] == "pending" ? <Moment fromNow>{row['created_at']}</Moment> : "-"))
+                case 'status':
+                    return (<span className="capitalize">{row['status']}</span>)
+                case 'options':
+                    return (
+                        <>
+                            <a onClick={() => this.props.changePage({ page: 'view-order', order: row })} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
+                                View
+                            </a>
+                        </>
+                    )
+                default:
+                    return (row[column.id])
+            }
+        }
+
         return (
             <div className="w-11/12">
                 <div class="text-sm breadcrumbs mt-3">
@@ -128,93 +153,7 @@ class ShowOrder extends Component {
                         </button>
                     </div>
                 </div>
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <TableContainer sx={{ minHeight: '75vh' }}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map((column) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{ minWidth: column.minWidth }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.orders.length < 1 ?
-                                    <TableRow hover className="text-center justify-center items-center" >
-                                        <TableCell colSpan="5" className="payment-table text-center justify-center">
-                                            <div className="text-center">No data available in table</div>
-                                        </TableCell>
-                                    </TableRow>
-                                    :
-                                    null
-                                }
-                                {this.state.filteredData
-                                    .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                                    .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                {columns.map((column) => {
-                                                    var value = row[column.id];
-
-                                                    if (column.id == '_id') {
-                                                        var value = <div className="flex items-center">
-                                                            <div className="flex-shrink-0 h-10 w-10">
-                                                                <img className="h-10 w-10 rounded-full" src={`${process.env.REACT_APP_IMAGE_URL}${row['sku'].images[0]}`} alt="" />
-                                                            </div>
-                                                            <div className="ml-4 whitespace-normal">
-                                                                <div className="text-sm break-all font-medium text-gray-900">{row['order_id']}</div>
-                                                            </div>
-                                                        </div>
-                                                    }
-
-                                                    if (column.id == 'created_at') {
-                                                        var value = <Moment format="YYYY/MM/DD">{row['created_at']}</Moment>
-                                                    }
-
-                                                    if (column.id == 'pending') {
-                                                        var value = (row['status'] == "pending" ? <Moment fromNow>{row['created_at']}</Moment> : "-")
-                                                    }
-
-                                                    if (column.id == 'status') {
-                                                        var value = <span className="capitalize">{row['status']}</span>
-                                                    }
-
-                                                    if (column.id == 'options') {
-                                                        var value =
-                                                            <>
-                                                                <a onClick={() => this.props.changePage({ page: 'view-order', order: row })} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
-                                                                    View
-                                                                </a>
-                                                            </>
-                                                    }
-                                                    return (
-                                                        <TableCell key={column.id} align={column.align} className="payment-table">
-                                                            {value}
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={this.state.filteredData.length}
-                        rowsPerPage={this.state.rowsPerPage}
-                        page={this.state.page}
-                        onPageChange={this.handleChangePage}
-                        onRowsPerPageChange={this.handleChangeRowsPerPage}
-                    />
-                </Paper>
+                <DataTable columns={columns} filteredData={this.state.filteredData} data={this.state.orders} value={value}/>
             </div >
         )
     }
