@@ -9,9 +9,10 @@ export function LoginUserService(credentials) {
             })
                 .then(response => {
                     console.log(response.data)
-                    return response.data;
+                    return response;
                 })
                 .catch(error => {
+                    console.log(error.response)
                     return { error: "Invalid Email or Password!" }
                 });
         }).catch(error => console.log(error));
@@ -19,7 +20,7 @@ export function LoginUserService(credentials) {
 
 export const LogOutUserService = () => {
     return axios.post('/logout')
-        .then(response => { return response.data })
+        .then(response => { return response })
         .catch(error => { return error })
 }
 

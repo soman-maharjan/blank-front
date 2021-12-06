@@ -9,7 +9,7 @@ export const LoginAction = (credentials, history) => {
         dispatch({ type: ActionTypes.LOADING });
 
         Promise.resolve(LoginUserService(credentials)).then(res => {
-            if (res.hasOwnProperty('success') && res.success === true) {
+            if (res.status === 204) {
                 dispatch({ type: ActionTypes.LOGIN_SUCCESS });
                 dispatch(LoadProfileAction());
                 history.push('/home');
@@ -24,7 +24,7 @@ export const LogoutAction = () => {
     return (dispatch) => {
         dispatch({ type: ActionTypes.RESTART_AUTH_RESPONSE });
         Promise.resolve(LogOutUserService()).then((res) => {
-            if (res.hasOwnProperty('success') && res.success === true) {
+            if (res.status === 204) {
                 dispatch({ type: ActionTypes.LOGOUT_SUCCESS, res });
             } else {
                 dispatch({ type: ActionTypes.LOGOUT_ERROR, res });
