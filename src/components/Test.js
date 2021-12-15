@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 export default function Test() {
 
     useEffect(() => {
-        axios.get('/api/unreviewed')
+        axios.get('/api/test')
             .then(response => console.log(response))
             .catch(error => console.log(error.response))
     }, [])

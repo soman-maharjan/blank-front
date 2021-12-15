@@ -5,6 +5,7 @@ import Loading from '../Loading';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
+import ProductInfo from "../admin/product/ProductInfo";
 
 export default function Product(props) {
 
@@ -46,62 +47,7 @@ export default function Product(props) {
                     <li>{product.productName}</li>
                 </ul>
             </div>
-            <div className="w-11/12 bg-white shadow-md mt-5 text-left p-5">
-                <div className="grid grid-cols-1 mb-5">
-                    <p className="font-semibold text-xl mt-5">PRODUCT INFORMATION</p>
-                    <p className="text-gray-500 text-md">Information about product</p>
-                </div>
-                <hr />
-                <div className="grid grid-cols-1 mt-5 gap-4">
-                    <div className="grid grid-cols-2 mt-2 gap-5">
-
-                        <div>
-                            <label htmlFor="productId" className="text-gray-500">Product Id</label>
-                            <p className="break-words">{product._id}</p>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 mt-2 gap-5">
-                        <div>
-                            <label htmlFor="productName" className="text-gray-500">Product Name</label>
-                            <p className="break-words capitalize">{product.productName}</p>
-                        </div>
-                        <div>
-                            <label htmlFor="category" className="text-gray-500">Category</label>
-                            <p className="break-words capitalize">{product.category}</p>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-5">
-                        <div>
-                            <label htmlFor="variation" className="text-gray-500 capitalize">Color</label>
-                            <p className="break-words capitalize">{product.color}</p>
-                        </div>
-                        <div>
-                            <label htmlFor="price" className="text-gray-500">Box Contents</label>
-                            <p className="break-words capitalize">{product.boxContents}</p>
-                        </div>
-
-                    </div>
-                    <div className="grid grid-cols-2 gap-5">
-                        <div>
-                            <label htmlFor="boxContents" className="text-gray-500">Rating</label>
-                            <p className="flex">{icon}</p>
-                        </div>
-                        <div>
-                            <label htmlFor="boxContents" className="text-gray-500">Status</label>
-                            <p className="break-words">
-                                {product.is_active ?
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Active
-                                    </span> :
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                        Not Active
-                                    </span>}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ProductInfo product={product} />
             <div className="w-11/12 bg-white shadow-md mt-10 text-left p-5 mb-10">
                 <div className="grid grid-cols-1 mb-5">
                     <p className="font-semibold text-xl mt-5">Stock Keeping Unit</p>

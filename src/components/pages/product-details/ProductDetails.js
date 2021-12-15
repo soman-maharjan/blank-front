@@ -9,6 +9,7 @@ import Navbar from '../homepage/Navbar';
 import Image from './Image';
 import {LoadProfileAction} from '../../../redux/actions/ProfileAction';
 import Reviews from './Reviews';
+import Footer from "../homepage/Footer";
 
 export default function ProductDetails(props) {
 
@@ -204,11 +205,12 @@ export default function ProductDetails(props) {
                             <Reviews productId={product._id}/>
                         </div>
                         <div className="w-1/4">
-                            hello
+
                         </div>
                     </div>
 
                 </div>
+                <Footer />
             </>
             : null
     )

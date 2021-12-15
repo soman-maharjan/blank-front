@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import {Link} from "react-router-dom";
 
 export default function Category(props) {
     const [category, setCategory] = useState([]);
@@ -10,7 +11,7 @@ export default function Category(props) {
             .catch(error => console.log(error))
     }, [])
 
-    const data = category.map(cat => <h1>{cat.title}</h1>)
+    // const data = category.map(cat => <h1>{cat.title}</h1>)
 
     return (
         <div className="w-11/12">
@@ -30,13 +31,7 @@ export default function Category(props) {
                     </span>
                 </div>
 
-                <div class="flex-none">
-                    <button class="btn btn-square btn-ghost">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </button>
-                </div>
+
                 <div class="flex-none hidden px-2 mx-2 lg:flex">
                     <div class="flex items-stretch">
                         <a className="btn btn-ghost btn-sm rounded-btn bg-green-300" onClick={() => props.changePage({ page: 'add-category' })}>
@@ -49,7 +44,19 @@ export default function Category(props) {
                 </div>
             </div>
 
-            {data}
+            <div className="flex flex-col flex-wrap text-left bg-white mt-1">
+                {category.map((cat, index) =>
+                    (cat.parent == null ?
+                        <div className="list-with-heading mb-5 mt-2">
+                            <Link to={`/category/${cat.title}`}><h3 className="my-1 font-semibold">{index + 1}. {cat.title}</h3></Link>
+                            <ul>
+                                {category.map(c => (c.parent === cat.title ? <Link to={`/category/${c.title}`}><li className="pl-7 my-1">{c.title}</li></Link> : null))}
+                            </ul>
+                        </div> :
+                        null)
+                )
+                }
+            </div >
 
         </div>
     )

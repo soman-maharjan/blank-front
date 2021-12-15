@@ -135,7 +135,7 @@ export default class ManageOrder extends Component {
         axios.post('api/review', formData)
             .then(response => this.getData() )
             .catch(error =>
-                console.log(error)
+                console.log(error.response)
                 // this.setState({ ...this.state, errors: error.response.data.errors })
             )
     }
@@ -259,7 +259,14 @@ export default class ManageOrder extends Component {
                     </div>
                 </div>
                 <DataTable columns={column2} filteredData={this.state.filteredData} data={this.state.unreviewed} value={value} />
-                <br />
+
+                <div className="navbar shadow mt-10 mb-5 bg-white">
+                    <div className="flex-1 px-2 mx-2">
+                        <span className="text-lg font-semibold">
+                            Your Reviews
+                        </span>
+                    </div>
+                </div>
                 <DataTable columns={column1} filteredData={this.state.reviews} data={this.state.reviews} value={reviewedValue} />
 
                 <Transition appear show={this.state.open} as={Fragment}>

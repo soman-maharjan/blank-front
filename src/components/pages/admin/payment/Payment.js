@@ -1,13 +1,6 @@
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
+import DataTable from "../../table/DataTable";
 
 const columns = [
     { id: 'user_id', label: 'Buyer Id', minWidth: 170, align: 'center' },
@@ -54,6 +47,21 @@ export default function Payment(props) {
         setPage(0);
     };
 
+    const value = (column, row) => {
+        switch (column.id) {
+            case 'options':
+                return (
+                    <>
+                        <a onClick={() => props.changePage({ page: 'show-payment', payment: row })} className="min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-green-500 hover:bg-green-600 text-white">
+                            View
+                        </a>
+                    </>
+                )
+            default:
+                return (row[column.id])
+        }
+    }
+
     return (
         <div className="w-full px-10">
             <div class="text-sm breadcrumbs mt-3">
@@ -80,59 +88,7 @@ export default function Payment(props) {
                     </button>
                 </div>
             </div>
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ minHeight: '80vh' }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {payments
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => {
-                                    return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                            {columns.map((column) => {
-                                                var value = row[column.id];
-
-                                                if (column.id == 'options') {
-                                                    var value =
-                                                        <a onClick={() => props.changePage({ page: 'show-payment', payment: row })} className="min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-green-500 hover:bg-green-600 text-white">
-                                                            View
-                                                        </a>;
-                                                }
-                                                return (
-                                                    <TableCell key={column.id} align={column.align} className="payment-table">
-                                                        {value}
-                                                    </TableCell>
-                                                );
-                                            })}
-                                        </TableRow>
-                                    );
-                                })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={payments.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
+            <DataTable columns={columns} filteredData={payments} data={payments} value={value} />
         </div>
     );
 }

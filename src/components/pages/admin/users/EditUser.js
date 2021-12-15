@@ -59,7 +59,7 @@ export default function EditUser(props) {
                 </div>
             </div>
 
-            <div className="mt-10 sm:mt-0">
+            <div className="mt-10 sm:mt-0 mb-10">
                 <div className="mt-5 md:mt-0 md:col-span-2">
                     <form onSubmit={submit}>
                         <div className="shadow overflow-hidden sm:rounded-md">
@@ -75,7 +75,7 @@ export default function EditUser(props) {
                                             id="name"
                                             value={user.name}
                                             onChange={changeHandler}
-                                            className="px-3 min-h-0 h-10 border-2 outline-none mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-md  rounded-md"
+                                            className="px-3 min-h-0 h-10 border border-gray-400 outline-none mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-md  rounded-md"
                                         />
                                     </div>
                                     <div className="col-span-6 sm:col-span-4">
@@ -88,7 +88,7 @@ export default function EditUser(props) {
                                             id="email"
                                             value={user.email}
                                             onChange={changeHandler}
-                                            className="px-3 min-h-0 h-10 border-2 outline-none mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-md border-gray-300 rounded-md"
+                                            className="px-3 min-h-0 h-10 border border-gray-400 outline-none mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-md border-gray-300 rounded-md"
                                         />
                                     </div>
                                     <div className="col-span-6 sm:col-span-4">
@@ -96,14 +96,14 @@ export default function EditUser(props) {
                                             Bio
                                         </label>
                                         <textarea
-                                            className="p-3 border-2 outline-none mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-md border-gray-300 rounded-md"
+                                            className="p-3 border border-gray-400 outline-none mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-md border-gray-300 rounded-md"
                                             name="bio"
                                             onChange={changeHandler} cols="30" rows="10" value={user.bio}>
                                         </textarea>
                                     </div>
                                     <div className="col-span-6 sm:col-span-4">
                                         <label htmlFor="email" className="block text-md font-medium text-gray-700">
-                                            Created at  -  <Moment format="YYYY/MM/DD">{user.created_at}</Moment>
+                                            Joined On  -  <Moment format="YYYY/MM/DD">{user.created_at}</Moment>
                                         </label>
                                     </div>
                                     <div className="col-span-6 sm:col-span-4">
