@@ -27,11 +27,11 @@ export default function Homepage() {
                 {/* <img src="http://127.0.0.1:8000/storage/images/51adfb32-dd77-4625-b367-8c5437ae75f6.jpg" /> */}
                 < Navbar />
                 <Carousel />
-                <ProductCarousel title="Electronics" products={products} />
-                <ProductCarousel title="Trending Items" products={products} />
+                <ProductCarousel title="Electronics" />
+                <ProductCarousel title="Trending Items" />
                 <Ad />
-                <ProductCarousel title="Mens Fashion" products={products} />
-                <ProductCarousel title="Women Fashion" products={products} />
+                <ProductCarousel title="Mens Fashion" />
+                <ProductCarousel title="Women Fashion" />
                 <Footer />
             </div >
             : <Loading />
