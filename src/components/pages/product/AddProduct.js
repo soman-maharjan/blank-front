@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import ProductCategory from './ProductCategory';
 import ProductAttribute from './ProductAttribute';
 import JoditEditor from "jodit-react";
@@ -9,7 +9,16 @@ const formData = new FormData();
 
 export default function AddProduct() {
 
-    const [state, setState] = useState({ productName: "", description: '', category: "", boxContents: "", variation: "", color: "", sku: [], attributes: [] });
+    const [state, setState] = useState({
+        productName: "",
+        description: '',
+        category: "",
+        boxContents: "",
+        variation: "",
+        color: "",
+        sku: [],
+        attributes: []
+    });
 
     // const [img, setImg] = useState([]);
     const [category, setCategory] = useState([]);
@@ -19,7 +28,6 @@ export default function AddProduct() {
     const categoryOption = category.map((category, index) => <option value={category} key={index}>{category}</option>)
 
     const [errors, setErrors] = useState({});
-
 
 
     // const onDrop = useCallback(acceptedFiles => {
@@ -73,10 +81,10 @@ export default function AddProduct() {
                 alert("Product Added!")
                 window.location.reload()
             })
-            .catch(error =>
-                // console.log(error.response)
+            .catch(error => {
+                console.log(error.response)
                 setErrors(error.response.data)
-            )
+            })
     }
 
     useEffect(() => {
@@ -86,7 +94,6 @@ export default function AddProduct() {
             )
             .catch(error => console.log(error));
     }, []);
-
 
 
     return (
@@ -99,7 +106,7 @@ export default function AddProduct() {
                 </div>
             </div>
             <div className="flex justify-center mt-10">
-                <form className="w-full max-w-3xl" >
+                <form className="w-full max-w-3xl">
 
                     {/* <div class="flex flex-col w-full">
                         <div class="grid h-20 card bg-base-300 rounded-box place-items-center">content</div>
@@ -109,15 +116,20 @@ export default function AddProduct() {
                     <div className="p-4 mb-16 bg-gray-200">
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2" >
+                                <label className="block uppercase tracking-wide text-gray-700 font-medium mb-2">
                                     Product Name
                                 </label>
-                                <input required name="productName" onChange={changeHandler} value={state.productName} className={` ${errors.productName ? "border-red-500" : null} appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} type="text" placeholder="e.g. Electronics" />
-                                {errors.hasOwnProperty('productName') ? <div className="text-red-500">{errors.productName}</div> : null}
+                                <input required name="productName" onChange={changeHandler} value={state.productName}
+                                       className={` ${errors.productName ? "border-red-500" : null} appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                                       type="text" placeholder="e.g. Electronics"/>
+                                {errors.hasOwnProperty('productName') ?
+                                    <div className="text-red-500">{errors.productName}</div> : null}
                             </div>
                         </div>
 
-                        <ProductCategory changeHandler={changeHandler} category={state.category} categoryOption={categoryOption} setAttribute={setAttribute} error={errors.category} />
+                        <ProductCategory changeHandler={changeHandler} category={state.category}
+                                         categoryOption={categoryOption} setAttribute={setAttribute}
+                                         error={errors.category}/>
 
                     </div>
                     {/* {attribute !== "" ?
@@ -125,11 +137,12 @@ export default function AddProduct() {
                             Attributes
                         </label> : null} */}
                     {attribute !== "" ?
-                        <ProductAttribute attribute={attribute} setState={setState} state={state} error={errors.attributes} />
+                        <ProductAttribute attribute={attribute} setState={setState} state={state}
+                                          error={errors.attributes}/>
                         : null}
 
                     <div className="p-4 bg-gray-200 mb-16">
-                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3" >
+                        <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3">
                             DETAIL DESCRIPTION
                         </label>
                         <JoditEditor
@@ -137,36 +150,45 @@ export default function AddProduct() {
                             tabIndex={1} // tabIndex of textarea
                             onBlur={newContent => setDescription(newContent)} // preferred to use only this option to update the content for performance reasons
                         />
-                        <br />
+                        <br/>
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3" >
+                                <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3">
                                     Box Contents
                                 </label>
 
-                                <input name="boxContents" value={state.boxContents} onChange={changeHandler} className={` ${errors.boxContents ? "border-red-500" : null} appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} type="text" placeholder="e.g. 1 pc Phone, 1 Charger" />
-                                {errors.hasOwnProperty('boxContents') ? <div className="text-red-500">{errors.boxContents}</div> : null}
+                                <input name="boxContents" value={state.boxContents} onChange={changeHandler}
+                                       className={` ${errors.boxContents ? "border-red-500" : null} appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                                       type="text" placeholder="e.g. 1 pc Phone, 1 Charger"/>
+                                {errors.hasOwnProperty('boxContents') ?
+                                    <div className="text-red-500">{errors.boxContents}</div> : null}
                             </div>
                         </div>
                     </div>
 
-                    <hr />
+                    <hr/>
                     <div className="p-4 bg-gray-200 mb-16">
                         <div className="flex flex-wrap -mx-3 mb-6 mt-2">
                             <div className="w-full px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3" >
+                                <label className="block uppercase tracking-wide text-gray-700 font-medium mb-3">
                                     Price and Stock
                                 </label>
                                 Color Family
-                                <input name="color" value={state.color} onChange={changeHandler} className={` ${errors.productName ? "border-red-500" : null} appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} type="text" placeholder="e.g. Red" />
-                                {errors.hasOwnProperty('color') ? <div className="text-red-500">{errors.color}</div> : null}
+                                <input name="color" value={state.color} onChange={changeHandler}
+                                       className={` ${errors.productName ? "border-red-500" : null} appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                                       type="text" placeholder="e.g. Red"/>
+                                {errors.hasOwnProperty('color') ?
+                                    <div className="text-red-500">{errors.color}</div> : null}
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6 mt-2">
                             <div className="w-full px-3 mb-6 md:mb-0">
                                 Variation
-                                <input name="variation" type="text" value={state.variation} onChange={changeHandler} className={` ${errors.variation ? "border-red-500" : null} appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`} placeholder="e.g. Size, Color" />
-                                {errors.hasOwnProperty('variation') ? <div className="text-red-500">{errors.variation}</div> : null}
+                                <input name="variation" type="text" value={state.variation} onChange={changeHandler}
+                                       className={` ${errors.variation ? "border-red-500" : null} appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                                       placeholder="e.g. Size, Color"/>
+                                {errors.hasOwnProperty('variation') ?
+                                    <div className="text-red-500">{errors.variation}</div> : null}
                             </div>
                         </div>
 
@@ -179,13 +201,16 @@ export default function AddProduct() {
                                 <p>Drag 'n' drop some files here, or click to select files</p>
                         }
                     </div> */}
-                        <ProductStock setState={setState} state={state} error={errors.sku} formData={formData} />
+                        <ProductStock setState={setState} state={state} error={errors.sku} formData={formData}/>
 
                     </div>
 
                     {/* <ImageUpload setState={setState} error={errors.image} /> */}
 
-                    <button type="submit" className="btn btn-success hover:bg-green-600 bg-green-500 rounded border-none px-5 py-1 mb-10 mt-10 w-28" onClick={submitHandler}>Submit</button>
+                    <button type="submit"
+                            className="btn btn-success hover:bg-green-600 bg-green-500 rounded border-none px-5 py-1 mb-10 mt-10 w-28"
+                            onClick={submitHandler}>Submit
+                    </button>
 
                 </form>
             </div>

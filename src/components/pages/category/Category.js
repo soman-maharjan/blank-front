@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Footer from '../homepage/Footer';
 import Navbar from '../homepage/Navbar';
 import Loading from '../Loading';
@@ -9,7 +9,7 @@ export default function Category(props) {
 
     const [products, setProducts] = useState();
 
-    const [filters, setFilters] = useState({ min: "", max: "", rating: "0", sort: "Relevance" });
+    const [filters, setFilters] = useState({min: "", max: "", rating: "0", sort: "Relevance"});
 
     const [nextPage, setNextPage] = useState("");
 
@@ -31,12 +31,14 @@ export default function Category(props) {
 
     return (
         products === undefined ?
-            <Loading />
+            <Loading/>
             :
             <div className="bg-gray-100 h-full">
-                <Navbar />
-                <DisplayProduct submitHandler={submitHandler} products={products} setProducts={setProducts} value={props.category} filters={filters} setFilters={setFilters} nextPage={nextPage} setNextPage={setNextPage} />
-                <Footer />
-            </div >
+                <Navbar/>
+                <DisplayProduct submitHandler={submitHandler} products={products} setProducts={setProducts}
+                                value={props.category} filters={filters} setFilters={setFilters} nextPage={nextPage}
+                                setNextPage={setNextPage}/>
+                <Footer/>
+            </div>
     )
 }
