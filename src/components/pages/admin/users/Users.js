@@ -43,7 +43,10 @@ export default function ShowUsers(props) {
 
     useEffect(() => {
         axios.get('/api/users')
-            .then(response => setUsers(response.data))
+            .then(response => {
+                console.log(response.data)
+                setUsers(response.data)
+            })
             .catch(error => console.log(error.response))
     }, [])
 
@@ -59,8 +62,6 @@ export default function ShowUsers(props) {
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
-
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);

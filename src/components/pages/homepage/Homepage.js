@@ -8,21 +8,21 @@ import Ad from './Ad'
 import Loading from '../Loading';
 
 export default function Homepage() {
-    const [products, setProducts] = useState([]);
-
-    const [productLoading, setProductLoading] = useState(false);
+    // const [products, setProducts] = useState([]);
+    //
+    // const [productLoading, setProductLoading] = useState(false);
 
     useEffect(() => {
-        axios.get('api/product')
-            .then(response => {
-                setProducts(response.data)
-                setProductLoading(true);
-            })
-            .catch(error => console.log(error))
+        // axios.get('api/product')
+        //     .then(response => {
+        //         setProducts(response.data)
+        //         setProductLoading(true);
+        //     })
+        //     .catch(error => console.log(error))
     }, [])
 
     return (
-        productLoading ?
+        // productLoading ?
             < div className="overflow-hidden bg-gray-100" >
                 {/* <img src="http://127.0.0.1:8000/storage/images/51adfb32-dd77-4625-b367-8c5437ae75f6.jpg" /> */}
                 < Navbar />
@@ -34,7 +34,7 @@ export default function Homepage() {
                 <ProductCarousel title="Women Fashion" />
                 <Footer />
             </div >
-            : <Loading />
+            // : <Loading />
     )
 }
 

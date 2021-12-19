@@ -1,25 +1,28 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Moment from 'react-moment';
 import Loading from '../../Loading';
+import {Switch} from "@mui/material";
 
 export default function EditUser(props) {
 
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState(props.user)
+    const [roles, setRoles] = useState([])
+
     const [loading, setLoading] = useState(false)
 
     const [error, setError] = useState({});
 
     const changeHandler = (event) => {
-        setUser({ ...user, [event.target.name]: event.target.value })
+        setUser({...user, [event.target.name]: event.target.value})
     }
 
     useEffect(() => {
         setLoading(true);
-        axios.get('/api/user')
+        axios.get('/api/roles')
             .then(response => {
                 setLoading(false)
-                setUser(response.data)
+                setRoles(response.data)
             })
             .catch(error => {
                 setLoading(false)
@@ -41,12 +44,16 @@ export default function EditUser(props) {
             })
     }
 
-    return loading ? <Loading /> : (
+    const toggleHandler = (event) => {
+        console.log(event.target.value)
+    }
+
+    return loading ? <Loading/> : (
         <div className="w-11/12">
             <div class="text-sm breadcrumbs mt-3">
                 <ul>
                     <li>
-                        <a onClick={() => props.changePage({ page: 'dashboard' })}>Dashboard</a>
+                        <a onClick={() => props.changePage({page: 'dashboard'})}>Dashboard</a>
                     </li>
                     <li>Edit User</li>
                 </ul>
@@ -99,17 +106,49 @@ export default function EditUser(props) {
                                             className="p-3 border border-gray-400 outline-none mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-md border-gray-300 rounded-md"
                                             name="bio"
                                             onChange={changeHandler} cols="30" rows="10" value={user.bio}>
+
                                         </textarea>
                                     </div>
-                                    <div className="col-span-6 sm:col-span-4">
-                                        <label htmlFor="email" className="block text-md font-medium text-gray-700">
-                                            Joined On  -  <Moment format="YYYY/MM/DD">{user.created_at}</Moment>
-                                        </label>
+                                    <div className="col-span-6">
+                                        <div className="grid grid-cols-6 gap-y-2 gap-x-6 text-left pt-3">
+                                            <div className="col-span-3">
+                                                <label htmlFor="email"
+                                                       className="block text-md font-medium text-gray-700">
+                                                    Joined On
+                                                </label>
+                                                <Moment format="YYYY/MM/DD">{user.created_at}</Moment>
+                                            </div>
+                                            <div className="col-span-3 text-right">
+                                                <label htmlFor="email"
+                                                       className="block text-md font-medium text-gray-700">
+                                                    Updated On
+                                                </label>
+                                                <Moment format="YYYY/MM/DD">{user.updated_at}</Moment>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="col-span-6 sm:col-span-4">
-                                        <label htmlFor="email" className="block text-md font-medium text-gray-700">
-                                            Updated at  -  <Moment format="YYYY/MM/DD">{user.updated_at}</Moment>
+                                    <div className="col-span-6">
+                                        <label htmlFor="roles" className="block text-md font-medium text-gray-700">
+                                            Roles
                                         </label>
+                                        <div className="grid grid-cols-6 gap-y-2 gap-x-6 text-left pt-2">
+                                            {roles.map(r =>
+                                                <>
+                                                    <div className="col-span-3 capitalize">
+                                                        {r}
+                                                    </div>
+                                                    <div className="col-span-3">
+                                                        <Switch onChange={toggleHandler}/>
+                                                        {/*<input*/}
+                                                        {/*    name={r}*/}
+                                                        {/*    type="checkbox"*/}
+                                                        {/*    onChange={toggleHandler}*/}
+                                                        {/*    className="toggle toggle-accent">*/}
+                                                        {/*</input>*/}
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +164,6 @@ export default function EditUser(props) {
                     </form>
                 </div>
             </div>
-
         </div>
     )
 }

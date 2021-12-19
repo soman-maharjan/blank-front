@@ -5,7 +5,7 @@ import Routes from './Routes';
 function App() {
   return (
     <BrowserRouter>
-      <div className="App font-mono">
+      <div className="App">
         <Routes />
       </div>
     </BrowserRouter>
