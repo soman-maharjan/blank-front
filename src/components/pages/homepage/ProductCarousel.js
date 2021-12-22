@@ -44,7 +44,7 @@ export default function ProductCarousel(props) {
         <ProductCard key={index} product={product}/>);
 
     return (
-        <div className="mx-24">
+        <div className="mx-24 mb-7">
             <h2 className="ml-2 text-xl flex mt-5 font-semibold">{props.title}</h2>
             <Slider {...settings}>
                 {carousel}

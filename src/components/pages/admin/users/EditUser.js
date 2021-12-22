@@ -2,12 +2,13 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react'
 import Moment from 'react-moment';
 import Loading from '../../Loading';
-import {Switch} from "@mui/material";
 
 export default function EditUser(props) {
 
     const [user, setUser] = useState(props.user)
     const [roles, setRoles] = useState([])
+
+    const [userRoles, setUserRoles] = useState([]);
 
     const [loading, setLoading] = useState(false)
 
@@ -30,6 +31,15 @@ export default function EditUser(props) {
             })
     }, [])
 
+    useEffect(() => {
+        const checkboxRoles = [];
+        roles.map(r => {
+            checkboxRoles[r] = (user.role && user.role.includes(r))
+        })
+
+        setUserRoles(checkboxRoles);
+    }, [roles]);
+
     const submit = (event) => {
         event.preventDefault();
         setLoading(true)
@@ -44,9 +54,18 @@ export default function EditUser(props) {
             })
     }
 
-    const toggleHandler = (event) => {
-        console.log(event.target.value)
+    const toggleHandler = (role) => {
+        var val = [];
+        val = userRoles;
+        val[role] = !val[role];
+        console.log(val);
+        setUserRoles(val);
     }
+
+    useEffect(() => {
+        console.log(userRoles, 'changed')
+    }, [userRoles]);
+
 
     return loading ? <Loading/> : (
         <div className="w-11/12">
@@ -132,19 +151,21 @@ export default function EditUser(props) {
                                             Roles
                                         </label>
                                         <div className="grid grid-cols-6 gap-y-2 gap-x-6 text-left pt-2">
-                                            {roles.map(r =>
+                                            {Object.entries(userRoles).map(([key, value]) =>
                                                 <>
                                                     <div className="col-span-3 capitalize">
-                                                        {r}
+                                                        {key}
                                                     </div>
                                                     <div className="col-span-3">
-                                                        <Switch onChange={toggleHandler}/>
-                                                        {/*<input*/}
-                                                        {/*    name={r}*/}
-                                                        {/*    type="checkbox"*/}
-                                                        {/*    onChange={toggleHandler}*/}
-                                                        {/*    className="toggle toggle-accent">*/}
-                                                        {/*</input>*/}
+                                                        {/*<Switch onChange={() => toggleHandler(r)}*/}
+                                                        {/*        checked={userRoles[r]}/>*/}
+                                                        <input
+                                                            name={key}
+                                                            type="checkbox"
+                                                            onChange={() => toggleHandler(key)}
+                                                            checked={value ? "checked" : ""}
+                                                            className="toggle toggle-accent">
+                                                        </input>
                                                     </div>
                                                 </>
                                             )}

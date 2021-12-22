@@ -26,9 +26,6 @@ const columns = [
 ];
 
 export default function Payment(props) {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
     const [payments, setPayments] = React.useState([]);
 
     React.useEffect(() => {
@@ -36,16 +33,6 @@ export default function Payment(props) {
             .then(response => setPayments(response.data))
             .catch(error => console.log(error.response))
     }, [])
-
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
 
     const value = (column, row) => {
         switch (column.id) {

@@ -40,7 +40,7 @@ export default function AccountSetting(props) {
                     </textarea>
                 </div>
             </div>
-            <button className={`p-2 mt-3 bg-indigo-500 text-white rounded px-4 ${loading ? "animate-spin" : ""}`} onClick={updateProfile}>Update</button>
+            <button className={`p-2 mt-3 bg-indigo-500 text-white rounded px-4`} onClick={updateProfile}>{loading ? "Processing..." : "Update"}</button>
         </div>
     )
 }

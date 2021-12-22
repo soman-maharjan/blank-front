@@ -71,35 +71,35 @@ export default function Navbar() {
                                     <Link to='/cart'>
                                         <ShoppingCartIcon className="h-6 w-6"/>
                                     </Link>
-                                    <Popover className="relative">
-                                        <>
-                                            <Popover.Button>
-                                                <BellIcon className="h-6 w-6" onClick={notification}/>
-                                            </Popover.Button>
-                                            <Transition
-                                                as={Fragment}
-                                                enter="transition ease-out duration-200"
-                                                enterFrom="opacity-0 translate-y-1"
-                                                enterTo="opacity-100 translate-y-0"
-                                                leave="transition ease-in duration-150"
-                                                leaveFrom="opacity-100 translate-y-0"
-                                                leaveTo="opacity-0 translate-y-1"
-                                            >
-                                                <Popover.Panel
-                                                    className="right-0 absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-3/4 left-1/2 sm:px-0">
-                                                    <div
-                                                        className="bg-white overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                                                        <div className="relative grid gap-2 bg-white px-7 py-4">
-                                                            <a href="#">Analytics</a>
-                                                            <a href="#">Engagement</a>
-                                                            <a href="#">Security</a>
-                                                            <a href="#">Integrations</a>
-                                                        </div>
-                                                    </div>
-                                                </Popover.Panel>
-                                            </Transition>
-                                        </>
-                                    </Popover>
+                                    {/*<Popover className="relative">*/}
+                                    {/*    <>*/}
+                                    {/*        <Popover.Button>*/}
+                                    {/*            <BellIcon className="h-6 w-6" onClick={notification}/>*/}
+                                    {/*        </Popover.Button>*/}
+                                    {/*        <Transition*/}
+                                    {/*            as={Fragment}*/}
+                                    {/*            enter="transition ease-out duration-200"*/}
+                                    {/*            enterFrom="opacity-0 translate-y-1"*/}
+                                    {/*            enterTo="opacity-100 translate-y-0"*/}
+                                    {/*            leave="transition ease-in duration-150"*/}
+                                    {/*            leaveFrom="opacity-100 translate-y-0"*/}
+                                    {/*            leaveTo="opacity-0 translate-y-1"*/}
+                                    {/*        >*/}
+                                    {/*            <Popover.Panel*/}
+                                    {/*                className="right-0 absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-3/4 left-1/2 sm:px-0">*/}
+                                    {/*                <div*/}
+                                    {/*                    className="bg-white overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">*/}
+                                    {/*                    <div className="relative grid gap-2 bg-white px-7 py-4">*/}
+                                    {/*                        <a href="#">Analytics</a>*/}
+                                    {/*                        <a href="#">Engagement</a>*/}
+                                    {/*                        <a href="#">Security</a>*/}
+                                    {/*                        <a href="#">Integrations</a>*/}
+                                    {/*                    </div>*/}
+                                    {/*                </div>*/}
+                                    {/*            </Popover.Panel>*/}
+                                    {/*        </Transition>*/}
+                                    {/*    </>*/}
+                                    {/*</Popover>*/}
                                     {userAuth.isAuthenticated ?
                                         <>
                                             <Menu as="div" className="relative -mt-1">
@@ -138,7 +138,7 @@ export default function Navbar() {
                                                                               )}>My Account</Link>
                                                                     )}
                                                                 </Menu.Item>
-                                                                {userProfile.roles.includes('seller') ?
+                                                                {userProfile.roles && userProfile.roles.includes('seller') ?
                                                                     <Menu.Item>
                                                                         {({active}) => (
                                                                             <Link to={'/seller-dashboard'}
@@ -149,7 +149,7 @@ export default function Navbar() {
                                                                         )}
                                                                     </Menu.Item> : null}
 
-                                                                {userProfile.roles.includes('admin') ?
+                                                                {userProfile.roles && userProfile.roles.includes('admin') ?
                                                                     <Menu.Item>
                                                                         {({active}) => (
                                                                             <Link to={'/admin-dashboard'}

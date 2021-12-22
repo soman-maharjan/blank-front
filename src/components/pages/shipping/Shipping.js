@@ -87,7 +87,7 @@ export default function Shipping() {
     }
 
     useEffect(() => {
-        if (state.phone_number !== "") {
+        if (state.phone_number) {
             if ((state.phone_number.startsWith(9)) && ((state.phone_number.length) === 10)) {
                 setNumberError(false);
             } else {

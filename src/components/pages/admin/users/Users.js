@@ -1,19 +1,11 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import DeleteModal from '../../modal/DeleteModal';
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { TablePagination } from '@mui/material';
+import DataTable from "../../table/DataTable";
 
 const columns = [
-    { id: '_id', label: 'User Id', minWidth: 170, align: 'center' },
-    { id: 'name', label: 'Name', minWidth: 170, align: 'center' },
+    {id: '_id', label: 'User Id', minWidth: 170, align: 'center'},
+    {id: 'name', label: 'Name', minWidth: 170, align: 'center'},
     {
         id: 'email',
         label: 'Email',
@@ -56,18 +48,6 @@ export default function ShowUsers(props) {
             .catch(error => console.log(error))
     }
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
-
     const val = {
         open: open,
         setOpen: setOpen,
@@ -77,12 +57,35 @@ export default function ShowUsers(props) {
         success: "Delete"
     }
 
+    const value = (column, row) => {
+        switch (column.id) {
+            case 'options':
+                return (
+                    <>
+                        <a onClick={() => props.changePage({page: 'edit-user', user: row})}
+                           className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
+                            Edit
+                        </a>
+                        <a onClick={() => {
+                            setId(row._id);
+                            setOpen(true);
+                        }}
+                           className="normal-case min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
+                            Delete
+                        </a>
+                    </>
+                )
+            default:
+                return (row[column.id])
+        }
+    }
+
     return (
         <div className="w-11/12">
             <div class="text-sm breadcrumbs mt-3">
                 <ul>
                     <li>
-                        <a onClick={() => props.changePage({ page: 'dashboard' })}>Dashboard</a>
+                        <a onClick={() => props.changePage({page: 'dashboard'})}>Dashboard</a>
                     </li>
                     <li>Users</li>
                 </ul>
@@ -97,71 +100,17 @@ export default function ShowUsers(props) {
 
                 <div class="flex-none">
                     <button class="btn btn-square btn-ghost">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                     </button>
                 </div>
             </div>
 
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ minHeight: '75vh' }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {users
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => {
-                                    return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                            {columns.map((column) => {
-                                                var value = row[column.id];
+            <DataTable columns={columns} filteredData={users} data={users} value={value}/>
 
-                                                if (column.id == 'options') {
-                                                    var value =
-                                                        <>
-                                                            <a onClick={() => props.changePage({ page: 'edit-user', user: row })} className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
-                                                                Edit
-                                                            </a>
-                                                            <a onClick={() => { setId(row._id); setOpen(true); }} className="normal-case min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
-                                                                Delete
-                                                            </a>
-                                                        </>
-                                                }
-                                                return (
-                                                    <TableCell key={column.id} align={column.align} className="payment-table">
-                                                        {value}
-                                                    </TableCell>
-                                                );
-                                            })}
-                                        </TableRow>
-                                    );
-                                })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={users.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
             <DeleteModal {...val} />
         </div>
     )
