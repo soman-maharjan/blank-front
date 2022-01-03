@@ -34,7 +34,7 @@ export default function EditUser(props) {
     useEffect(() => {
         const checkboxRoles = [];
         roles.map(r => {
-            checkboxRoles[r] = (user.role && user.role.includes(r))
+            checkboxRoles.push({[r]: (user.role && user.role.includes(r))})
         })
 
         setUserRoles(checkboxRoles);
@@ -43,10 +43,11 @@ export default function EditUser(props) {
     const submit = (event) => {
         event.preventDefault();
         setLoading(true)
-        axios.put('/api/users/' + user._id, user)
+        axios.put('/api/users/' + user._id, {...user, roles: userRoles})
             .then(response => {
                 setLoading(false)
                 console.log(response.data)
+                setUser(response.data.data)
             })
             .catch(error => {
                 setLoading(false)
@@ -55,17 +56,16 @@ export default function EditUser(props) {
     }
 
     const toggleHandler = (role) => {
-        var val = [];
-        val = userRoles;
-        val[role] = !val[role];
-        console.log(val);
-        setUserRoles(val);
+        const val = userRoles;
+        var obj = {};
+        val.map((v, index) => {
+            if (Object.keys(v) == role) {
+                obj[role] = !Object.values(v)[0];
+                val[index] = obj;
+            }
+        })
+        setUserRoles([...val]);
     }
-
-    useEffect(() => {
-        console.log(userRoles, 'changed')
-    }, [userRoles]);
-
 
     return loading ? <Loading/> : (
         <div className="w-11/12">
@@ -151,19 +151,19 @@ export default function EditUser(props) {
                                             Roles
                                         </label>
                                         <div className="grid grid-cols-6 gap-y-2 gap-x-6 text-left pt-2">
-                                            {Object.entries(userRoles).map(([key, value]) =>
+                                            {userRoles.map((r) =>
                                                 <>
                                                     <div className="col-span-3 capitalize">
-                                                        {key}
+                                                        {Object.keys(r)}
                                                     </div>
                                                     <div className="col-span-3">
                                                         {/*<Switch onChange={() => toggleHandler(r)}*/}
                                                         {/*        checked={userRoles[r]}/>*/}
                                                         <input
-                                                            name={key}
+                                                            name={Object.keys(r)}
                                                             type="checkbox"
-                                                            onChange={() => toggleHandler(key)}
-                                                            checked={value ? "checked" : ""}
+                                                            onChange={() => toggleHandler(Object.keys(r)[0])}
+                                                            checked={Object.values(r)[0] ? "checked" : ""}
                                                             className="toggle toggle-accent">
                                                         </input>
                                                     </div>

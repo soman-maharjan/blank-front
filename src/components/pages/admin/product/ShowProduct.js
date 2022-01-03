@@ -61,7 +61,7 @@ export default function ShowProduct(props) {
                     </p>
                     <a onClick={() => verifyHandler(product._id)}
                        className="mt-4 px-20 normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
-                        {product.is_verified ? "Verify" : "UnVerify"}
+                        {product.is_verified ? "UnVerify" : "Verify"}
                     </a>
                 </div>
             </div>

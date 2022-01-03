@@ -24,12 +24,14 @@ export default function Homepage() {
         < div className="overflow-hidden bg-gray-100">
             {/* <img src="http://127.0.0.1:8000/storage/images/51adfb32-dd77-4625-b367-8c5437ae75f6.jpg" /> */}
             < Navbar/>
+            <div className="min-h-screen">
             <Carousel/>
             <ProductCarousel title="Electronics"/>
             <ProductCarousel title="Trending Items"/>
             <Ad/>
             <ProductCarousel title="Mens Fashion"/>
             <ProductCarousel title="Women Fashion"/>
+            </div>
             <Footer/>
         </div>
         // : <Loading />

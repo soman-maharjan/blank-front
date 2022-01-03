@@ -55,8 +55,9 @@ export default function ManageProduct(props) {
 
     const submitHandler = () => {
         axios.delete('/api/product/' + id)
-            .then(response => setProducts(products.filter(p => p._id !== id)))
-            .catch(error => console.log(error))
+            .then(response => {console.log(response)
+                setProducts(products.filter(p => p._id !== id))})
+            .catch(error => console.log(error.response))
     }
 
     const val = {

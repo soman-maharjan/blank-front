@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 import axios from "axios";
-import image1 from '../../images/wide1.jpg';
-import image3 from '../../images/wide3.jpg';
-import image4 from '../../images/wide4.jpg';
 
 export default class Carousel extends Component {
   constructor(props) {
@@ -29,7 +26,7 @@ export default class Carousel extends Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
-      autoplaySpeed: 4000,
+      autoplaySpeed: 5000,
       cssEase: "linear",
       useCss: "height: 350px;"
     };
