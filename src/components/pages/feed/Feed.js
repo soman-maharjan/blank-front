@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Footer from '../homepage/Footer';
 import Navbar from '../homepage/Navbar';
 import Loading from '../Loading';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import axios from 'axios';
 
 import Echo from 'laravel-echo';
@@ -58,7 +58,7 @@ export default function Feed() {
         window.Echo.private(`products.` + details._id)
             .listen('NewProduct', (e) => {
                 // console.log(e)
-                setProducts((prevState) => ([e.product,...prevState]));
+                setProducts((prevState) => ([e.product, ...prevState]));
             });
 
         return () => {
@@ -66,24 +66,20 @@ export default function Feed() {
         }
     }, [])
 
-    const productList = error ? "No Products Found" : products.map(p => <ProductBox product={p} />);
-    console.log(products);
+    const productList = error ? "No Products Found" : products.map(p => <ProductBox product={p}/>);
     return (
-        <div className="overflow-hidden" >
-            < Navbar />
-            {loading ? <Loading /> :
+        <div className="overflow-hidden">
+            < Navbar/>
+            {loading ? <Loading/> :
                 <div className="min-h-screen">
                     <div className="grid grid-cols-4">
-                        <div className="grid grid-cols-3 col-span-3 gap-4">
+                        <div className="grid grid-cols-4 col-span-3 gap-6 py-4 px-7">
                             {productList}
-                        </div>
-                        <div>
                         </div>
                     </div>
                 </div>
             }
-            <Footer />
-        </div >
-
+            <Footer/>
+        </div>
     )
 }

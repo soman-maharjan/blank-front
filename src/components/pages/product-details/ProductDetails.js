@@ -10,6 +10,7 @@ import Image from './Image';
 import {LoadProfileAction} from '../../../redux/actions/ProfileAction';
 import Reviews from './Reviews';
 import Footer from "../homepage/Footer";
+import Comments from "./Comments";
 
 export default function ProductDetails(props) {
 
@@ -203,6 +204,7 @@ export default function ProductDetails(props) {
                                 </div>
                             </div>
                             <Reviews productId={product._id}/>
+                            <Comments productId={product._id}/>
                         </div>
                         <div className="w-1/4">
 

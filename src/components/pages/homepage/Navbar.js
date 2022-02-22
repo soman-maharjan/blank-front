@@ -54,7 +54,7 @@ export default function Navbar() {
                                                        className="pl-5 border-2 pr-16 h-10 focus:none focus:ring-indigo-500 outline-none focus:border-indigo-500 flex-1 block w-full  sm:text-sm border-gray-300"/>
                                                 <Link to={search !== '' ? `/search/${search}` : '#'}>
                                                     <button type="submit"
-                                                            className="absolute rounded-none top-0 right-0 rounded-l-none btn min-h-0 h-10 bg-indigo-600 hover:bg-indigo-700 border-none">Search
+                                                            className="absolute rounded-none top-0 right-0 rounded-l-none btn min-h-0 h-10 bg-indigo-500 hover:bg-indigo-600 border-none">Search
                                                     </button>
                                                 </Link>
                                             </div>

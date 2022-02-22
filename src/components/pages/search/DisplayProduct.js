@@ -18,7 +18,7 @@ export default function DisplayProduct(props) {
             max: "",
             min: "",
             rating: "0",
-            sort: "Relevance"
+            sort: "relevance"
         })
 
         setReset(!reset);
@@ -78,12 +78,12 @@ export default function DisplayProduct(props) {
                         <FormControl>
                             <h2 className="font-semibold mt-4">Sort By</h2>
                             <NativeSelect onChange={(event) => setFilters({...filters, sort: event.target.value})}>
-                                <option value="Relevance">Relevance</option>
-                                <option value="Newest Arrivals">Newest Arrivals</option>
-                                <option value="Price: Low to High">Price: Low to High</option>
-                                <option value="Price: Hight to Low">Price: Hight to Low</option>
-                                <option value="Name: A to Z">Name: A to Z</option>
-                                <option value="Name: Z to A">Name: Z to A</option>
+                                <option value="relevance">Relevance</option>
+                                <option value="new">Newest Arrivals</option>
+                                <option value="lowToHigh">Price: Low to High</option>
+                                <option value="highToLow">Price: High to Low</option>
+                                <option value="aToZ">Name: A to Z</option>
+                                <option value="zToA">Name: Z to A</option>
                             </NativeSelect>
                         </FormControl>
                     </div>

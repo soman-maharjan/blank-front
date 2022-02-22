@@ -1,6 +1,5 @@
 import React, { Component, Profiler } from 'react';
 import Users from '../admin/users/Users';
-import DashboardDetails from './DashboardDetails';
 import ManageAds from '../admin/ad/ManageAds';
 import AddImage from '../admin/ad/AddImage';
 import Category from '../admin/category/Category';
@@ -11,6 +10,7 @@ import Payment from '../admin/payment/Payment';
 import ShowPayment from '../admin/payment/ShowPayment';
 import Product from '../admin/product/Product';
 import ShowProduct from '../admin/product/ShowProduct';
+import AdminDashboardDetails from "./AdminDashboardDetails";
 
 class AdminDashboard extends Component {
 
@@ -34,7 +34,7 @@ class AdminDashboard extends Component {
     render() {
 
         const components = {
-            'dashboard': <DashboardDetails />,
+            'dashboard': <AdminDashboardDetails />,
             'show-users': <Users changePage={this.changePage} />,
             'edit-user': <EditUser changePage={this.changePage} user={this.state.user} />,
             'manage-ads': <ManageAds changePage={this.changePage} />,
