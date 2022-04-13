@@ -26,6 +26,7 @@ export default function DisplayProduct(props) {
 
     useEffect(() => {
         submitHandler();
+        console.log(filters)
     }, [filters.rating, props.word, reset, filters.sort])
 
     var data = [];
@@ -50,7 +51,7 @@ export default function DisplayProduct(props) {
 
     return (
         <div className="flex mt-3 bg-grey-100">
-            <div className="px-2 border-r-2 w-1/6">
+            <div className="px-2 border-r-2 w-1/6 min-h-screen">
                 <button
                     className="min-h-0 h-10 btn bg-indigo-600 hover:bg-indigo-700 border-none text-white rounded mb-4 px-10"
                     onClick={resetFilter}>Reset
@@ -98,7 +99,7 @@ export default function DisplayProduct(props) {
                     hasMore={props.nextPage == null ? false : true}
                     loader={<h4>Loading...</h4>}
                     endMessage={
-                        <h1>
+                        <h1 className="mb-5">
                             <b>Yay! You have seen it all</b>
                         </h1>
                     }

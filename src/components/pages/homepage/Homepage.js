@@ -26,11 +26,11 @@ export default function Homepage() {
             < Navbar/>
             <div className="min-h-screen">
             <Carousel/>
-            <ProductCarousel title="Electronics"/>
-            <ProductCarousel title="Trending Items"/>
+            <ProductCarousel url="/api/category/product/Electronics" title="Electronics"/>
+            <ProductCarousel url="/api/product/top-selling" title="Top Selling"/>
             <Ad/>
-            <ProductCarousel title="Mens Fashion"/>
-            <ProductCarousel title="Women Fashion"/>
+            <ProductCarousel url="/api/category/product/Mens Fashion" title="Mens Fashion"/>
+            <ProductCarousel url="/api/category/product/Women Fashion" title="Women Fashion"/>
             </div>
             <Footer/>
         </div>

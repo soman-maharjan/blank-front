@@ -6,14 +6,14 @@ import {showNotification} from "@mantine/notifications";
 import Header from "../../header/Header";
 
 const columns = [
-    {id: '_id', label: 'User Id'},
-    {id: 'name', label: 'Name'},
-    {id: 'email', label: 'Email'},
-    {id: 'bio', label: 'Bio'},
+    {id: 'comment', label: 'Comment'},
+    {id: '_id', label: 'Comment Id'},
+    {id: 'product_id', label: 'Product Id'},
+    {id: 'is_verified', label: 'Verified'},
     {id: 'options', label: 'Options'},
 ];
 
-export default function ShowUsers(props) {
+export default function Comments(props) {
 
     const [state, setState] = useState({
         data: [],
@@ -25,15 +25,13 @@ export default function ShowUsers(props) {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
-        axios.get('/api/users')
-            .then(response => {
-                setState({...state, filteredData: response.data, data: response.data})
-            })
+        axios.get('/api/comments')
+            .then(response => setState({...state, filteredData: response.data, data: response.data}))
             .catch(error => console.log(error.response))
     }, [])
 
     const submitHandler = () => {
-        axios.delete('/api/users/' + id)
+        axios.delete('/api/comments/' + id)
             .then(response => {
                 setState({
                     ...state,
@@ -41,21 +39,12 @@ export default function ShowUsers(props) {
                     data: state.data.filter(u => u._id !== id)
                 })
                 showNotification({
-                    title: 'User Deleted!',
-                    message: 'The user account has been deleted!',
+                    title: 'Comment Deleted!',
+                    message: 'The comment has been deleted!',
                     color: "red"
                 })
             })
             .catch(error => console.log(error))
-    }
-
-    const val = {
-        open: open,
-        setOpen: setOpen,
-        submit: submitHandler,
-        message: "Are you sure you want to delete this account? All of the data will be permanently removed. This action cannot be undone.",
-        title: "Delete account",
-        success: "Delete"
     }
 
     const value = (column, row) => {
@@ -63,9 +52,9 @@ export default function ShowUsers(props) {
             case 'options':
                 return (
                     <>
-                        <a onClick={() => props.changePage({page: 'edit-user', user: row})}
+                        <a onClick={() => props.changePage({page: 'show-comment', comment: row})}
                            className="normal-case mr-2 min-h-0 h-9 w-16 btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
-                            Edit
+                            View
                         </a>
                         <a onClick={() => {
                             setId(row._id);
@@ -76,9 +65,30 @@ export default function ShowUsers(props) {
                         </a>
                     </>
                 )
+            case 'is_verified':
+                return (
+                    row['is_verified'] ?
+                        <span
+                            className="p-2 px-6 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                            Verified
+                                                        </span> :
+                        <span
+                            className="p-2 px-4 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                            Not Verified
+                                                        </span>
+                )
             default:
                 return (row[column.id])
         }
+    }
+
+    const val = {
+        open: open,
+        setOpen: setOpen,
+        submit: submitHandler,
+        message: "Are you sure you want to delete this account? All of the data will be permanently removed. This action cannot be undone.",
+        title: "Delete account",
+        success: "Delete"
     }
 
     const changeState = ({data, filteredData}) => {
@@ -96,13 +106,11 @@ export default function ShowUsers(props) {
                     <li>
                         <a onClick={() => props.changePage({page: 'dashboard'})}>Dashboard</a>
                     </li>
-                    <li>Users</li>
+                    <li>Comments</li>
                 </ul>
             </div>
-
-            <Header setState={changeState} state={state} header={"Users"}/>
+            <Header setState={changeState} state={state} header={"Comments"}/>
             <DataTable columns={columns} filteredData={state.filteredData} data={state.data} value={value}/>
-
             <DeleteModal {...val} />
         </div>
     )

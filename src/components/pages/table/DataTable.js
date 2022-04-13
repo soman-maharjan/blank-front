@@ -24,7 +24,7 @@ export default function DataTable(props) {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <Paper sx={{ width: '100%', overflow: 'hidden', marginBottom: '30px' }}>
             <TableContainer sx={{ minHeight: '75vh' }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -32,8 +32,8 @@ export default function DataTable(props) {
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth }}
+                                    align="center"
+                                    style={{ minWidth: 170 }}
                                 >
                                     {column.label}
                                 </TableCell>
@@ -57,7 +57,7 @@ export default function DataTable(props) {
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                         {columns.map((column) => {
                                             return (
-                                                <TableCell key={column.id} align={column.align} className="payment-table">
+                                                <TableCell key={column.id} align="center" className="payment-table">
                                                     {value(column, row)}
                                                 </TableCell>
                                             )

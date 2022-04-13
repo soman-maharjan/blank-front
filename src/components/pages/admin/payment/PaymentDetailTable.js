@@ -26,7 +26,7 @@ export default function PaymentDetailTable(props) {
                         <TableCell>Product Name</TableCell>
                         <TableCell align="right">Category</TableCell>
                         <TableCell align="right">Quantity</TableCell>
-                        <TableCell align="right">Unit</TableCell>
+                        <TableCell align="right">Unit Price</TableCell>
                         <TableCell align="right">Sum</TableCell>
                     </TableRow>
                 </TableHead>
@@ -59,7 +59,7 @@ export default function PaymentDetailTable(props) {
                     </TableRow>
                     <TableRow>
                         <TableCell colSpan={2}>Seller</TableCell>
-                        <TableCell align="right">Rs. {(parseFloat(payment.amount).toFixed(2) - providersShare - fee)}</TableCell>
+                        <TableCell align="right">Rs. {(parseFloat(payment.amount).toFixed(2) - providersShare - fee).toFixed(2)}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

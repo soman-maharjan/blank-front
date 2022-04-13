@@ -72,7 +72,7 @@ export default function Review(props) {
                 </div>
                 <hr />
                 <div className="justify-center flex flex-wrap p-5 gap-4">
-                    {review !== undefined ? review.images.map(i => <img src={`${process.env.REACT_APP_IMAGE_URL}${i}`} className="w-60" />) : null}
+                    {review !== undefined ? review.images.map(i => <img src={`${process.env.REACT_APP_IMAGE_URL}${i}`} className="w-60 h-32" />) : null}
                 </div>
             </div>
 

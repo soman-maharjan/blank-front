@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react'
 import Moment from 'react-moment';
 import Loading from '../../Loading';
+import {showNotification} from "@mantine/notifications";
 
 export default function EditUser(props) {
 
@@ -48,9 +49,21 @@ export default function EditUser(props) {
                 setLoading(false)
                 console.log(response.data)
                 setUser(response.data.data)
+                showNotification({
+                    title: 'User Record Updated!',
+                    message: 'The record of the user has been updated!',
+                    color: "green"
+                })
             })
             .catch(error => {
                 setLoading(false)
+                showNotification({
+                    title: 'Error!',
+                    message:
+                    `${error.response.data.name ? error.response.data.name : ""} ${error.response.data.email ? error.response.data.email : ""}`
+                    ,
+                    color: "red"
+                })
                 console.log(error.response)
             })
     }
@@ -77,7 +90,7 @@ export default function EditUser(props) {
                     <li>Edit User</li>
                 </ul>
             </div>
-            <div class="navbar shadow mt-3 mb-5">
+            <div class="navbar shadow mt-3 mb-5 bg-white">
                 <div class="flex-1 px-2 mx-2">
                     <span class="text-lg font-semibold">
                         Edit User

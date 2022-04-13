@@ -11,14 +11,18 @@ import {LoadProfileAction} from '../../../redux/actions/ProfileAction';
 import Reviews from './Reviews';
 import Footer from "../homepage/Footer";
 import Comments from "./Comments";
+import SimilarProductCarousel from "./SimilarProductCarousel";
 
 export default function ProductDetails(props) {
 
     const url = "api/product/" + props.id;
 
     const profile = useSelector(state => state.userDetails.userProfile);
+    const userAuth = useSelector(state => state.userAuth);
 
     const [product, setProduct] = useState({});
+    const [sellerProduct, setSellerProduct] = useState([]);
+    const [similarProductUrl, setSimilarProductUrl] = useState("");
 
     const [state, setState] = useState({product: {}, quantity: 1})
 
@@ -33,14 +37,18 @@ export default function ProductDetails(props) {
     useEffect(() => {
         axios.get(url)
             .then(response => {
+                console.log(response.data)
                 setProduct(response.data)
                 setState({...state, product: response.data})
                 setSku(response.data.sku[0])
-                axios.get('/api/users/username/' + response.data.user_id)
-                    .then(response => setUser(response.data))
-                    .catch(error => console.log(error.response))
+                setUser(response.data.username)
+
+                setSimilarProductUrl('api/product/similar/' + response.data._id)
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error.response))
+        axios.get('/api/user-product')
+            .then(response => console.log(response))
+            .catch(error => console.log(error.response))
     }, [])
 
     const changeHandler = (event) => {
@@ -122,7 +130,7 @@ export default function ProductDetails(props) {
                                 <div className="w-full md:w-2/4 px-12 mb-10 md:mb-0">
                                     <Image images={images}/>
                                 </div>
-                                <div className="w-full md:w-1/4 pt-20 px-10">
+                                <div className="w-full md:w-1/4 pt-20">
                                     <div className="mb-10">
                                         <h1 className="font-bold uppercase text-3xl mb-5 break-word">{product.productName}</h1>
                                         {/* <p className="text-sm">  <a href="#" className="opacity-50 text-gray-900 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900">MORE <i className="mdi mdi-arrow-right"></i></a></p> */}
@@ -167,26 +175,28 @@ export default function ProductDetails(props) {
                                             className="h-5 w-5 inline" fill="#FF9529"/>)</p>
                                         <p className="pl-3 pt-2 text-sm">96% Positive Feedback</p>
                                         <hr className="mt-2 mb-1"/>
-                                        {
+                                        {userAuth.isAuthenticated ?
+
                                             profile._id !== product.user_id ?
 
-                                                (profile.following.includes(product.user_id) ?
+                                                (profile.following && profile.following.includes(product.user_id) ?
                                                         <p className="pl-3 text-sm cursor-pointer"
                                                            onClick={unfollow}>Following <Icon
                                                             className="h-5 w-5 inline text-indigo-800"/></p> :
                                                         <p className="pl-3 text-sm cursor-pointer"
                                                            onClick={follow}>Follow this seller <HeartIcon
                                                             className="h-5 w-5 inline text-indigo-800"/></p>
-                                                ) :
-                                                null}
+                                                ) : null
+                                            : null
+                                        }
 
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="w-full flex">
-                        <div className="w-3/4">
+                    <div className="w-full flex gap-5">
+                        <div className="w-4/5">
                             <div
                                 className="mb-4 w-full rounded bg-white shadow-md p-5 pl-10 mx-auto text-gray-800 relative md:text-left">
                                 <div className="items-center">
@@ -204,15 +214,35 @@ export default function ProductDetails(props) {
                                 </div>
                             </div>
                             <Reviews productId={product._id}/>
-                            <Comments productId={product._id}/>
-                        </div>
-                        <div className="w-1/4">
+                            <Comments productId={product._id} user={user}/>
 
+
+                        </div>
+                        <div className="w-1/5 bg-white rounded p-3 h-52 shadow">
+                            <h1 className="font-semibold text-gray-500 text-left">Services</h1>
+                            <div className="mt-2 text-left flex">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="mt-2 mr-2 h-6 w-6 text-gray-500" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                          d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"/>
+                                </svg>
+                                <div>
+                                    <p className="text-lg"> 7 Days Returns</p>
+                                    <p className="text-sm text-gray-500">Change of mind is not applicable</p>
+                                </div>
+                            </div>
+                            <div className="mt-8 flex">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="mt-1 mr-2 h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01" />
+                                </svg>
+                                <p className="text-lg">Warranty not available</p>
+                            </div>
                         </div>
                     </div>
-
+                    {similarProductUrl != "" ?
+                        <SimilarProductCarousel url={similarProductUrl} title="Similar Products"/> : null}
                 </div>
-                <Footer />
+                <Footer/>
             </>
             : null
     )

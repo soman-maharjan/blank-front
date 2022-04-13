@@ -4,10 +4,11 @@ import ProductCategory from './ProductCategory';
 import ProductAttribute from './ProductAttribute';
 import JoditEditor from "jodit-react";
 import ProductStock from './ProductStock';
+import {showNotification} from "@mantine/notifications";
 
 const formData = new FormData();
 
-export default function AddProduct() {
+export default function AddProduct(props) {
 
     const [state, setState] = useState({
         productName: "",
@@ -78,8 +79,12 @@ export default function AddProduct() {
 
         axios.post('/api/product', formData)
             .then(response => {
-                alert("Product Added!")
-                window.location.reload()
+                showNotification({
+                    title: 'Product Added!',
+                    message: 'The product has been added!',
+                    color: "green"
+                })
+                props.changePage({page: 'manage-product'})
             })
             .catch(error => {
                 console.log(error.response)

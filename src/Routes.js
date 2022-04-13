@@ -18,7 +18,7 @@ import Category from './components/pages/category/Category';
 import Payment from './components/pages/payment/Payment';
 import ForgotPassword from './components/pages/auth/ForgotPassword';
 import ResetPassword from './components/pages/auth/ResetPassword';
-import UserDashboard from './components/pages/user/UserDashboard';
+import UserDashboard from './components/pages/dashboard/UserDashboard';
 
 import NotFound from './components/pages/NotFound';
 import Feed from './components/pages/feed/Feed';
@@ -45,24 +45,19 @@ function Routes() {
                     <Category category={props.match.params.category} />
                 )} />
 
-
                 <Route path="/test" component={Test} />
 
                 {/* <Route exact path="/test/:word" render={(props) => (
                     <Test word={props.match.params.word} />
                 )} /> */}
 
-                <Route path="/feed" component={Feed} />
-
                 <Route exact path="/product/:id" render={(props) => (
                     <ProductDetails id={props.match.params.id} />
                 )} />
 
-
                 {/*Redirect if not authenticated */}
 
-
-
+                <Guard path="/feed" routeRedirect="/login" component={Feed} />
                 <Guard path="/seller-dashboard" routeRedirect="/login" component={SellerDashboard} />
                 <Guard path="/admin-dashboard" routeRedirect="/login" component={AdminDashboard} />
                 <Guard path="/account-dashboard" routeRedirect="/login" component={UserDashboard} />

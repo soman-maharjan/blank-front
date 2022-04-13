@@ -65,7 +65,7 @@ export default function ManageAds(props) {
                     </ul>
                 </div>
                 {/* <h1 className="text-2xl mb-10">Manage Products</h1> */}
-                <div class="navbar shadow mt-3 mb-5">
+                <div class="navbar shadow mt-3 mb-5 bg-white">
                     <div class="flex-1 px-2 mx-2">
                         <span class="text-lg font-semibold">
                             Manage Ads
@@ -74,7 +74,7 @@ export default function ManageAds(props) {
 
                     <div class="flex-none hidden px-2 mx-2 lg:flex">
                         <div class="flex items-stretch">
-                            <a className="btn btn-ghost btn-sm rounded-btn bg-green-300" onClick={() => props.changePage({ page: 'add-image' })}>
+                            <a className="btn btn-ghost btn-sm rounded-btn bg-green-400 hover:bg-green-500 text-white" onClick={() => props.changePage({ page: 'add-image' })}>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
@@ -89,7 +89,7 @@ export default function ManageAds(props) {
                         <div className="col-span-2 bg-green-200 h-40">2</div>
                         <div className="row-span-2 col-span-2 bg-blue-200">3</div>
                     </div> */}
-                    <div class="border mockup-window border-base-300">
+                    <div class="border bg-white mockup-window border-base-300">
                         <Ad key={reloadId} />
                     </div>
                 </div>

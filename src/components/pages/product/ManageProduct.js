@@ -2,38 +2,24 @@ import axios from 'axios'
 import React, {useEffect, useState} from 'react';
 import DeleteModal from '../modal/DeleteModal';
 import DataTable from "../table/DataTable";
+import {showNotification} from "@mantine/notifications";
+import Header from "../header/Header";
 
 const columns = [
-    {id: 'productName', label: 'Product Name', minWidth: 170, align: 'center'},
-    {
-        id: 'category',
-        label: 'Category',
-        minWidth: 170,
-        align: 'center',
-    },
-    {
-        id: 'is_active',
-        label: 'Status',
-        minWidth: 170,
-        align: 'center',
-    },
-    {
-        id: 'visibility',
-        label: 'Change Visibility',
-        minWidth: 130,
-        align: 'center',
-    },
-    {
-        id: 'options',
-        label: 'Options',
-        minWidth: 210,
-        align: 'center',
-    },
+    {id: 'productName', label: 'Product Name'},
+    {id: 'category', label: 'Category'},
+    {id: 'is_active', label: 'Status'},
+    {id: 'visibility', label: 'Change Visibility'},
+    {id: 'options', label: 'Options'},
 ];
 
 export default function ManageProduct(props) {
 
-    const [products, setProducts] = useState([]);
+    const [state, setState] = useState({
+        data: [],
+        filteredData: []
+    });
+
     const [id, setId] = useState("");
     const [open, setOpen] = useState(false)
 
@@ -42,21 +28,41 @@ export default function ManageProduct(props) {
     useEffect(() => {
         setLoading(true)
         axios.get('api/user-product')
-            .then(response => setProducts(response.data))
+            .then(response => {
+                setState({...state, filteredData: response.data, data: response.data})
+                setLoading(false)
+            })
             .catch(error => console.log(error))
-            .then(() => setLoading(false))
     }, []);
 
     const statusHandler = (id) => {
         axios.post(`api/product-status/${id}`)
-            .then(response => setProducts(response.data))
+            .then(response => {
+                setState({...state, filteredData: response.data, data: response.data})
+                const p = response.data.filter(p => p._id == id)
+                showNotification({
+                    title: 'Product Visibility Changed!',
+                    message: p[0].is_active ? 'The product is visible to the customers!' : 'The product is hidden from the customers!',
+                    color: p[0].is_active ? "green" : 'red'
+                })
+            })
             .catch(error => console.log(error))
     }
 
     const submitHandler = () => {
         axios.delete('/api/product/' + id)
-            .then(response => {console.log(response)
-                setProducts(products.filter(p => p._id !== id))})
+            .then(response => {
+                setState({
+                    ...state,
+                    filteredData: state.data.filter(p => p._id !== id),
+                    data: state.data.filter(p => p._id !== id)
+                })
+                showNotification({
+                    title: 'Product Deleted!',
+                    message: 'The product has been deleted!',
+                    color: "red"
+                })
+            })
             .catch(error => console.log(error.response))
     }
 
@@ -67,6 +73,14 @@ export default function ManageProduct(props) {
         message: "Are you sure you want to delete this product? All of the data will be permanently removed. This action cannot be undone.",
         title: "Delete product",
         success: "Delete"
+    }
+
+    const changeState = ({data, filteredData}) => {
+        setState({
+            ...state,
+            data: data,
+            filteredData: filteredData
+        })
     }
 
     const value = (column, row) => {
@@ -115,34 +129,16 @@ export default function ManageProduct(props) {
 
     return (
         <div className="w-11/12">
-            <div class="text-sm breadcrumbs mt-3">
-                <ul>
+            <div class="text-sm breadcrumbs mt-3 flex">
+                <ul className="w-1/2">
                     <li>
                         <a onClick={() => props.changePage({page: 'dashboard'})}>Dashboard</a>
                     </li>
                     <li>Products</li>
                 </ul>
-            </div>
-            {/* <h1 className="text-2xl mb-10">Manage Products</h1> */}
-            <div class="navbar shadow mt-3 mb-5 bg-white">
-                <div class="flex-1 px-2 mx-2">
-                    <span class="text-lg font-semibold">
-                        Products
-                    </span>
-                </div>
-
-                <div class="flex-none">
-                    <button class="btn btn-square btn-ghost">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex-none hidden px-2 mx-2 lg:flex">
-                    <div class="flex items-stretch">
-                        <a className="btn btn-ghost btn-sm rounded-btn bg-green-300"
+                <div className="w-1/2 text-right">
+                    <div className="px-2 mx-2 ">
+                        <a className="btn btn-ghost btn-sm rounded-btn bg-green-300 text-green-700 hover:bg-green-400"
                            onClick={() => props.changePage({page: 'add-product'})}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
@@ -154,7 +150,8 @@ export default function ManageProduct(props) {
                     </div>
                 </div>
             </div>
-            <DataTable columns={columns} filteredData={products} data={products} value={value}/>
+            <Header setState={changeState} state={state} header={"Products"}/>
+            <DataTable columns={columns} filteredData={state.filteredData} data={state.data} value={value}/>
             <DeleteModal {...val} />
         </div>
     )

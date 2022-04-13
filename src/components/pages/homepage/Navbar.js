@@ -1,11 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
 import {Fragment, useState} from 'react'
-import {Disclosure, Menu, Popover, Transition} from '@headlessui/react'
+import {Disclosure, Menu, Transition} from '@headlessui/react'
 import {useDispatch, useSelector} from 'react-redux'
 import {LogoutAction} from '../../../redux/actions/AuthAction'
 import {Link} from 'react-router-dom'
 import CategoryDropdown from '../category/CategoryDropdown'
-import {BellIcon, GlobeIcon, ShoppingCartIcon} from '@heroicons/react/outline'
+import {GlobeIcon, ShoppingCartIcon} from '@heroicons/react/outline'
 import DefaultImage from '../../images/default.jpg';
 
 function classNames(...classes) {
@@ -36,8 +36,14 @@ export default function Navbar() {
                     <div className="max-w-8xl mx-auto px-2 sm:px-6 lg:px-8 border-1 shadow bg-white ">
                         <div className="relative flex items-center justify-between h-16">
                             <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
-                                <div className="flex-shrink-0 flex items-center text-black font-bold text-2xl">
+                                <div
+                                    className="flex-shrink-0 flex items-center text-black font-bold text-2xl text-indigo-600">
                                     {/* LOGO */}
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
                                     <Link to='/home'>
                                         BLANK
                                     </Link>
@@ -148,7 +154,6 @@ export default function Navbar() {
                                                                                   )}>Seller Dashboard</Link>
                                                                         )}
                                                                     </Menu.Item> : null}
-
                                                                 {userProfile.roles && userProfile.roles.includes('admin') ?
                                                                     <Menu.Item>
                                                                         {({active}) => (

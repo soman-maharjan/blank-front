@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react'
 import DeleteModal from '../../modal/DeleteModal';
 import DataTable from "../../table/DataTable";
+import {showNotification} from "@mantine/notifications";
+import Header from "../../header/Header";
 
 const columns = [
     {id: '_id', label: 'User Id', minWidth: 170, align: 'center'},
@@ -13,21 +15,44 @@ const columns = [
 
 export default function Product(props) {
 
-    const [products, setProducts] = useState([]);
+    const [state, setState] = useState({
+        data: [],
+        filteredData: []
+    });
+
     const [id, setId] = useState("");
 
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
         axios.get('/api/all-product')
-            .then(response => setProducts(response.data))
+            .then(response => setState({...state, filteredData: response.data, data: response.data}))
             .catch(error => console.log(error.response))
     }, [])
 
     const submitHandler = () => {
         axios.delete('/api/product/' + id)
-            .then(response => setProducts(products.filter(u => u._id !== id)))
+            .then(response => {
+                setState({
+                    ...state,
+                    filteredData: state.data.filter(u => u._id !== id),
+                    data: state.data.filter(u => u._id !== id)
+                })
+                showNotification({
+                    title: 'Product Deleted!',
+                    message: 'The product has been deleted!',
+                    color: "red"
+                })
+            })
             .catch(error => console.log(error))
+    }
+
+    const changeState = ({data, filteredData}) => {
+        setState({
+            ...state,
+            data: data,
+            filteredData: filteredData
+        })
     }
 
     const value = (column, row) => {
@@ -84,25 +109,8 @@ export default function Product(props) {
                     <li>Products</li>
                 </ul>
             </div>
-            {/* <h1 className="text-2xl mb-10">Manage Products</h1> */}
-            <div class="navbar shadow mt-3 mb-5">
-                <div class="flex-1 px-2 mx-2">
-                    <span class="text-lg font-semibold">
-                        Products
-                    </span>
-                </div>
-
-                <div class="flex-none">
-                    <button class="btn btn-square btn-ghost">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <DataTable columns={columns} filteredData={products} data={products} value={value}/>
+            <Header setState={changeState} state={state} header={"Products"}/>
+            <DataTable columns={columns} filteredData={state.filteredData} data={state.data} value={value}/>
             <DeleteModal {...val} />
         </div>
     )

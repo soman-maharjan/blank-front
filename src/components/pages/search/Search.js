@@ -24,6 +24,7 @@ export default function Search(props) {
             ...filters
         })
             .then(response => {
+                console.log(response.data)
                 setProducts(response.data.data)
                 setNextPage(response.data.next_page_url)
             })

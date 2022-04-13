@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import ProductInfo from "./ProductInfo";
 import axios from "axios";
+import {showNotification} from "@mantine/notifications";
 
 export default function ShowProduct(props) {
 
@@ -21,6 +22,11 @@ export default function ShowProduct(props) {
         axios.get(`api/product/verify/${id}`)
             .then(response => {
                 setProduct(response.data);
+                showNotification({
+                    title: response.data.is_verified ? 'Product Verified!' : 'Product Verification Removed!',
+                    message: response.data.is_verified ? 'The product has been verified and will be visible to customers!' : 'The product verification has been removed and will be hidden from the customers.',
+                    color: response.data.is_verified ? "green" : 'blue'
+                })
             })
             .catch(error => console.log(error))
     }
@@ -67,7 +73,7 @@ export default function ShowProduct(props) {
             </div>
 
 
-            <div className="w-11/12 bg-white shadow-md mt-10 text-left p-5 mb-10">
+            <div className="w-11/12 bg-white shadow-md mt-5 text-left p-5 mb-5">
                 <div className="grid grid-cols-1 mb-5">
                     <p className="font-semibold text-xl mt-5">Stock Keeping Unit</p>
                 </div>

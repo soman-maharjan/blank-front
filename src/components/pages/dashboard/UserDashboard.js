@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import DashboardDetails from '../dashboard/DashboardDetails';
-import ManageAccount from './profile/ManageAccount';
-import DisplayOrders from './orders/DisplayOrders';
+import ManageAccount from '../user/profile/ManageAccount';
+import DisplayOrders from '../user/orders/DisplayOrders';
 
-import { PresentationChartBarIcon, UserGroupIcon, ClipboardListIcon, ShoppingBagIcon, PencilAltIcon } from '@heroicons/react/outline';
+import { PresentationChartBarIcon, ClipboardListIcon, PencilAltIcon } from '@heroicons/react/outline';
 import { UserIcon } from '@heroicons/react/solid';
-import Order from './orders/Order';
-import ManageReview from './reviews/ManageReview'
-import Review from './reviews/Review';
+import Order from '../user/orders/Order';
+import ManageReview from '../user/reviews/ManageReview'
+import Review from '../user/reviews/Review';
+import UserDashboardDetails from "./UserDashboardDetails";
 
 class UserDashboard extends Component {
 
@@ -33,10 +33,10 @@ class UserDashboard extends Component {
     render() {
 
         const components = {
-            'dashboard': <DashboardDetails />,
+            'dashboard': <UserDashboardDetails />,
             'manage-account': <ManageAccount />,
             'display-order': <DisplayOrders changePage={this.changePage} />,
-            'view-order': <Order order={this.state.order} />,
+            'view-order': <Order order={this.state.order} changePage={this.changePage}/>,
             'reviews': <ManageReview changePage={this.changePage} />,
             'review': <Review changePage={this.changePage} review={this.state.review} />
         }

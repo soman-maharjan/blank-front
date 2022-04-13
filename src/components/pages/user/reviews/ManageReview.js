@@ -1,70 +1,39 @@
 import axios from 'axios'
-import React, { Component } from 'react'
+import React, {Component, Fragment} from 'react'
 import Moment from 'react-moment';
 import Fuse from 'fuse.js';
 
 import ImageUploading from 'react-images-uploading';
-import { Rating } from '@mui/material';
+import {Rating} from '@mui/material';
 
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-import { v4 as uuidv4 } from 'uuid';
+import {Dialog, Transition} from '@headlessui/react'
+import {v4 as uuidv4} from 'uuid';
 import DataTable from '../../table/DataTable';
-import MyDialog from './MyDialog';
 import DeleteModal from '../../modal/DeleteModal';
+import {showNotification} from "@mantine/notifications";
 
 
 const column1 = [
-    { id: '_id', label: 'Review Id', minWidth: 230, align: 'center' },
-    { id: 'created_at', label: 'Review Date', minWidth: 170, align: 'center' },
-    {
-        id: 'rating',
-        label: 'Rating',
-        minWidth: 170,
-        align: 'center',
-    },
-    {
-        id: 'review',
-        label: 'Review',
-        minWidth: 140,
-        align: 'center',
-    },
-    {
-        id: 'options',
-        label: 'Options',
-        minWidth: 140,
-        align: 'center',
-    },
+    {id: '_id', label: 'Review Id'},
+    {id: 'created_at', label: 'Review Date'},
+    {id: 'rating', label: 'Rating'},
+    {id: 'review', label: 'Review'},
+    {id: 'options', label: 'Options'},
 ];
 
 const column2 = [
-    { id: '_id', label: 'Order Id', minWidth: 230, align: 'center' },
-    { id: 'productName', label: 'Product Name', minWidth: 170, align: 'center' },
-    {
-        id: 'status',
-        label: 'Status',
-        minWidth: 170,
-        align: 'center',
-    },
-    {
-        id: 'created_at',
-        label: 'Order Date',
-        minWidth: 140,
-        align: 'center',
-    },
-    {
-        id: 'options',
-        label: 'Options',
-        minWidth: 140,
-        align: 'center',
-    },
+    {id: '_id', label: 'Order Id'},
+    {id: 'productName', label: 'Product Name'},
+    {id: 'status', label: 'Status'},
+    {id: 'created_at', label: 'Order Date'},
+    {id: 'options', label: 'Options'},
 ];
 
 var fuse;
 
 var formData = new FormData();
 
-export default class ManageOrder extends Component {
+export default class ManageReview extends Component {
     constructor(props) {
         super(props)
 
@@ -116,7 +85,7 @@ export default class ManageOrder extends Component {
 
     submitReview = () => {
         const imgName = [];
-        this.setState({ ...this.state, open: false });
+        this.setState({...this.state, open: false});
         if (this.state.images != "") {
             this.state.images.map(i => {
                 const uniqueFileName = uuidv4() + '.' + i.file.name.split('.').pop();
@@ -133,9 +102,16 @@ export default class ManageOrder extends Component {
         formData.append('product_id', this.state.productId);
 
         axios.post('api/review', formData)
-            .then(response => this.getData() )
+            .then(response => {
+                this.getData()
+                showNotification({
+                    title: 'Review Posted!',
+                    message: 'The review has been posted!. Review will be visible to other users.',
+                    color: "green"
+                })
+            })
             .catch(error =>
-                console.log(error.response)
+                    console.log(error.response)
                 // this.setState({ ...this.state, errors: error.response.data.errors })
             )
     }
@@ -150,16 +126,25 @@ export default class ManageOrder extends Component {
     getData() {
         Promise.all([axios.get('/api/review'), axios.get('api/unreviewed')])
             .then((results) =>
-                this.setState({ ...this.state, filteredData: results[1].data, reviews: results[0].data, unreviewed: results[1].data }, (this.initializeFuse))
+                this.setState({
+                    ...this.state,
+                    filteredData: results[1].data,
+                    reviews: results[0].data,
+                    unreviewed: results[1].data
+                }, (this.initializeFuse))
             )
             .catch(error => console.log(error.response));
     }
 
     searchHandler = (event) => {
         if (event.target.value != "") {
-            this.setState({ ...this.state, search: event.target.value, filteredData: fuse.search(event.target.value).map(o => o.item) })
+            this.setState({
+                ...this.state,
+                search: event.target.value,
+                filteredData: fuse.search(event.target.value).map(o => o.item)
+            })
         } else {
-            this.setState({ ...this.state, search: event.target.value, filteredData: this.state.unreviewed })
+            this.setState({...this.state, search: event.target.value, filteredData: this.state.unreviewed})
         }
     }
 
@@ -172,12 +157,19 @@ export default class ManageOrder extends Component {
 
     submitDelete = () => {
         axios.delete('/api/review/' + this.state.delId)
-            .then(response => this.getData())
+            .then(response => {
+                this.getData()
+                showNotification({
+                    title: 'Review Deleted!',
+                    message: 'The review has been deleted!. You can now leave another review',
+                    color: "red"
+                })
+            })
             .catch(error => console.log(error))
     }
 
     setDelOpen = (val) => {
-        this.setState({ ...this.state, delOpen: val });
+        this.setState({...this.state, delOpen: val});
     }
 
     render() {
@@ -200,7 +192,13 @@ export default class ManageOrder extends Component {
                 case 'options':
                     return (
                         <>
-                            <a onClick={() => this.setState({ ...this.state, id: row['_id'], productId: row['product_id'], open: true })} className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-green-400 hover:bg-green-500 text-white">
+                            <a onClick={() => this.setState({
+                                ...this.state,
+                                id: row['_id'],
+                                productId: row['product_id'],
+                                open: true
+                            })}
+                               className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-green-400 hover:bg-green-500 text-white">
                                 Leave a Review
                             </a>
                         </>
@@ -215,14 +213,16 @@ export default class ManageOrder extends Component {
                 case "created_at":
                     return (<Moment format="YYYY/MM/DD">{row['created_at']}</Moment>)
                 case 'rating':
-                    return (<Rating value={row[column.id]} readOnly />)
+                    return (<Rating value={row[column.id]} readOnly/>)
                 case 'options':
                     return (
                         <>
-                            <a onClick={() => this.setState({ ...this.state, delId: row['_id'], delOpen: true })} className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
+                            <a onClick={() => this.setState({...this.state, delId: row['_id'], delOpen: true})}
+                               className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-red-500 hover:bg-red-600 text-white">
                                 Delete
                             </a>
-                            <a onClick={() => this.props.changePage({ page: 'review', review: row })} className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
+                            <a onClick={() => this.props.changePage({page: 'review', review: row})}
+                               className="normal-case mr-2 min-h-0 h-9  btn btn-ghost btn-sm rounded-btn bg-blue-500 hover:bg-blue-600 text-white">
                                 View
                             </a>
                         </>
@@ -237,7 +237,7 @@ export default class ManageOrder extends Component {
                 <div class="text-sm breadcrumbs mt-3">
                     <ul>
                         <li>
-                            <a onClick={() => this.props.changePage({}, 'dashboard')}>Dashboard</a>
+                            <a onClick={() => this.props.changePage({page: 'dashboard'})}>Dashboard</a>
                         </li>
                         <li>Reviews</li>
                     </ul>
@@ -245,20 +245,18 @@ export default class ManageOrder extends Component {
                 <div class="navbar shadow mt-3 mb-5 bg-white">
                     <div class="flex-1 px-2 mx-2">
                         <span class="text-lg font-semibold">
-                            Reviews
+                            Post a Review
                         </span>
                     </div>
 
                     <div class="flex-none">
-                        <input type="text" name="search" className="px-2 w-40 min-h-0 h-7 bg-gray-50 text-gray-700 border outline-none focus:border-indigo-500" value={this.state.search} onChange={(event) => this.searchHandler(event)} />
-                        <button class="btn btn-square btn-ghost">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </button>
+                        <input name="search" type="text" placeholder="Search" value={this.state.search}
+                               onChange={(event) => this.searchHandler(event)}
+                               className="px-4 h-9 border-2 text-gray-500 focus:border-indigo-500 w-60 bg-gray-100 outline-none"/>
                     </div>
                 </div>
-                <DataTable columns={column2} filteredData={this.state.filteredData} data={this.state.unreviewed} value={value} />
+                <DataTable columns={column2} filteredData={this.state.filteredData} data={this.state.unreviewed}
+                           value={value}/>
 
                 <div className="navbar shadow mt-10 mb-5 bg-white">
                     <div className="flex-1 px-2 mx-2">
@@ -267,13 +265,14 @@ export default class ManageOrder extends Component {
                         </span>
                     </div>
                 </div>
-                <DataTable columns={column1} filteredData={this.state.reviews} data={this.state.reviews} value={reviewedValue} />
+                <DataTable columns={column1} filteredData={this.state.reviews} data={this.state.reviews}
+                           value={reviewedValue}/>
 
                 <Transition appear show={this.state.open} as={Fragment}>
                     <Dialog
                         as="div"
                         className="fixed inset-0 z-10 overflow-y-auto"
-                        onClose={() => this.setState({ ...this.state, open: false, images: [], review: "", rating: "0" })}
+                        onClose={() => this.setState({...this.state, open: false, images: [], review: "", rating: "0"})}
                     >
                         <div className="min-h-screen px-4 text-center">
                             <Transition.Child
@@ -285,7 +284,7 @@ export default class ManageOrder extends Component {
                                 leaveFrom="opacity-100"
                                 leaveTo="opacity-0"
                             >
-                                <Dialog.Overlay className="fixed inset-0" />
+                                <Dialog.Overlay className="fixed inset-0"/>
                             </Transition.Child>
                             <span
                                 className="inline-block h-screen align-middle"
@@ -302,7 +301,8 @@ export default class ManageOrder extends Component {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <div className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                <div
+                                    className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                     <Dialog.Title
                                         as="h3"
                                         className="text-lg font-medium leading-6 text-gray-900"
@@ -310,12 +310,18 @@ export default class ManageOrder extends Component {
                                         Leave a Review
                                     </Dialog.Title>
                                     <div className="mt-4">
-                                        <textarea className="textarea textarea-bordered" cols="100" rows="10" name="review" onChange={this.changeHandler} value={this.state.review}></textarea>
+                                        <textarea className="textarea textarea-bordered" cols="100" rows="10"
+                                                  name="review" onChange={this.changeHandler}
+                                                  value={this.state.review}/>
                                     </div>
                                     <div className="mt-5">
                                         My Rating
-                                        <br />
-                                        <Rating name="no-value" value={this.state.rating} onChange={(event) => this.setState({ ...this.state, rating: event.target.value })} />
+                                        <br/>
+                                        <Rating name="no-value" value={this.state.rating}
+                                                onChange={(event) => this.setState({
+                                                    ...this.state,
+                                                    rating: event.target.value
+                                                })}/>
                                     </div>
 
                                     <div className="">
@@ -323,22 +329,23 @@ export default class ManageOrder extends Component {
                                         <ImageUploading
                                             multiple
                                             value={this.state.images}
-                                            onChange={(imageList) => this.setState({ ...this.state, images: imageList })}
+                                            onChange={(imageList) => this.setState({...this.state, images: imageList})}
                                             maxNumber="5"
                                             dataURLKey="data_url"
                                         >
                                             {({
-                                                imageList,
-                                                onImageUpload,
-                                                onImageUpdate,
-                                                onImageRemove,
-                                                isDragging,
-                                                dragProps,
-                                            }) => (
+                                                  imageList,
+                                                  onImageUpload,
+                                                  onImageUpdate,
+                                                  onImageRemove,
+                                                  isDragging,
+                                                  dragProps,
+                                              }) => (
                                                 // write your building UI
-                                                <div className="upload__image-wrapper border-blue-400 border-2 border-dotted bg-blue-100 min-h-40 p-10 mb-3">
+                                                <div
+                                                    className="upload__image-wrapper border-blue-400 border-2 border-dotted bg-blue-100 min-h-40 p-10 mb-3">
                                                     <button
-                                                        style={isDragging ? { color: 'red' } : undefined}
+                                                        style={isDragging ? {color: 'red'} : undefined}
                                                         onClick={onImageUpload}
                                                         {...dragProps}
                                                         className="px-5"
@@ -346,11 +353,15 @@ export default class ManageOrder extends Component {
                                                         Click or Drop here
                                                     </button>
                                                     &nbsp;
-                                                    <button onClick={() => this.setState({ ...this.state, images: [] })}>Remove all images</button>
+                                                    <button onClick={() => this.setState({
+                                                        ...this.state,
+                                                        images: []
+                                                    })}>Remove all images
+                                                    </button>
                                                     <div className="flex gap-2 mt-2">
                                                         {imageList.map((image, index) => (
                                                             <div key={index} className="image-item">
-                                                                <img src={image['data_url']} alt="" width="100" />
+                                                                <img src={image['data_url']} alt="" width="100"/>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -375,7 +386,7 @@ export default class ManageOrder extends Component {
                 </Transition>
 
                 <DeleteModal {...val} />
-            </div >
+            </div>
         )
     }
 }

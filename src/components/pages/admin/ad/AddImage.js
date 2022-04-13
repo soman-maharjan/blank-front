@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {useState} from 'react'
 import ReactImageUploading from 'react-images-uploading';
+import {showNotification} from "@mantine/notifications";
 
 export default function AddImage(props) {
 
@@ -25,9 +26,14 @@ export default function AddImage(props) {
         formData.append('redirectLink', redirectLink);
 
         axios.post('/api/ad', formData)
-            .then(response =>
-                props.changePage({page: 'manage-ads'})
-            )
+            .then(response => {
+                showNotification({
+                    title: 'Image Uploaded!',
+                    message: 'Image has been uploaded!',
+                    color: "green"
+                })
+                props.changePage({page: 'manage-ads'});
+            })
             .catch(error => console.log(error.response))
     }
 
@@ -45,7 +51,7 @@ export default function AddImage(props) {
                 </ul>
             </div>
             {/* <h1 className="text-2xl mb-10">Manage Products</h1> */}
-            <div className="navbar shadow mt-3 mb-7">
+            <div className="navbar shadow mt-3 mb-7 bg-white">
                 <div className="flex-1 px-2 mx-2">
                     <span className="text-lg font-semibold">
                         Upload Image
@@ -114,11 +120,13 @@ export default function AddImage(props) {
 
             <div className="text-left mt-5">
                 <h1 className="font-semibold mb-2">Redirect Link</h1>
-                <input type="text" onChange={(event) => setRedirectLink(event.target.value)} value={redirectLink} name="redirectLink"
-                       className="required appearance-none bg-gray-200 block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></input>
+                <input type="text" onChange={(event) => setRedirectLink(event.target.value)} value={redirectLink}
+                       name="redirectLink"
+                       className="required appearance-none bg-gray-200 block w-full text-gray-700 border-2 border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500"></input>
             </div>
 
-            <button type="submit" onClick={submitHandler} disabled={(images.length === 0) || (redirectLink.length === 0)  ? true : false}
+            <button type="submit" onClick={submitHandler}
+                    disabled={(images.length === 0) || (redirectLink.length === 0) ? true : false}
                     className="btn btn-success bg-green-400 border-none hover:bg-green-600 min-w-0 w-40 p-1 mt-5 tracking-wide">Submit
             </button>
         </div>

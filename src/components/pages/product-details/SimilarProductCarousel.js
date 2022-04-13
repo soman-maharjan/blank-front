@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import Slider from "react-slick";
-import ProductCard from './ProductCard';
 import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/outline'
 import axios from "axios";
+import ProductCard from "../homepage/ProductCard";
 
 function SampleNextArrow(props) {
     const {className, style, onClick} = props;
@@ -30,7 +30,7 @@ const settings = {
 };
 
 
-export default function ProductCarousel(props) {
+export default function SimilarProductCarousel(props) {
 
     const [products, setProducts] = useState([]);
 
@@ -46,8 +46,8 @@ export default function ProductCarousel(props) {
         <ProductCard key={index} product={product}/>);
 
     return (
-        <div className="mx-24 mb-7">
-            <h2 className="ml-2 text-xl flex mt-5 font-semibold">{props.title}</h2>
+        <div className="mx-7 mb-7 mt-10">
+            <h2 className="ml-2 text-xl flex mt-5 font-semibold mb-3">{props.title}</h2>
             <Slider {...settings}>
                 {carousel}
             </Slider>

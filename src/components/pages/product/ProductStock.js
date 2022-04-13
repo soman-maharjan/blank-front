@@ -19,7 +19,6 @@ export default function ProductStock(props) {
     const {state, setState, formData} = props;
 
     let handleChange = (i, e) => {
-        console.log(sku)
         let newFormValues = [...sku];
         newFormValues[i][e.target.name] = e.target.value;
         newFormValues[i].images = img[i].image;

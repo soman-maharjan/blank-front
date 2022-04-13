@@ -21,7 +21,11 @@ export default function Reviews(props) {
                     Rating</h6>
                 <div>
                     {items}
-                    {items.length == 0 ? "No reviews" : ""}
+                    {items.length == 0 ?
+                        <div className="text-gray-500 text-center">
+                            This product has no reviews.
+                        </div>
+                        : ""}
                 </div>
             </div>
         </div>

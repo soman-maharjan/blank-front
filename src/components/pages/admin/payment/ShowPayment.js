@@ -25,6 +25,7 @@ export default function Product(props) {
                     <li>
                         <a onClick={() => props.changePage({ page: 'dashboard' })}>Dashboard</a>
                     </li>
+                    <li>Payment</li>
                 </ul>
             </div>
             <div className="w-11/12 bg-white shadow-md mt-5 text-left p-5">
@@ -67,14 +68,16 @@ export default function Product(props) {
             <div className="w-11/12 bg-white mt-10 text-left">
                 <div className="grid grid-cols-1">
                     <p className="font-semibold text-xl p-5">Order Details</p>
+                    <hr/>
                     <PaymentDetailTable orders={orders} payment={payment} />
                 </div>
             </div>
 
-            <div className="w-11/12 bg-white shadow-md mt-10 text-left p-5 mb-10">
+            <div className="w-11/12 bg-white shadow-md mt-10 text-left px-5 mb-10">
                 <div className="grid grid-cols-1 mb-5">
                     <p className="font-semibold text-xl my-5">Buyer Details</p>
-                    <div className="grid grid-cols-2 gap-5">
+                    <hr/>
+                    <div className="pt-5 grid grid-cols-2 gap-5">
                         <div>
                             <label htmlFor="productName" className="text-gray-500">Name</label>
                             <p className="break-words capitalize">{user.name}</p>
