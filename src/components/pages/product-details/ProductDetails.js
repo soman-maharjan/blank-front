@@ -49,7 +49,7 @@ export default function ProductDetails(props) {
         axios.get('/api/user-product')
             .then(response => console.log(response))
             .catch(error => console.log(error.response))
-    }, [])
+    }, [props.id])
 
     const changeHandler = (event) => {
         setState({
@@ -240,7 +240,7 @@ export default function ProductDetails(props) {
                         </div>
                     </div>
                     {similarProductUrl != "" ?
-                        <SimilarProductCarousel url={similarProductUrl} title="Similar Products"/> : null}
+                        <SimilarProductCarousel url={similarProductUrl} title="People Who Viewed This Item Also Viewed"/> : null}
                 </div>
                 <Footer/>
             </>

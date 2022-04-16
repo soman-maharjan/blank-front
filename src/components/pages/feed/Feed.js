@@ -57,7 +57,7 @@ export default function Feed() {
 
         window.Echo.private(`products.` + details._id)
             .listen('NewProduct', (e) => {
-                // console.log(e)
+                console.log(e)
                 setProducts((prevState) => ([e.product, ...prevState]));
             });
 
@@ -71,9 +71,9 @@ export default function Feed() {
         <div className="overflow-hidden">
             < Navbar/>
             {loading ? <Loading/> :
-                <div className="min-h-screen">
-                    <div className="grid grid-cols-4">
-                        <div className="grid grid-cols-4 col-span-3 gap-6 py-4 px-7">
+                <div className="min-h-screen bg-gray-200">
+                    <div className="grid grid-cols-5">
+                        <div className="grid grid-cols-5 col-span-5 gap-6 py-4 px-7">
                             {productList}
                         </div>
                     </div>

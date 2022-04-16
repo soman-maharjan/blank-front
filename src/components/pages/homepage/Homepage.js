@@ -30,7 +30,7 @@ export default function Homepage() {
             <ProductCarousel url="/api/product/top-selling" title="Top Selling"/>
             <Ad/>
             <ProductCarousel url="/api/category/product/Mens Fashion" title="Mens Fashion"/>
-            <ProductCarousel url="/api/category/product/Women Fashion" title="Women Fashion"/>
+            <ProductCarousel url="/api/category/product/Womens Fashion" title="Women Fashion"/>
             </div>
             <Footer/>
         </div>
