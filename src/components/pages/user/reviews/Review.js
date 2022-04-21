@@ -2,6 +2,7 @@ import { Rating } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Loading from '../../Loading';
+import {showNotification} from "@mantine/notifications";
 
 export default function Review(props) {
     const { review } = props;
@@ -11,7 +12,9 @@ export default function Review(props) {
     useEffect(() => {
         axios.get('api/suborder/' + review.suborder_id)
             .then(response => setSuborder(response.data))
-            .catch(error => console.log(error.response))
+            .catch(error =>
+                console.log(error.response)
+            )
     }, [])
     return suborder.sku == undefined ? <Loading /> : (
         <div className="w-11/12">

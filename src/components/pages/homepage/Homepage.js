@@ -10,15 +10,6 @@ export default function Homepage() {
     //
     // const [productLoading, setProductLoading] = useState(false);
 
-    useEffect(() => {
-        // axios.get('api/product')
-        //     .then(response => {
-        //         setProducts(response.data)
-        //         setProductLoading(true);
-        //     })
-        //     .catch(error => console.log(error))
-    }, [])
-
     return (
         // productLoading ?
         < div className="overflow-hidden bg-gray-100">

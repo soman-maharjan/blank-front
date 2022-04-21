@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 import axios from "axios";
+import {Skeleton} from "@mui/material";
 
 export default class Carousel extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      images: []
+      images: [],
+      loading : true
     }
   }
 
   componentDidMount() {
     axios.get('/api/ad/active-ad')
-      .then(response => this.setState({ images: response.data.filter(i => i.position == 'carousel') }))
+      .then(response => this.setState({ images: response.data.filter(i => i.position == 'carousel'), loading : false }))
       .catch(error => console.log(error))
   }
 
@@ -40,7 +42,7 @@ export default class Carousel extends Component {
     return (
       <div className="w-full">
         <Slider {...settings}>
-          {img}
+          {this.state.loading ? <Skeleton variant="rectangular" height={300}/> :img}
         </Slider>
       </div>
     );

@@ -111,7 +111,11 @@ export default class ManageReview extends Component {
                 })
             })
             .catch(error =>
-                    console.log(error.response)
+                    showNotification({
+                        title: 'Review Error!',
+                        message: error.response.data.message,
+                        color: "red"
+                    })
                 // this.setState({ ...this.state, errors: error.response.data.errors })
             )
     }

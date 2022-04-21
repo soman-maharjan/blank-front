@@ -33,6 +33,7 @@ export default function Product(props) {
     const submitHandler = () => {
         axios.delete('/api/product/' + id)
             .then(response => {
+                console.log(response.data)
                 setState({
                     ...state,
                     filteredData: state.data.filter(u => u._id !== id),
@@ -44,7 +45,14 @@ export default function Product(props) {
                     color: "red"
                 })
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                    showNotification({
+                        title: 'Product cannot be deleted!',
+                        message: error.response.data.message,
+                        color: "red"
+                    })
+                }
+            )
     }
 
     const changeState = ({data, filteredData}) => {
