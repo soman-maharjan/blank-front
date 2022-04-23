@@ -56,9 +56,6 @@ function Header(props) {
             </div>
 
             <div className="flex-none">
-                {/*<input type="text" name="search"*/}
-                {/*       className="px-2 w-40 min-h-0 h-7 bg-gray-50 text-gray-700 border outline-none focus:border-indigo-500"*/}
-                {/*       value={search} onChange={(event) => searchHandler(event)}/>*/}
                 <input name="search" type="text" placeholder="Search" value={search}
                        onChange={(event) => searchHandler(event)}
                        className="px-4 h-9 border-2 text-gray-500 focus:border-indigo-500 w-60 bg-gray-100 outline-none"/>

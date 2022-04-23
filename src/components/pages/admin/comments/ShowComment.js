@@ -7,6 +7,8 @@ export default function ShowComment(props) {
     const [comment, setComment] = useState(props.comment);
 
     const verifyHandler = (id) => {
+        // change the verification status of the comment.
+        // if the comment is verified, unverify it and vice versa
         axios.get(`api/comments/verify/${id}`)
             .then(response => {
                 setComment(response.data);

@@ -21,6 +21,7 @@ export default function EditUser(props) {
 
     useEffect(() => {
         setLoading(true);
+        // on component mount get all the roles
         axios.get('/api/roles')
             .then(response => {
                 setLoading(false)
@@ -33,6 +34,7 @@ export default function EditUser(props) {
     }, [])
 
     useEffect(() => {
+        // on roles change, change the checkbox values
         const checkboxRoles = [];
         roles.map(r => {
             checkboxRoles.push({[r]: (user.role && user.role.includes(r))})

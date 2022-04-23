@@ -25,12 +25,14 @@ export default function Comments(props) {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
+        // get all comment fron the server
         axios.get('/api/comments')
             .then(response => setState({...state, filteredData: response.data, data: response.data}))
             .catch(error => console.log(error.response))
     }, [])
 
     const submitHandler = () => {
+        // delete request with id to delete the comment
         axios.delete('/api/comments/' + id)
             .then(response => {
                 setState({
@@ -47,6 +49,7 @@ export default function Comments(props) {
             .catch(error => console.log(error))
     }
 
+    // value function contains all the values in for the table column
     const value = (column, row) => {
         switch (column.id) {
             case 'options':
@@ -82,6 +85,7 @@ export default function Comments(props) {
         }
     }
 
+    //modal options
     const val = {
         open: open,
         setOpen: setOpen,

@@ -6,12 +6,11 @@ export default function Category(props) {
     const [category, setCategory] = useState([]);
 
     useEffect(() => {
+        // get all the categories from the database
         axios.get('/api/category')
             .then(response => setCategory(response.data))
             .catch(error => console.log(error))
     }, [])
-
-    // const data = category.map(cat => <h1>{cat.title}</h1>)
 
     return (
         <div className="w-11/12">
@@ -23,7 +22,6 @@ export default function Category(props) {
                     <li>Category</li>
                 </ul>
             </div>
-            {/* <h1 className="text-2xl mb-10">Manage Products</h1> */}
             <div class="navbar shadow mt-3 mb-5 bg-white">
                 <div class="flex-1 px-2 mx-2">
                     <span class="text-lg font-semibold">
@@ -45,6 +43,7 @@ export default function Category(props) {
             </div>
 
             <div className="flex flex-col flex-wrap text-left bg-white mt-1 px-10">
+                {/* show all the categories and their child categories */}
                 {category.map((cat, index) =>
                     (cat.parent == null ?
                         <div className="list-with-heading mb-5 mt-2">

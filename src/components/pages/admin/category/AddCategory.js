@@ -23,6 +23,7 @@ export default function AddCategory(props) {
                 attributes: attributes
             })
             .then(response => {
+                // if the category has been added, show a success notification
                 showNotification({
                     title: 'Category Added!',
                     message: 'The category has been added!',
@@ -42,6 +43,7 @@ export default function AddCategory(props) {
         }))
     }
 
+    // after the component mounts, get all the categories from the database 
     useEffect(() => {
         axios.get('/api/category')
             .then(response =>
@@ -49,6 +51,7 @@ export default function AddCategory(props) {
             )
     }, [])
 
+    //function to add attribute
     function addAttribute() {
         if (attribute !== "") {
             setAttributes((prevState) => [...prevState, {id: uuidv4(), value: attribute}])
@@ -56,6 +59,7 @@ export default function AddCategory(props) {
         setAttribute("");
     }
 
+    //function to remove attribute
     const deleteAttribute = (id) => {
         setAttributes(attributes.filter((i) => (i.id !== id)))
     }
@@ -64,6 +68,7 @@ export default function AddCategory(props) {
 
     const removeButton = (id) => {
         return (
+            //button to remove the attributes
             <ActionIcon size="xs" color="blue" radius="xl" variant="transparent">
                 <svg onClick={() => deleteAttribute(id)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6"
                      fill="none" viewBox="0 0 24 24"
@@ -73,12 +78,8 @@ export default function AddCategory(props) {
             </ActionIcon>)
     };
 
+    // attribute pills
     const attributePills = attributes.map((attribute) =>
-        // <span key={attribute.id} className="px-4 py-2 no-underline rounded-full bg-indigo-500 font-sans font-semibold text-sm focus:outline-none active:shadow-none mr-2 text-white">{attribute.value}
-        //     <svg xmlns="http://www.w3.org/2000/svg" onClick={() => deleteAttribute(attribute.id)} className="cursor-pointer h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        //         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        //     </svg>
-        // </span>
         <Badge variant="outline" size="lg" sx={{paddingRight: 3}} rightSection={removeButton(attribute.id)}>
             {attribute.value}
         </Badge>
@@ -126,6 +127,7 @@ export default function AddCategory(props) {
                                       id="grid-category-description"></textarea>
                         </div>
                     </div>
+                    {/* option to select parent cateogory */}
                     <div className="flex flex-wrap -mx-3 mb-7">
                         <div className="w-full px-3 mb-6 md:mb-0">
                             <label for="parent">Choose a parent category: </label>

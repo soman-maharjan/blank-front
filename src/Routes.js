@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from "./components/pages/homepage/Homepage";
 import Login from "./components/pages/auth/Login";
-// import PrivateRoute from './PrivateRoute';
 import { Guard } from './Guards';
 
 import ProductDetails from './components/pages/product-details/ProductDetails';

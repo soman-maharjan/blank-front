@@ -7,6 +7,7 @@ export default function ImageCard(props) {
     const { i, classNames, setOption, setId } = props;
 
     return (
+        // modal to select image position
         <div className="w-52 m-2 relative">
             <img className="h-full" src={`${process.env.REACT_APP_URL}storage/images/${i.filename}`} />
             <Menu as="div" className="absolute right-0 top-1 z-10  text-left">

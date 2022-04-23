@@ -18,17 +18,8 @@ export default function ShoppingCart(props) {
     const quantityValue = useRef([]);
     quantityValue.current = products.map((element, i) => quantityValue.current[i] ?? createRef());
 
-
-    // function changeQuantity(event, id) {
-    //     // setValues(values.map(val => (val._id === id ?
-    //     //     { ...val, quantity: event.target.value, totalPrice: (event.target.value) * val.price }
-    //     //     : { ...val, totalPrice: val.quantity * val.price })))
-
-    //     dispatch({ type: ActionTypes.ADD_QUANTITY, id: id, quantity: event.target.value })
-    // }
-
     function increaseQuantity(sku, idx) {
-
+        //if the current id is not undefined then use redux to increase the quantity
         if (quantityValue.current[idx] !== undefined) {
             dispatch({
                 type: ActionTypes.ADD_QUANTITY,
@@ -38,6 +29,7 @@ export default function ShoppingCart(props) {
         }
     }
 
+    //function to decrease the quantity
     function decreaseQuantity(sku, idx) {
         if (quantityValue.current[idx] !== null) {
             dispatch({
@@ -48,6 +40,7 @@ export default function ShoppingCart(props) {
         }
     }
 
+    // when the products state changes, calculate the total sum of the products
     useEffect(() => {
         if (products !== null) {
             for (let i = 0; i < products.length; i++) {
@@ -71,15 +64,6 @@ export default function ShoppingCart(props) {
     function removeItem(sku) {
         dispatch({type: ActionTypes.REMOVE_FROM_CART, sku: sku})
     }
-
-    // history.push({
-    //     pathname: '/home',
-    //     state: { product: state.product, quantity: state.quantity }
-    // });
-
-    // useEffect(() => {
-    //     dispatch({ type: ActionTypes.UPDATE_CART, product: values, total: sum })
-    // }, [values])
 
     const details = products !== null ? products.map((product, idx) => (
         <div key={idx} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
@@ -157,12 +141,7 @@ export default function ShoppingCart(props) {
                                 <option>--- Shipping ---</option>
                             </select>
                         </div>
-                        {/*<div className="py-10">*/}
-                        {/*    <label htmlFor="promo" className="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>*/}
-                        {/*    <input type="text" id="promo" placeholder="Enter your code" className="p-1 text-sm w-full outline-none border-2 border-gray-300 rounded" />*/}
-                        {/*</div>*/}
 
-                        {/*<button className="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>*/}
                         <div className="border-t mt-40 ">
                             <div className="flex font-semibold justify-between py-6 text-sm uppercase">
                                 <span>Total cost</span>

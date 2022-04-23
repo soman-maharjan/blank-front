@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { RefreshIcon } from '@heroicons/react/solid';
-import { useSelector } from 'react-redux';
 import Navbar from '../homepage/Navbar';
 import Footer from '../homepage/Footer';
 import Loading from '../Loading';

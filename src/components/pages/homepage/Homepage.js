@@ -6,14 +6,9 @@ import Footer from './Footer'
 import Ad from './Ad'
 
 export default function Homepage() {
-    // const [products, setProducts] = useState([]);
-    //
-    // const [productLoading, setProductLoading] = useState(false);
-
     return (
         // productLoading ?
         < div className="overflow-hidden bg-gray-100">
-            {/* <img src="http://127.0.0.1:8000/storage/images/51adfb32-dd77-4625-b367-8c5437ae75f6.jpg" /> */}
             < Navbar/>
             <div className="min-h-screen">
             <Carousel/>
