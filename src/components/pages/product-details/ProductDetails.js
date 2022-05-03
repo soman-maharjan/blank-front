@@ -46,10 +46,10 @@ export default function ProductDetails(props) {
         setSimilarProductUrl("api/product/similar/" + response.data._id);
       })
       .catch((error) => console.log(error.response));
-    axios
-      .get("/api/user-product")
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error.response));
+    // axios
+    //   .get("/api/user-product")
+    //   .then((response) => console.log(response))
+    //   .catch((error) => console.log(error.response));
   }, [props.id]);
 
   const changeHandler = (event) => {

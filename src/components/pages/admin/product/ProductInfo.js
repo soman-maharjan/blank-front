@@ -49,8 +49,8 @@ export default function ProductInfo(props) {
                         <label htmlFor="boxContents" className="text-gray-500">Status</label>
                         <p className="break-words">
                             <span
-                                className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full${product.is_active ? "text-green-800 bg-green-100" : "text-red-800 bg-red-100"}`}>
-                                {product.is_active ? "Active" : "Not Active"}
+                                className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full${product.is_verified ? "text-green-800 bg-green-100" : "text-red-800 bg-red-100"}`}>
+                                {product.is_verified ? "Verified" : "Not Verified"}
                             </span>
                         </p>
                     </div>
