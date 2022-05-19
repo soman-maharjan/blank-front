@@ -1,4 +1,4 @@
-Frontend of E-commerce site
+Frontend of E-commerce site \
 For backend checkout - https://github.com/soman-maharjan/blank-back
 
 ## Homepage
