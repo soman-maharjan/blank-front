@@ -1,70 +1,32 @@
-# Getting Started with Create React App
+# Homepage
+![a](https://user-images.githubusercontent.com/20018470/169293360-330c113b-e5a8-44d4-ac0e-018caca13b83.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Profile
+![b](https://user-images.githubusercontent.com/20018470/169293372-3a974e3d-6f26-4c91-8bd9-73c27dcefde7.png)
 
-## Available Scripts
+# Shopping Cart
+![c](https://user-images.githubusercontent.com/20018470/169293374-31d81ffc-cb6a-4553-86c3-419116da77d7.png)
 
-In the project directory, you can run:
+# Review
+![d](https://user-images.githubusercontent.com/20018470/169293377-ea397e3b-ac62-48c1-86e2-5ed5154a885c.png)
 
-### `npm start`
+# Search Functionality
+![e](https://user-images.githubusercontent.com/20018470/169293379-4097dd82-572c-40c3-bd7f-1e35c6db14be.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Order Management
+![f](https://user-images.githubusercontent.com/20018470/169293383-13d21a0e-f393-420f-9522-2d49cec4ee51.png)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Admin Dashboard
+![g](https://user-images.githubusercontent.com/20018470/169293386-e50d478d-cf74-44bb-b783-e857669485cd.png)
 
-### `npm test`
+# Product Information
+![h](https://user-images.githubusercontent.com/20018470/169293388-10a1e2cc-f5ce-416f-9b24-0edfd0f88ebb.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Order Placement Page
+![i](https://user-images.githubusercontent.com/20018470/169293393-20111bc1-f7a8-4adc-8458-a33a0479af9b.png)
 
-### `npm run build`
+# Delivery Address Validation
+![j](https://user-images.githubusercontent.com/20018470/169293397-747abd52-bb63-4d19-a5ec-3759405e1fe4.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Payment Gateway (Khalti)
+![k](https://user-images.githubusercontent.com/20018470/169293400-db39e1b6-9e52-469d-af74-c297dffa53f1.png)
